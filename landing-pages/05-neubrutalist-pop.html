@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>NEXUS AI — Intelligent Automation Consultancy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+--yellow:#FFEB3B;--red:#FF5252;--blue:#2196F3;--black:#000;--white:#fff;
+--border:3px solid var(--black);
+--shadow:5px 5px 0 var(--black);
+--shadow-sm:3px 3px 0 var(--black);
+}
+html{scroll-behavior:smooth}
+body{font-family:'Space Mono',monospace;font-weight:700;color:var(--black);background:var(--white);line-height:1.5;overflow-x:hidden}
+a{color:inherit;text-decoration:none}
+
+/* Utility */
+.container{max-width:960px;margin:0 auto;padding:0 20px}
+.sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);border:0}
+
+/* Buttons */
+.btn{display:inline-block;padding:14px 32px;font-family:'Space Mono',monospace;font-weight:700;font-size:1rem;border:var(--border);box-shadow:var(--shadow);cursor:pointer;text-transform:uppercase;letter-spacing:1px;transition:transform .1s,box-shadow .1s;background:var(--yellow);color:var(--black)}
+.btn:hover,.btn:focus-visible{transform:translate(3px,3px);box-shadow:2px 2px 0 var(--black)}
+.btn:active{transform:translate(5px,5px);box-shadow:none}
+.btn--red{background:var(--red);color:var(--white)}
+.btn--blue{background:var(--blue);color:var(--white)}
+.btn--white{background:var(--white)}
+.btn--big{padding:18px 48px;font-size:1.15rem}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none;box-shadow:var(--shadow)}
+
+/* Hero */
+.hero{padding:60px 0 80px;position:relative;overflow:hidden}
+.hero__inner{display:flex;flex-direction:column;align-items:flex-start;gap:24px;position:relative}
+.hero__badge{display:inline-block;padding:8px 20px;background:var(--yellow);border:var(--border);box-shadow:var(--shadow-sm);font-size:.85rem;text-transform:uppercase;letter-spacing:2px}
+.hero__title{font-size:clamp(3rem,8vw,6rem);line-height:1;text-transform:uppercase;letter-spacing:-2px}
+.hero__tagline{font-size:clamp(1rem,2.5vw,1.35rem);text-transform:uppercase;max-width:650px;letter-spacing:1px}
+.hero__boxes{position:absolute;right:0;top:0;display:flex;flex-direction:column;gap:12px;z-index:-1}
+.hero__box{width:120px;height:120px;border:var(--border);box-shadow:var(--shadow)}
+.hero__box--y{background:var(--yellow)}
+.hero__box--r{background:var(--red)}
+.hero__box--b{background:var(--blue)}
+.hero__cta-row{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px}
+
+/* Why Section */
+.why{padding:80px 0;background:var(--white)}
+.section-title{font-size:clamp(2rem,5vw,3rem);text-transform:uppercase;margin-bottom:48px;display:inline-block;padding:8px 16px;border:var(--border);box-shadow:var(--shadow)}
+.why__grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:28px}
+.why__card{padding:32px 24px;border:var(--border);box-shadow:var(--shadow);display:flex;flex-direction:column;gap:16px}
+.why__card--y{background:var(--yellow)}
+.why__card--r{background:var(--red);color:var(--white)}
+.why__card--b{background:var(--blue);color:var(--white)}
+.why__card h3{font-size:1.4rem;text-transform:uppercase}
+.why__card p{font-weight:400;font-size:.95rem}
+.why__icon{font-size:2.5rem;line-height:1}
+
+/* Form Section */
+.form-section{padding:80px 0 100px;background:var(--white)}
+
+/* Wizard */
+.wizard{border:var(--border);box-shadow:6px 6px 0 var(--black);background:var(--white);overflow:hidden}
+.wizard__header{padding:24px 32px;border-bottom:var(--border);display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px}
+.wizard__step-counter{font-size:clamp(2.5rem,5vw,3.5rem);line-height:1}
+.wizard__step-label{font-size:1rem;text-transform:uppercase;letter-spacing:1px;max-width:400px}
+
+/* Progress */
+.wizard__progress{display:flex;gap:4px;padding:0 32px 24px;flex-wrap:wrap}
+.wizard__progress-block{height:12px;flex:1;min-width:20px;border:2px solid var(--black);background:var(--white);transition:background .2s}
+.wizard__progress-block.filled{background:var(--black)}
+
+.wizard__body{padding:32px}
+.wizard__step{display:none;flex-direction:column;gap:20px}
+.wizard__step.active{display:flex}
+
+/* Accent bars */
+.wizard__accent{height:6px;border:2px solid var(--black)}
+.accent--y{background:var(--yellow)}
+.accent--r{background:var(--red)}
+.accent--b{background:var(--blue)}
+
+/* Form elements */
+label.field-label{font-size:1rem;text-transform:uppercase;display:block}
+.field-hint{font-weight:400;font-size:.8rem;margin-top:2px;color:#555}
+textarea,input[type="text"],input[type="email"]{width:100%;font-family:'Space Mono',monospace;font-weight:700;font-size:1rem;padding:14px 16px;border:var(--border);box-shadow:var(--shadow-sm);resize:vertical;background:var(--white);border-radius:0;outline:none}
+textarea:focus,input[type="text"]:focus,input[type="email"]:focus{box-shadow:var(--shadow);border-color:var(--blue)}
+textarea{min-height:120px}
+.char-count{font-size:.8rem;text-align:right;margin-top:4px}
+.char-count.warn{color:var(--red)}
+
+/* Table */
+.task-table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch}
+.task-table{width:100%;border-collapse:collapse;min-width:600px}
+.task-table th,.task-table td{border:var(--border);padding:10px 12px;text-align:left;font-family:'Space Mono',monospace;font-size:.85rem}
+.task-table th{background:var(--black);color:var(--white);text-transform:uppercase;font-size:.75rem;letter-spacing:1px}
+.task-table td input{width:100%;border:none;font-family:'Space Mono',monospace;font-weight:700;font-size:.85rem;padding:4px;background:transparent;outline:none}
+.task-table tr:nth-child(even){background:#f5f5f5}
+.add-row-btn{margin-top:12px}
+
+/* Nav buttons */
+.wizard__nav{display:flex;justify-content:space-between;padding:24px 32px;border-top:var(--border);flex-wrap:wrap;gap:12px}
+
+/* Review */
+.review-card{border:var(--border);box-shadow:var(--shadow-sm);padding:20px 24px;margin-bottom:16px}
+.review-card__label{font-size:.8rem;text-transform:uppercase;letter-spacing:1px;margin-bottom:8px;color:#555}
+.review-card__value{font-weight:400;font-size:.95rem;white-space:pre-wrap;word-break:break-word}
+.review-card--y{border-left:8px solid var(--yellow)}
+.review-card--r{border-left:8px solid var(--red)}
+.review-card--b{border-left:8px solid var(--blue)}
+
+/* Thank You */
+.thank-you{display:none;text-align:center;padding:80px 32px;flex-direction:column;align-items:center;gap:24px}
+.thank-you.active{display:flex}
+.thank-you__title{font-size:clamp(3rem,8vw,5rem);text-transform:uppercase;animation:bounce 0.6s ease infinite alternate}
+.thank-you__sub{font-size:1.1rem;font-weight:400}
+
+@keyframes bounce{
+0%{transform:translateY(0)}
+100%{transform:translateY(-16px)}
+}
+
+/* Error */
+.field-error{border-color:var(--red)!important;box-shadow:var(--shadow-sm),inset 0 0 0 1px var(--red)!important}
+.error-msg{color:var(--red);font-size:.8rem;margin-top:4px;display:none}
+.error-msg.visible{display:block}
+
+/* Responsive */
+@media(max-width:768px){
+.hero__boxes{display:none}
+.wizard__header{padding:16px 20px}
+.wizard__progress{padding:0 20px 16px}
+.wizard__body{padding:20px}
+.wizard__nav{padding:16px 20px}
+.section-title{font-size:1.8rem}
+}
+@media(max-width:375px){
+.btn{padding:12px 20px;font-size:.9rem}
+.btn--big{padding:14px 28px;font-size:1rem}
+}
+
+/* Reduced motion */
+@media(prefers-reduced-motion:reduce){
+*,*::before,*::after{animation-duration:0s!important;animation-iteration-count:1!important;transition-duration:0s!important}
+}
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero" aria-label="Hero">
+<div class="container hero__inner">
+<span class="hero__badge">AI Consultancy</span>
+<h1 class="hero__title">NEXUS AI</h1>
+<p class="hero__tagline">Transform your business with intelligent automation</p>
+<div class="hero__cta-row">
+<a href="#intake" class="btn btn--big">Get Started</a>
+<a href="#why" class="btn btn--big btn--white">Learn More</a>
+</div>
+<div class="hero__boxes" aria-hidden="true">
+<div class="hero__box hero__box--y"></div>
+<div class="hero__box hero__box--r"></div>
+<div class="hero__box hero__box--b"></div>
+</div>
+</div>
+</section>
+
+<!-- WHY SECTION -->
+<section class="why" id="why" aria-label="Why choose us">
+<div class="container">
+<h2 class="section-title">Why Nexus AI</h2>
+<div class="why__grid">
+<article class="why__card why__card--y">
+<div class="why__icon" aria-hidden="true">[&gt;]</div>
+<h3>Ruthless Efficiency</h3>
+<p>We identify the repetitive tasks strangling your team and automate them end-to-end. No fluff, no vaporware — just measurable hours reclaimed every week.</p>
+</article>
+<article class="why__card why__card--r">
+<div class="why__icon" aria-hidden="true">{AI}</div>
+<h3>Custom AI Systems</h3>
+<p>Off-the-shelf tools only get you so far. We build bespoke intelligent workflows that plug directly into your existing stack and scale with you.</p>
+</article>
+<article class="why__card why__card--b">
+<div class="why__icon" aria-hidden="true">[^^]</div>
+<h3>Real ROI, Fast</h3>
+<p>Our engagements pay for themselves within 90 days. We map every automation to revenue impact so you always know the score.</p>
+</article>
+</div>
+</div>
+</section>
+
+<!-- FORM SECTION -->
+<section class="form-section" id="intake" aria-label="Intake form">
+<div class="container">
+<h2 class="section-title">Tell Us About Your Business</h2>
+
+<div class="wizard" role="form" aria-label="Business intake wizard">
+<!-- Header -->
+<div class="wizard__header">
+<div class="wizard__step-counter" aria-live="polite" id="stepCounter">1/11</div>
+<div class="wizard__step-label" id="stepLabel">YOUR DETAILS</div>
+</div>
+
+<!-- Progress -->
+<div class="wizard__progress" role="progressbar" aria-valuenow="1" aria-valuemin="1" aria-valuemax="11" id="progressBar"></div>
+
+<!-- Steps -->
+<div class="wizard__body">
+
+<!-- Step 0: Name & Email -->
+<div class="wizard__step active" data-step="0">
+<div class="wizard__accent accent--y"></div>
+<label class="field-label" for="field-name">Your Name *</label>
+<input type="text" id="field-name" name="name" required aria-required="true" placeholder="Jane Doe">
+<div class="error-msg" id="err-name">Please enter your name.</div>
+
+<label class="field-label" for="field-email">Your Email *</label>
+<input type="email" id="field-email" name="email" required aria-required="true" placeholder="jane@company.com">
+<div class="error-msg" id="err-email">Please enter a valid email.</div>
+</div>
+
+<!-- Step 1: Q1 -->
+<div class="wizard__step" data-step="1">
+<div class="wizard__accent accent--r"></div>
+<label class="field-label" for="field-q1">1. Walk me through what your business does — your core model, how you make money, and who your customers are. *</label>
+<div class="field-hint">Min 50 characters</div>
+<textarea id="field-q1" name="q1" minlength="50" required aria-required="true"></textarea>
+<div class="char-count" id="cc-q1">0 / 50 min</div>
+<div class="error-msg" id="err-q1">Please provide at least 50 characters.</div>
+</div>
+
+<!-- Step 2: Q2 -->
+<div class="wizard__step" data-step="2">
+<div class="wizard__accent accent--b"></div>
+<label class="field-label" for="field-q2">2. What are the top 3 services or products that generate the most revenue? *</label>
+<div class="field-hint">Min 30 characters</div>
+<textarea id="field-q2" name="q2" minlength="30" required aria-required="true"></textarea>
+<div class="char-count" id="cc-q2">0 / 30 min</div>
+<div class="error-msg" id="err-q2">Please provide at least 30 characters.</div>
+</div>
+
+<!-- Step 3: Q3 -->
+<div class="wizard__step" data-step="3">
+<div class="wizard__accent accent--y"></div>
+<label class="field-label" for="field-q3">3. List every software tool, platform, or system your team uses daily. *</label>
+<div class="field-hint">Min 30 characters</div>
+<textarea id="field-q3" name="q3" minlength="30" required aria-required="true"></textarea>
+<div class="char-count" id="cc-q3">0 / 30 min</div>
+<div class="error-msg" id="err-q3">Please provide at least 30 characters.</div>
+</div>
+
+<!-- Step 4: Q4 -->
+<div class="wizard__step" data-step="4">
+<div class="wizard__accent accent--r"></div>
+<label class="field-label" for="field-q4">4. Describe your full customer journey — from first contact to delivery and follow-up. *</label>
+<div class="field-hint">Min 50 characters</div>
+<textarea id="field-q4" name="q4" minlength="50" required aria-required="true"></textarea>
+<div class="char-count" id="cc-q4">0 / 50 min</div>
+<div class="error-msg" id="err-q4">Please provide at least 50 characters.</div>
+</div>
+
+<!-- Step 5: Q5 — Task Table -->
+<div class="wizard__step" data-step="5">
+<div class="wizard__accent accent--b"></div>
+<label class="field-label">5. What recurring tasks consume the most time? *</label>
+<div class="field-hint">Fill in at least 1 row completely</div>
+<div class="task-table-wrap">
+<table class="task-table" aria-label="Recurring tasks">
+<thead>
+<tr>
+<th>Task</th>
+<th>Frequency</th>
+<th>Avg Time (hrs)</th>
+<th>Who Does It</th>
+<th>Tools Used</th>
+</tr>
+</thead>
+<tbody id="taskTableBody">
+<tr>
+<td><input type="text" aria-label="Task name row 1" data-col="task"></td>
+<td><input type="text" aria-label="Frequency row 1" data-col="frequency"></td>
+<td><input type="text" aria-label="Average time row 1" data-col="time"></td>
+<td><input type="text" aria-label="Who does it row 1" data-col="who"></td>
+<td><input type="text" aria-label="Tools used row 1" data-col="tools"></td>
+</tr>
+<tr>
+<td><input type="text" aria-label="Task name row 2" data-col="task"></td>
+<td><input type="text" aria-label="Frequency row 2" data-col="frequency"></td>
+<td><input type="text" aria-label="Average time row 2" data-col="time"></td>
+<td><input type="text" aria-label="Who does it row 2" data-col="who"></td>
+<td><input type="text" aria-label="Tools used row 2" data-col="tools"></td>
+</tr>
+<tr>
+<td><input type="text" aria-label="Task name row 3" data-col="task"></td>
+<td><input type="text" aria-label="Frequency row 3" data-col="frequency"></td>
+<td><input type="text" aria-label="Average time row 3" data-col="time"></td>
+<td><input type="text" aria-label="Who does it row 3" data-col="who"></td>
+<td><input type="text" aria-label="Tools used row 3" data-col="tools"></td>
+</tr>
+</tbody>
+</table>
+</div>
+<button type="button" class="btn add-row-btn" id="addRowBtn">+ ADD ROW</button>
+<div class="error-msg" id="err-q5">Please fill in at least 1 complete row.</div>
+</div>
+
+<!-- Step 6: Q6 -->
+<div class="wizard__step" data-step="6">
+<div class="wizard__accent accent--y"></div>
+<label class="field-label" for="field-q6">6. What are the top 3 operational problems slowing your business down? *</label>
+<div class="field-hint">Min 30 characters</div>
+<textarea id="field-q6" name="q6" minlength="30" required aria-required="true"></textarea>
+<div class="char-count" id="cc-q6">0 / 30 min</div>
+<div class="error-msg" id="err-q6">Please provide at least 30 characters.</div>
+</div>
+
+<!-- Step 7: Q7 -->
+<div class="wizard__step" data-step="7">
+<div class="wizard__accent accent--r"></div>
+<label class="field-label" for="field-q7">7. If you had 20 additional productive hours each week, where would you invest them? *</label>
+<div class="field-hint">Min 30 characters</div>
+<textarea id="field-q7" name="q7" minlength="30" required aria-required="true"></textarea>
+<div class="char-count" id="cc-q7">0 / 30 min</div>
+<div class="error-msg" id="err-q7">Please provide at least 30 characters.</div>
+</div>
+
+<!-- Step 8: Q8 -->
+<div class="wizard__step" data-step="8">
+<div class="wizard__accent accent--b"></div>
+<label class="field-label" for="field-q8">8. Describe a process you've admired at another business that you wish you could replicate. *</label>
+<div class="field-hint">Min 20 characters</div>
+<textarea id="field-q8" name="q8" minlength="20" required aria-required="true"></textarea>
+<div class="char-count" id="cc-q8">0 / 20 min</div>
+<div class="error-msg" id="err-q8">Please provide at least 20 characters.</div>
+</div>
+
+<!-- Step 9: Q9 -->
+<div class="wizard__step" data-step="9">
+<div class="wizard__accent accent--y"></div>
+<label class="field-label" for="field-q9">9. Is there anything else we should know about your business or goals?</label>
+<div class="field-hint">Optional</div>
+<textarea id="field-q9" name="q9"></textarea>
+</div>
+
+<!-- Step 10: Review -->
+<div class="wizard__step" data-step="10">
+<div class="wizard__accent accent--r"></div>
+<h3 style="text-transform:uppercase;font-size:1.3rem;margin-bottom:8px">Review Your Answers</h3>
+<div id="reviewContainer"></div>
+</div>
+
+<!-- Thank You -->
+<div class="thank-you" id="thankYou">
+<div class="thank-you__title">THANK YOU!</div>
+<p class="thank-you__sub">We've received your information and will be in touch within 24 hours.</p>
+<button type="button" class="btn btn--big btn--blue" onclick="resetWizard()">START OVER</button>
+</div>
+
+</div><!-- /wizard__body -->
+
+<!-- Nav -->
+<div class="wizard__nav" id="wizardNav">
+<button type="button" class="btn btn--white" id="btnBack" disabled aria-label="Go to previous step">BACK</button>
+<button type="button" class="btn btn--blue" id="btnNext" aria-label="Go to next step">NEXT</button>
+</div>
+
+</div><!-- /wizard -->
+</div>
+</section>
+
+<script>
+(function(){
+'use strict';
+
+const STORAGE_KEY = 'neubrutalist-pop';
+const TOTAL_STEPS = 11; // 0-10
+let currentStep = 0;
+
+const stepLabels = [
+'Your Details',
+'Business Model',
+'Top Revenue Drivers',
+'Software & Tools',
+'Customer Journey',
+'Recurring Tasks',
+'Operational Problems',
+'Extra 20 Hours',
+'Admired Process',
+'Anything Else',
+'Review & Submit'
+];
+
+const accentCycle = ['accent--y','accent--r','accent--b'];
+
+// Min char requirements per step (index = step)
+const minChars = {
+1: 50, 2: 30, 3: 30, 4: 50, 6: 30, 7: 30, 8: 20
+};
+
+// DOM refs
+const stepCounter = document.getElementById('stepCounter');
+const stepLabel = document.getElementById('stepLabel');
+const progressBar = document.getElementById('progressBar');
+const wizardNav = document.getElementById('wizardNav');
+const btnBack = document.getElementById('btnBack');
+const btnNext = document.getElementById('btnNext');
+const thankYou = document.getElementById('thankYou');
+const addRowBtn = document.getElementById('addRowBtn');
+const taskTableBody = document.getElementById('taskTableBody');
+const reviewContainer = document.getElementById('reviewContainer');
+
+// Build progress blocks
+for(let i = 0; i < TOTAL_STEPS; i++){
+const block = document.createElement('div');
+block.className = 'wizard__progress-block';
+progressBar.appendChild(block);
+}
+
+function updateUI(){
+// Steps visibility
+document.querySelectorAll('.wizard__step').forEach(s => s.classList.remove('active'));
+const activeStep = document.querySelector(`.wizard__step[data-step="${currentStep}"]`);
+if(activeStep) activeStep.classList.add('active');
+
+// Counter
+stepCounter.textContent = `${currentStep + 1}/${TOTAL_STEPS}`;
+stepLabel.textContent = stepLabels[currentStep] || '';
+
+// Progress blocks
+const blocks = progressBar.querySelectorAll('.wizard__progress-block');
+blocks.forEach((b, i) => b.classList.toggle('filled', i <= currentStep));
+progressBar.setAttribute('aria-valuenow', currentStep + 1);
+
+// Buttons
+btnBack.disabled = currentStep === 0;
+if(currentStep === TOTAL_STEPS - 1){
+btnNext.textContent = 'SUBMIT';
+btnNext.className = 'btn btn--red';
+} else {
+btnNext.textContent = 'NEXT';
+btnNext.className = 'btn btn--blue';
+}
+
+// Hide nav on thank you
+wizardNav.style.display = thankYou.classList.contains('active') ? 'none' : '';
+
+// Build review if on review step
+if(currentStep === 10) buildReview();
+}
+
+// Validation
+function validateCurrentStep(){
+clearErrors();
+
+if(currentStep === 0){
+const name = document.getElementById('field-name').value.trim();
+const email = document.getElementById('field-email').value.trim();
+let valid = true;
+if(!name){
+showError('err-name'); document.getElementById('field-name').classList.add('field-error'); valid = false;
+}
+if(!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)){
+showError('err-email'); document.getElementById('field-email').classList.add('field-error'); valid = false;
+}
+return valid;
+}
+
+if(currentStep >= 1 && currentStep <= 4 || currentStep >= 6 && currentStep <= 8){
+const qNum = currentStep;
+const field = document.getElementById(`field-q${qNum}`);
+const min = minChars[qNum] || 0;
+if(field.value.trim().length < min){
+showError(`err-q${qNum}`); field.classList.add('field-error'); return false;
+}
+return true;
+}
+
+if(currentStep === 5){
+// Task table: at least 1 complete row
+const rows = taskTableBody.querySelectorAll('tr');
+let hasComplete = false;
+rows.forEach(row => {
+const inputs = row.querySelectorAll('input');
+const allFilled = Array.from(inputs).every(inp => inp.value.trim() !== '');
+if(allFilled) hasComplete = true;
+});
+if(!hasComplete){
+showError('err-q5'); return false;
+}
+return true;
+}
+
+if(currentStep === 9) return true; // optional
+if(currentStep === 10) return true; // review
+
+return true;
+}
+
+function showError(id){
+const el = document.getElementById(id);
+if(el) el.classList.add('visible');
+}
+function clearErrors(){
+document.querySelectorAll('.error-msg').forEach(e => e.classList.remove('visible'));
+document.querySelectorAll('.field-error').forEach(e => e.classList.remove('field-error'));
+}
+
+// Navigation
+btnNext.addEventListener('click', function(){
+if(!validateCurrentStep()) return;
+if(currentStep === TOTAL_STEPS - 1){
+submitForm(); return;
+}
+currentStep++;
+updateUI();
+saveToStorage();
+window.scrollTo({top: document.querySelector('.wizard').offsetTop - 20, behavior: 'smooth'});
+});
+
+btnBack.addEventListener('click', function(){
+if(currentStep > 0){
+currentStep--;
+updateUI();
+saveToStorage();
+}
+});
+
+// Add row
+addRowBtn.addEventListener('click', function(){
+const rowCount = taskTableBody.querySelectorAll('tr').length + 1;
+const tr = document.createElement('tr');
+['task','frequency','time','who','tools'].forEach(col => {
+const td = document.createElement('td');
+const inp = document.createElement('input');
+inp.type = 'text';
+inp.setAttribute('aria-label', `${col} row ${rowCount}`);
+inp.dataset.col = col;
+inp.addEventListener('input', saveToStorage);
+td.appendChild(inp);
+tr.appendChild(td);
+});
+taskTableBody.appendChild(tr);
+});
+
+// Char counts
+document.querySelectorAll('textarea[id^="field-q"]').forEach(ta => {
+const qNum = ta.id.replace('field-q','');
+const ccEl = document.getElementById(`cc-q${qNum}`);
+if(!ccEl) return;
+const min = minChars[parseInt(qNum)] || 0;
+ta.addEventListener('input', function(){
+const len = ta.value.length;
+ccEl.textContent = `${len} / ${min} min`;
+ccEl.classList.toggle('warn', len < min && len > 0);
+saveToStorage();
+});
+});
+
+// Save name/email on input
+document.getElementById('field-name').addEventListener('input', saveToStorage);
+document.getElementById('field-email').addEventListener('input', saveToStorage);
+
+// Task table input listeners
+taskTableBody.querySelectorAll('input').forEach(inp => {
+inp.addEventListener('input', saveToStorage);
+});
+
+// Build review
+function buildReview(){
+reviewContainer.innerHTML = '';
+const data = gatherData();
+const labels = [
+'Name', 'Email',
+'1. Business Model', '2. Top Revenue Drivers', '3. Software & Tools',
+'4. Customer Journey', '5. Recurring Tasks', '6. Operational Problems',
+'7. Extra 20 Hours', '8. Admired Process', '9. Anything Else'
+];
+const keys = ['name','email','q1','q2','q3','q4','q5','q6','q7','q8','q9'];
+const accents = ['review-card--y','review-card--r','review-card--b'];
+
+keys.forEach((key, i) => {
+const card = document.createElement('div');
+card.className = `review-card ${accents[i % 3]}`;
+
+const lbl = document.createElement('div');
+lbl.className = 'review-card__label';
+lbl.textContent = labels[i];
+
+const val = document.createElement('div');
+val.className = 'review-card__value';
+
+if(key === 'q5'){
+// Format task table
+const rows = data.q5 || [];
+if(rows.length){
+val.textContent = rows.map((r, ri) =>
+`Row ${ri+1}: ${r.task} | ${r.frequency} | ${r.time}h | ${r.who} | ${r.tools}`
+).join('\n');
+} else {
+val.textContent = '(none)';
+}
+} else {
+val.textContent = data[key] || '(empty)';
+}
+
+card.appendChild(lbl);
+card.appendChild(val);
+reviewContainer.appendChild(card);
+});
+}
+
+// Gather all data
+function gatherData(){
+const data = {
+name: document.getElementById('field-name').value.trim(),
+email: document.getElementById('field-email').value.trim()
+};
+for(let i = 1; i <= 9; i++){
+if(i === 5) continue;
+const f = document.getElementById(`field-q${i}`);
+if(f) data[`q${i}`] = f.value.trim();
+}
+// Task table
+const rows = [];
+taskTableBody.querySelectorAll('tr').forEach(tr => {
+const inputs = tr.querySelectorAll('input');
+const row = {};
+inputs.forEach(inp => { row[inp.dataset.col] = inp.value.trim(); });
+if(Object.values(row).some(v => v !== '')) rows.push(row);
+});
+data.q5 = rows;
+return data;
+}
+
+// Submit
+function submitForm(){
+const data = gatherData();
+console.log('NEXUS AI Intake Form Submission:', JSON.stringify(data, null, 2));
+localStorage.removeItem(STORAGE_KEY);
+
+// Hide steps, show thank you
+document.querySelectorAll('.wizard__step').forEach(s => s.classList.remove('active'));
+thankYou.classList.add('active');
+wizardNav.style.display = 'none';
+document.querySelector('.wizard__header').style.display = 'none';
+document.querySelector('.wizard__progress').style.display = 'none';
+}
+
+// Reset
+window.resetWizard = function(){
+localStorage.removeItem(STORAGE_KEY);
+currentStep = 0;
+document.getElementById('field-name').value = '';
+document.getElementById('field-email').value = '';
+for(let i = 1; i <= 9; i++){
+const f = document.getElementById(`field-q${i}`);
+if(f) f.value = '';
+}
+// Reset table to 3 rows
+taskTableBody.innerHTML = '';
+for(let r = 0; r < 3; r++){
+const tr = document.createElement('tr');
+['task','frequency','time','who','tools'].forEach(col => {
+const td = document.createElement('td');
+const inp = document.createElement('input');
+inp.type = 'text';
+inp.setAttribute('aria-label', `${col} row ${r+1}`);
+inp.dataset.col = col;
+inp.addEventListener('input', saveToStorage);
+td.appendChild(inp);
+tr.appendChild(td);
+});
+taskTableBody.appendChild(tr);
+}
+// Reset char counts
+document.querySelectorAll('.char-count').forEach(cc => {
+const id = cc.id.replace('cc-','');
+const qNum = parseInt(id.replace('q',''));
+const min = minChars[qNum] || 0;
+cc.textContent = `0 / ${min} min`;
+cc.classList.remove('warn');
+});
+thankYou.classList.remove('active');
+document.querySelector('.wizard__header').style.display = '';
+document.querySelector('.wizard__progress').style.display = '';
+wizardNav.style.display = '';
+updateUI();
+};
+
+// localStorage
+function saveToStorage(){
+const data = gatherData();
+data._step = currentStep;
+try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e){}
+}
+
+function restoreFromStorage(){
+try {
+const raw = localStorage.getItem(STORAGE_KEY);
+if(!raw) return;
+const data = JSON.parse(raw);
+if(data.name) document.getElementById('field-name').value = data.name;
+if(data.email) document.getElementById('field-email').value = data.email;
+for(let i = 1; i <= 9; i++){
+if(i === 5) continue;
+const f = document.getElementById(`field-q${i}`);
+if(f && data[`q${i}`]) f.value = data[`q${i}`];
+}
+// Restore task table
+if(data.q5 && data.q5.length){
+taskTableBody.innerHTML = '';
+data.q5.forEach((row, ri) => {
+const tr = document.createElement('tr');
+['task','frequency','time','who','tools'].forEach(col => {
+const td = document.createElement('td');
+const inp = document.createElement('input');
+inp.type = 'text';
+inp.value = row[col] || '';
+inp.setAttribute('aria-label', `${col} row ${ri+1}`);
+inp.dataset.col = col;
+inp.addEventListener('input', saveToStorage);
+td.appendChild(inp);
+tr.appendChild(td);
+});
+taskTableBody.appendChild(tr);
+});
+// Ensure at least 3 rows
+while(taskTableBody.querySelectorAll('tr').length < 3){
+const ri = taskTableBody.querySelectorAll('tr').length + 1;
+const tr = document.createElement('tr');
+['task','frequency','time','who','tools'].forEach(col => {
+const td = document.createElement('td');
+const inp = document.createElement('input');
+inp.type = 'text';
+inp.setAttribute('aria-label', `${col} row ${ri}`);
+inp.dataset.col = col;
+inp.addEventListener('input', saveToStorage);
+td.appendChild(inp);
+tr.appendChild(td);
+});
+taskTableBody.appendChild(tr);
+}
+}
+// Restore step
+if(typeof data._step === 'number' && data._step >= 0 && data._step < TOTAL_STEPS){
+currentStep = data._step;
+}
+// Update char counts
+for(let i = 1; i <= 9; i++){
+if(i === 5) continue;
+const f = document.getElementById(`field-q${i}`);
+const cc = document.getElementById(`cc-q${i}`);
+if(f && cc){
+const min = minChars[i] || 0;
+const len = f.value.length;
+cc.textContent = `${len} / ${min} min`;
+cc.classList.toggle('warn', len > 0 && len < min);
+}
+}
+} catch(e){}
+}
+
+// Init
+restoreFromStorage();
+updateUI();
+
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,1007 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Nexus AI Consultancy — Aurora Flow</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    /* ===== RESET & BASE ===== */
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html {
+      scroll-snap-type: y mandatory;
+      overflow-y: scroll;
+      scroll-behavior: smooth;
+      font-size: 16px;
+    }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: #0a0a1a;
+      color: #e0e0f0;
+      line-height: 1.6;
+      min-height: 100vh;
+    }
+    h1, h2, h3, h4 { font-family: 'Space Grotesk', sans-serif; }
+
+    /* ===== MESH GRADIENT BACKGROUND ===== */
+    .mesh-bg {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw; height: 100vh;
+      z-index: -1;
+      background:
+        radial-gradient(ellipse at 20% 50%, rgba(0,128,255,0.25) 0%, transparent 50%),
+        radial-gradient(ellipse at 80% 20%, rgba(255,20,147,0.2) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 80%, rgba(0,255,255,0.15) 0%, transparent 50%),
+        radial-gradient(ellipse at 70% 60%, rgba(0,128,255,0.1) 0%, transparent 40%),
+        #0a0a1a;
+      background-size: 200% 200%;
+      animation: meshFlow 15s ease infinite;
+    }
+    @keyframes meshFlow {
+      0%   { background-position: 0% 0%, 100% 0%, 50% 100%, 0% 50%; }
+      25%  { background-position: 50% 30%, 80% 50%, 20% 80%, 60% 20%; }
+      50%  { background-position: 100% 50%, 20% 100%, 80% 20%, 30% 80%; }
+      75%  { background-position: 30% 80%, 60% 30%, 50% 60%, 80% 40%; }
+      100% { background-position: 0% 0%, 100% 0%, 50% 100%, 0% 50%; }
+    }
+
+    /* ===== REDUCED MOTION ===== */
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0s !important;
+        animation-delay: 0s !important;
+        transition-duration: 0s !important;
+        transition-delay: 0s !important;
+        scroll-behavior: auto !important;
+      }
+      html { scroll-behavior: auto; }
+      .mesh-bg { animation: none; background-position: 0% 0%; }
+    }
+
+    /* ===== SECTIONS ===== */
+    .snap-section {
+      min-height: 100vh;
+      scroll-snap-align: start;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 2rem 1.5rem;
+      position: relative;
+    }
+    .snap-section.review-section {
+      justify-content: flex-start;
+      padding-top: 4rem;
+      overflow-y: auto;
+      scroll-snap-align: start;
+    }
+
+    /* ===== HERO ===== */
+    .hero { text-align: center; }
+    .hero h1 {
+      font-size: clamp(2.2rem, 6vw, 4.5rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #0080FF, #FF1493, #00FFFF);
+      background-size: 200% 200%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      animation: gradientShift 6s ease infinite;
+      margin-bottom: 1rem;
+    }
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+    .hero .tagline {
+      font-size: clamp(1rem, 2.5vw, 1.5rem);
+      color: rgba(224, 224, 240, 0.8);
+      max-width: 600px;
+      margin: 0 auto 2.5rem;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn-primary {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 1.1rem;
+      font-weight: 600;
+      padding: 1rem 2.5rem;
+      border: none;
+      border-radius: 50px;
+      background: linear-gradient(135deg, #0080FF, #FF1493);
+      color: #fff;
+      cursor: pointer;
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      text-decoration: none;
+      display: inline-block;
+    }
+    .btn-primary:hover, .btn-primary:focus-visible {
+      transform: translateY(-2px);
+      box-shadow: 0 8px 30px rgba(0,128,255,0.4);
+    }
+    .btn-primary:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+    .btn-primary:focus-visible {
+      outline: 3px solid #00FFFF;
+      outline-offset: 3px;
+    }
+    .btn-secondary {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.95rem;
+      font-weight: 500;
+      padding: 0.7rem 1.8rem;
+      border: 2px solid rgba(0,128,255,0.5);
+      border-radius: 50px;
+      background: transparent;
+      color: #e0e0f0;
+      cursor: pointer;
+      transition: background 0.2s ease, border-color 0.2s ease;
+    }
+    .btn-secondary:hover, .btn-secondary:focus-visible {
+      background: rgba(0,128,255,0.15);
+      border-color: #0080FF;
+    }
+    .btn-secondary:focus-visible {
+      outline: 3px solid #00FFFF;
+      outline-offset: 3px;
+    }
+
+    /* ===== FORM CARD ===== */
+    .form-card {
+      width: 100%;
+      max-width: 700px;
+      text-align: center;
+    }
+    .form-card .question-number {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.85rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.15em;
+      color: #0080FF;
+      margin-bottom: 0.75rem;
+    }
+    .form-card .question-text {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: clamp(1.15rem, 3vw, 1.6rem);
+      font-weight: 600;
+      line-height: 1.4;
+      margin-bottom: 2rem;
+      color: #fff;
+    }
+
+    /* ===== INPUTS ===== */
+    textarea, input[type="text"], input[type="email"] {
+      width: 100%;
+      font-family: 'DM Sans', sans-serif;
+      font-size: 1rem;
+      padding: 1rem 1.25rem;
+      border: 2px solid rgba(255,255,255,0.1);
+      border-radius: 12px;
+      background: rgba(255,255,255,0.05);
+      color: #e0e0f0;
+      resize: vertical;
+      transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    }
+    textarea { min-height: 150px; }
+    textarea:focus, input[type="text"]:focus, input[type="email"]:focus {
+      outline: none;
+      border-color: #0080FF;
+      box-shadow: 0 0 20px rgba(0,128,255,0.2);
+    }
+    textarea:focus-visible, input[type="text"]:focus-visible, input[type="email"]:focus-visible {
+      outline: 3px solid #00FFFF;
+      outline-offset: 2px;
+    }
+
+    .char-count {
+      font-size: 0.8rem;
+      text-align: right;
+      margin-top: 0.5rem;
+      color: rgba(224, 224, 240, 0.5);
+      transition: color 0.2s ease;
+    }
+    .char-count.met { color: #00FFFF; }
+    .char-count.unmet { color: #FF1493; }
+
+    .input-row {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      text-align: left;
+    }
+    .input-row label {
+      font-weight: 500;
+      font-size: 0.95rem;
+      color: rgba(224, 224, 240, 0.9);
+    }
+    .input-row input {
+      max-width: 100%;
+    }
+
+    /* ===== NAV BUTTONS ===== */
+    .nav-buttons {
+      display: flex;
+      gap: 1rem;
+      justify-content: center;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+
+    /* ===== PROGRESS INDICATOR ===== */
+    .progress-bar {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 0.75rem 1rem;
+      background: rgba(10,10,26,0.85);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      gap: 0.35rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+    }
+    .progress-bar.visible { opacity: 1; }
+    .progress-dot {
+      width: 10px; height: 10px;
+      border-radius: 50%;
+      background: rgba(255,255,255,0.15);
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+    .progress-dot.filled { background: #0080FF; }
+    .progress-dot.active {
+      background: #00FFFF;
+      transform: scale(1.3);
+    }
+    .progress-counter {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: rgba(224,224,240,0.6);
+      margin-left: 0.75rem;
+    }
+
+    /* ===== DYNAMIC TABLE (Q5) ===== */
+    .task-table-wrapper {
+      width: 100%;
+      overflow-x: auto;
+      margin-bottom: 1rem;
+      -webkit-overflow-scrolling: touch;
+    }
+    .task-table {
+      width: 100%;
+      border-collapse: collapse;
+      min-width: 600px;
+    }
+    .task-table th {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #0080FF;
+      padding: 0.75rem 0.5rem;
+      border-bottom: 2px solid rgba(0,128,255,0.3);
+      text-align: left;
+      white-space: nowrap;
+    }
+    .task-table td { padding: 0.4rem 0.3rem; }
+    .task-table input[type="text"] {
+      width: 100%;
+      padding: 0.6rem 0.7rem;
+      font-size: 0.9rem;
+      border-radius: 8px;
+    }
+    .add-row-btn {
+      font-family: 'DM Sans', sans-serif;
+      font-size: 0.9rem;
+      padding: 0.5rem 1.2rem;
+      border: 1px dashed rgba(0,255,255,0.4);
+      border-radius: 8px;
+      background: transparent;
+      color: #00FFFF;
+      cursor: pointer;
+      transition: background 0.2s ease;
+    }
+    .add-row-btn:hover, .add-row-btn:focus-visible {
+      background: rgba(0,255,255,0.1);
+    }
+    .add-row-btn:focus-visible {
+      outline: 3px solid #00FFFF;
+      outline-offset: 2px;
+    }
+    .table-hint {
+      font-size: 0.8rem;
+      color: rgba(224,224,240,0.5);
+      margin-top: 0.5rem;
+    }
+    .table-hint.met { color: #00FFFF; }
+    .table-hint.unmet { color: #FF1493; }
+
+    /* ===== REVIEW SECTION ===== */
+    .review-container {
+      width: 100%;
+      max-width: 750px;
+      padding-bottom: 3rem;
+    }
+    .review-container h2 {
+      font-size: 2rem;
+      margin-bottom: 2rem;
+      background: linear-gradient(135deg, #0080FF, #00FFFF);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      text-align: center;
+    }
+    .review-item {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 12px;
+      padding: 1.25rem 1.5rem;
+      margin-bottom: 1rem;
+    }
+    .review-item-label {
+      font-family: 'Space Grotesk', sans-serif;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: #0080FF;
+      margin-bottom: 0.4rem;
+    }
+    .review-item-value {
+      font-size: 0.95rem;
+      color: rgba(224,224,240,0.85);
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+    .review-item-edit {
+      font-size: 0.8rem;
+      color: #00FFFF;
+      background: none;
+      border: none;
+      cursor: pointer;
+      margin-top: 0.5rem;
+      padding: 0.25rem 0;
+      font-family: 'DM Sans', sans-serif;
+    }
+    .review-item-edit:hover { text-decoration: underline; }
+    .review-item-edit:focus-visible {
+      outline: 3px solid #00FFFF;
+      outline-offset: 2px;
+    }
+
+    /* ===== THANK YOU ===== */
+    .thank-you-section {
+      display: none;
+      text-align: center;
+    }
+    .thank-you-section.visible {
+      display: flex;
+    }
+    .thank-you-section h2 {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      background: linear-gradient(135deg, #00FFFF, #0080FF, #FF1493);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+    }
+    .thank-you-section p {
+      font-size: 1.15rem;
+      color: rgba(224,224,240,0.75);
+      max-width: 500px;
+    }
+
+    /* ===== MOBILE 768px ===== */
+    @media (max-width: 768px) {
+      .snap-section { padding: 1.5rem 1.25rem; }
+      .form-card { max-width: 100%; }
+      textarea { min-height: 120px; }
+      .progress-dot { width: 8px; height: 8px; }
+    }
+
+    /* ===== MOBILE 375px ===== */
+    @media (max-width: 400px) {
+      .snap-section { padding: 1.25rem 1rem; }
+      .form-card .question-text { font-size: 1.05rem; }
+      .btn-primary { padding: 0.85rem 2rem; font-size: 1rem; }
+      .btn-secondary { padding: 0.6rem 1.4rem; font-size: 0.85rem; }
+      .nav-buttons { gap: 0.75rem; }
+      .task-table input[type="text"] { font-size: 0.8rem; padding: 0.5rem; }
+    }
+
+    /* ===== SKIP LINK ===== */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: 1rem;
+      background: #0080FF;
+      color: #fff;
+      padding: 0.75rem 1.5rem;
+      border-radius: 0 0 8px 8px;
+      z-index: 10000;
+      font-weight: 600;
+      text-decoration: none;
+    }
+    .skip-link:focus {
+      top: 0;
+    }
+  </style>
+</head>
+<body>
+
+<a href="#section-contact" class="skip-link">Skip to form</a>
+
+<!-- Mesh gradient background -->
+<div class="mesh-bg" aria-hidden="true"></div>
+
+<!-- Progress bar -->
+<nav class="progress-bar" id="progressBar" role="navigation" aria-label="Form progress">
+  <div class="progress-dot" data-step="0" aria-hidden="true"></div>
+  <div class="progress-dot" data-step="1" aria-hidden="true"></div>
+  <div class="progress-dot" data-step="2" aria-hidden="true"></div>
+  <div class="progress-dot" data-step="3" aria-hidden="true"></div>
+  <div class="progress-dot" data-step="4" aria-hidden="true"></div>
+  <div class="progress-dot" data-step="5" aria-hidden="true"></div>
+  <div class="progress-dot" data-step="6" aria-hidden="true"></div>
+  <div class="progress-dot" data-step="7" aria-hidden="true"></div>
+  <div class="progress-dot" data-step="8" aria-hidden="true"></div>
+  <div class="progress-dot" data-step="9" aria-hidden="true"></div>
+  <div class="progress-dot" data-step="10" aria-hidden="true"></div>
+  <span class="progress-counter" id="progressCounter" aria-live="polite">1 / 11</span>
+</nav>
+
+<!-- ==================== HERO ==================== -->
+<section class="snap-section hero" id="section-hero" aria-label="Welcome">
+  <h1>Nexus AI Consultancy</h1>
+  <p class="tagline">Transform your business with intelligent automation</p>
+  <button class="btn-primary" id="heroStartBtn" type="button" aria-label="Begin the intake form">Get Started</button>
+</section>
+
+<!-- ==================== CONTACT INFO ==================== -->
+<section class="snap-section" id="section-contact" aria-label="Contact information">
+  <div class="form-card">
+    <p class="question-number">Let's start</p>
+    <p class="question-text">What's your name and email so we can follow up?</p>
+    <div class="input-row">
+      <label for="input-name">Full Name</label>
+      <input type="text" id="input-name" aria-required="true" aria-label="Your full name" placeholder="Jane Doe" data-key="name" autocomplete="name">
+    </div>
+    <div class="input-row">
+      <label for="input-email">Email Address</label>
+      <input type="email" id="input-email" aria-required="true" aria-label="Your email address" placeholder="jane@company.com" data-key="email" autocomplete="email">
+    </div>
+    <div class="nav-buttons">
+      <button class="btn-secondary nav-back" type="button" data-target="section-hero" aria-label="Go back to hero">Back</button>
+      <button class="btn-primary nav-next" type="button" id="contactNext" data-target="section-q1" disabled aria-label="Proceed to first question">Next</button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Q1 ==================== -->
+<section class="snap-section" id="section-q1" aria-label="Question 1">
+  <div class="form-card">
+    <p class="question-number">Question 1 of 9</p>
+    <p class="question-text">Walk me through what your business does &mdash; your core model, how you make money, and who your customers are.</p>
+    <textarea id="input-q1" aria-required="true" aria-label="Describe your business model" data-key="q1" data-min="50" placeholder="Tell us about your business..."></textarea>
+    <p class="char-count" id="count-q1" aria-live="polite">0 / 50 min characters</p>
+    <div class="nav-buttons">
+      <button class="btn-secondary nav-back" type="button" data-target="section-contact" aria-label="Go back">Back</button>
+      <button class="btn-primary nav-next" type="button" data-target="section-q2" disabled aria-label="Next question">Next</button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Q2 ==================== -->
+<section class="snap-section" id="section-q2" aria-label="Question 2">
+  <div class="form-card">
+    <p class="question-number">Question 2 of 9</p>
+    <p class="question-text">What are the top 3 services or products that generate the most revenue?</p>
+    <textarea id="input-q2" aria-required="true" aria-label="Top 3 revenue generators" data-key="q2" data-min="30" placeholder="List your top revenue drivers..."></textarea>
+    <p class="char-count" id="count-q2" aria-live="polite">0 / 30 min characters</p>
+    <div class="nav-buttons">
+      <button class="btn-secondary nav-back" type="button" data-target="section-q1" aria-label="Go back">Back</button>
+      <button class="btn-primary nav-next" type="button" data-target="section-q3" disabled aria-label="Next question">Next</button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Q3 ==================== -->
+<section class="snap-section" id="section-q3" aria-label="Question 3">
+  <div class="form-card">
+    <p class="question-number">Question 3 of 9</p>
+    <p class="question-text">List every software tool, platform, or system your team uses daily.</p>
+    <textarea id="input-q3" aria-required="true" aria-label="Daily software tools" data-key="q3" data-min="30" placeholder="e.g., Slack, Salesforce, Google Workspace..."></textarea>
+    <p class="char-count" id="count-q3" aria-live="polite">0 / 30 min characters</p>
+    <div class="nav-buttons">
+      <button class="btn-secondary nav-back" type="button" data-target="section-q2" aria-label="Go back">Back</button>
+      <button class="btn-primary nav-next" type="button" data-target="section-q4" disabled aria-label="Next question">Next</button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Q4 ==================== -->
+<section class="snap-section" id="section-q4" aria-label="Question 4">
+  <div class="form-card">
+    <p class="question-number">Question 4 of 9</p>
+    <p class="question-text">Describe your full customer journey &mdash; from first contact to delivery and follow-up.</p>
+    <textarea id="input-q4" aria-required="true" aria-label="Customer journey description" data-key="q4" data-min="50" placeholder="Walk us through the full lifecycle..."></textarea>
+    <p class="char-count" id="count-q4" aria-live="polite">0 / 50 min characters</p>
+    <div class="nav-buttons">
+      <button class="btn-secondary nav-back" type="button" data-target="section-q3" aria-label="Go back">Back</button>
+      <button class="btn-primary nav-next" type="button" data-target="section-q5" disabled aria-label="Next question">Next</button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Q5 (Table) ==================== -->
+<section class="snap-section" id="section-q5" aria-label="Question 5">
+  <div class="form-card">
+    <p class="question-number">Question 5 of 9</p>
+    <p class="question-text">What recurring tasks consume the most time?</p>
+    <div class="task-table-wrapper">
+      <table class="task-table" id="taskTable" aria-label="Recurring tasks table">
+        <thead>
+          <tr>
+            <th scope="col">Task</th>
+            <th scope="col">Frequency</th>
+            <th scope="col">Avg Time (hrs)</th>
+            <th scope="col">Who Does It</th>
+            <th scope="col">Tools Used</th>
+          </tr>
+        </thead>
+        <tbody id="taskTableBody">
+        </tbody>
+      </table>
+    </div>
+    <button class="add-row-btn" type="button" id="addRowBtn" aria-label="Add another task row">+ Add Row</button>
+    <p class="table-hint" id="tableHint" aria-live="polite">Fill at least 1 complete row to proceed</p>
+    <div class="nav-buttons">
+      <button class="btn-secondary nav-back" type="button" data-target="section-q4" aria-label="Go back">Back</button>
+      <button class="btn-primary nav-next" type="button" data-target="section-q6" disabled aria-label="Next question">Next</button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Q6 ==================== -->
+<section class="snap-section" id="section-q6" aria-label="Question 6">
+  <div class="form-card">
+    <p class="question-number">Question 6 of 9</p>
+    <p class="question-text">What are the top 3 operational problems slowing your business down?</p>
+    <textarea id="input-q6" aria-required="true" aria-label="Top operational problems" data-key="q6" data-min="30" placeholder="Describe your biggest bottlenecks..."></textarea>
+    <p class="char-count" id="count-q6" aria-live="polite">0 / 30 min characters</p>
+    <div class="nav-buttons">
+      <button class="btn-secondary nav-back" type="button" data-target="section-q5" aria-label="Go back">Back</button>
+      <button class="btn-primary nav-next" type="button" data-target="section-q7" disabled aria-label="Next question">Next</button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Q7 ==================== -->
+<section class="snap-section" id="section-q7" aria-label="Question 7">
+  <div class="form-card">
+    <p class="question-number">Question 7 of 9</p>
+    <p class="question-text">If you had 20 additional productive hours each week, where would you invest them?</p>
+    <textarea id="input-q7" aria-required="true" aria-label="How you would invest extra time" data-key="q7" data-min="30" placeholder="What would you do with more time?"></textarea>
+    <p class="char-count" id="count-q7" aria-live="polite">0 / 30 min characters</p>
+    <div class="nav-buttons">
+      <button class="btn-secondary nav-back" type="button" data-target="section-q6" aria-label="Go back">Back</button>
+      <button class="btn-primary nav-next" type="button" data-target="section-q8" disabled aria-label="Next question">Next</button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Q8 ==================== -->
+<section class="snap-section" id="section-q8" aria-label="Question 8">
+  <div class="form-card">
+    <p class="question-number">Question 8 of 9</p>
+    <p class="question-text">Describe a process you've admired at another business that you wish you could replicate.</p>
+    <textarea id="input-q8" aria-required="true" aria-label="Admired business process" data-key="q8" data-min="20" placeholder="What process impressed you?"></textarea>
+    <p class="char-count" id="count-q8" aria-live="polite">0 / 20 min characters</p>
+    <div class="nav-buttons">
+      <button class="btn-secondary nav-back" type="button" data-target="section-q7" aria-label="Go back">Back</button>
+      <button class="btn-primary nav-next" type="button" data-target="section-q9" disabled aria-label="Next question">Next</button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== Q9 ==================== -->
+<section class="snap-section" id="section-q9" aria-label="Question 9">
+  <div class="form-card">
+    <p class="question-number">Question 9 of 9</p>
+    <p class="question-text">Is there anything else we should know about your business or goals?</p>
+    <textarea id="input-q9" aria-label="Additional information (optional)" data-key="q9" data-min="0" placeholder="Optional — anything else you'd like to share..."></textarea>
+    <p class="char-count" id="count-q9" aria-live="polite" style="visibility:hidden;">Optional</p>
+    <div class="nav-buttons">
+      <button class="btn-secondary nav-back" type="button" data-target="section-q8" aria-label="Go back">Back</button>
+      <button class="btn-primary nav-next" type="button" data-target="section-review" aria-label="Review your answers">Review Answers</button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== REVIEW ==================== -->
+<section class="snap-section review-section" id="section-review" aria-label="Review your answers">
+  <div class="review-container">
+    <h2>Review Your Answers</h2>
+    <div id="reviewContent"></div>
+    <div class="nav-buttons" style="justify-content: center; padding: 1.5rem 0 3rem;">
+      <button class="btn-secondary nav-back" type="button" data-target="section-q9" aria-label="Go back to last question">Back</button>
+      <button class="btn-primary" type="button" id="submitBtn" aria-label="Submit your intake form">Submit</button>
+    </div>
+  </div>
+</section>
+
+<!-- ==================== THANK YOU ==================== -->
+<section class="snap-section thank-you-section" id="section-thankyou" aria-label="Thank you">
+  <h2>Thank You!</h2>
+  <p>We've received your information and will be in touch within 24 hours to discuss how we can transform your business.</p>
+</section>
+
+<script>
+(function() {
+  'use strict';
+
+  const STORAGE_KEY = 'aurora-flow';
+
+  // Section order for navigation & progress
+  const sectionOrder = [
+    'section-hero', 'section-contact',
+    'section-q1', 'section-q2', 'section-q3', 'section-q4',
+    'section-q5', 'section-q6', 'section-q7', 'section-q8', 'section-q9',
+    'section-review'
+  ];
+
+  // Question metadata
+  const questions = [
+    { key: 'name', label: 'Full Name' },
+    { key: 'email', label: 'Email Address' },
+    { key: 'q1', label: 'Q1: Business Model', min: 50 },
+    { key: 'q2', label: 'Q2: Top Revenue Generators', min: 30 },
+    { key: 'q3', label: 'Q3: Daily Software Tools', min: 30 },
+    { key: 'q4', label: 'Q4: Customer Journey', min: 50 },
+    { key: 'q5', label: 'Q5: Recurring Tasks (Table)', min: 0, isTable: true },
+    { key: 'q6', label: 'Q6: Operational Problems', min: 30 },
+    { key: 'q7', label: 'Q7: Extra 20 Hours', min: 30 },
+    { key: 'q8', label: 'Q8: Admired Process', min: 20 },
+    { key: 'q9', label: 'Q9: Anything Else', min: 0, optional: true }
+  ];
+
+  // ===== LOCAL STORAGE =====
+  function saveData() {
+    const data = {};
+    document.querySelectorAll('[data-key]').forEach(function(el) {
+      data[el.dataset.key] = el.value;
+    });
+    // Save table data
+    data.q5_table = getTableData();
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+  }
+
+  function loadData() {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return;
+      const data = JSON.parse(raw);
+      document.querySelectorAll('[data-key]').forEach(function(el) {
+        if (data[el.dataset.key] !== undefined) {
+          el.value = data[el.dataset.key];
+        }
+      });
+      // Restore table
+      if (data.q5_table && Array.isArray(data.q5_table)) {
+        restoreTable(data.q5_table);
+      }
+    } catch(e) {}
+  }
+
+  // ===== TABLE (Q5) =====
+  function createTableRow() {
+    var tr = document.createElement('tr');
+    var cols = ['task', 'frequency', 'avgTime', 'whoDoes', 'toolsUsed'];
+    var labels = ['Task name', 'Frequency', 'Average time in hours', 'Person responsible', 'Tools used'];
+    cols.forEach(function(col, i) {
+      var td = document.createElement('td');
+      var input = document.createElement('input');
+      input.type = 'text';
+      input.setAttribute('aria-label', labels[i]);
+      input.dataset.col = col;
+      input.addEventListener('input', function() { validateTable(); saveData(); });
+      td.appendChild(input);
+      tr.appendChild(td);
+    });
+    return tr;
+  }
+
+  function initTable() {
+    var tbody = document.getElementById('taskTableBody');
+    for (var i = 0; i < 3; i++) {
+      tbody.appendChild(createTableRow());
+    }
+  }
+
+  function getTableData() {
+    var rows = [];
+    document.querySelectorAll('#taskTableBody tr').forEach(function(tr) {
+      var row = {};
+      tr.querySelectorAll('input').forEach(function(input) {
+        row[input.dataset.col] = input.value;
+      });
+      rows.push(row);
+    });
+    return rows;
+  }
+
+  function restoreTable(tableData) {
+    var tbody = document.getElementById('taskTableBody');
+    tbody.innerHTML = '';
+    var count = Math.max(tableData.length, 3);
+    for (var i = 0; i < count; i++) {
+      var tr = createTableRow();
+      if (tableData[i]) {
+        tr.querySelectorAll('input').forEach(function(input) {
+          if (tableData[i][input.dataset.col]) {
+            input.value = tableData[i][input.dataset.col];
+          }
+        });
+      }
+      tbody.appendChild(tr);
+    }
+  }
+
+  function isRowFilled(tr) {
+    var filled = true;
+    tr.querySelectorAll('input').forEach(function(input) {
+      if (!input.value.trim()) filled = false;
+    });
+    return filled;
+  }
+
+  function getFilledRowCount() {
+    var count = 0;
+    document.querySelectorAll('#taskTableBody tr').forEach(function(tr) {
+      if (isRowFilled(tr)) count++;
+    });
+    return count;
+  }
+
+  function validateTable() {
+    var filled = getFilledRowCount();
+    var hint = document.getElementById('tableHint');
+    var nextBtn = document.querySelector('#section-q5 .nav-next');
+    if (filled >= 1) {
+      hint.textContent = filled + ' complete row' + (filled > 1 ? 's' : '');
+      hint.className = 'table-hint met';
+      nextBtn.disabled = false;
+    } else {
+      hint.textContent = 'Fill at least 1 complete row to proceed';
+      hint.className = 'table-hint unmet';
+      nextBtn.disabled = true;
+    }
+  }
+
+  document.getElementById('addRowBtn').addEventListener('click', function() {
+    document.getElementById('taskTableBody').appendChild(createTableRow());
+  });
+
+  // ===== CHAR COUNT & VALIDATION =====
+  function updateCharCount(input) {
+    var key = input.dataset.key;
+    var min = parseInt(input.dataset.min, 10);
+    if (isNaN(min)) return;
+    var countEl = document.getElementById('count-' + key);
+    if (!countEl) return;
+    var len = input.value.length;
+    if (min === 0) {
+      countEl.style.visibility = 'hidden';
+      return;
+    }
+    countEl.textContent = len + ' / ' + min + ' min characters';
+    countEl.className = len >= min ? 'char-count met' : 'char-count unmet';
+  }
+
+  function validateTextSection(sectionId) {
+    var section = document.getElementById(sectionId);
+    if (!section) return;
+    var textarea = section.querySelector('textarea');
+    if (!textarea) return;
+    var min = parseInt(textarea.dataset.min, 10);
+    var nextBtn = section.querySelector('.nav-next');
+    if (!nextBtn) return;
+    if (min === 0) {
+      nextBtn.disabled = false;
+    } else {
+      nextBtn.disabled = textarea.value.length < min;
+    }
+  }
+
+  function validateContact() {
+    var name = document.getElementById('input-name').value.trim();
+    var email = document.getElementById('input-email').value.trim();
+    var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    var nextBtn = document.getElementById('contactNext');
+    nextBtn.disabled = !(name.length > 0 && emailPattern.test(email));
+  }
+
+  // ===== EVENT LISTENERS FOR INPUTS =====
+  document.querySelectorAll('textarea[data-key]').forEach(function(ta) {
+    ta.addEventListener('input', function() {
+      updateCharCount(ta);
+      var sectionEl = ta.closest('.snap-section');
+      if (sectionEl) validateTextSection(sectionEl.id);
+      saveData();
+    });
+  });
+
+  document.getElementById('input-name').addEventListener('input', function() { validateContact(); saveData(); });
+  document.getElementById('input-email').addEventListener('input', function() { validateContact(); saveData(); });
+
+  // ===== NAVIGATION =====
+  function scrollToSection(id) {
+    var el = document.getElementById(id);
+    if (el) el.scrollIntoView({ behavior: 'smooth' });
+  }
+
+  // Hero start button
+  document.getElementById('heroStartBtn').addEventListener('click', function() {
+    scrollToSection('section-contact');
+  });
+
+  // All nav-back / nav-next buttons
+  document.querySelectorAll('.nav-back, .nav-next').forEach(function(btn) {
+    btn.addEventListener('click', function() {
+      var target = btn.dataset.target;
+      if (target === 'section-review') buildReview();
+      if (target) scrollToSection(target);
+    });
+  });
+
+  // ===== PROGRESS INDICATOR =====
+  var progressBar = document.getElementById('progressBar');
+  var progressDots = progressBar.querySelectorAll('.progress-dot');
+  var progressCounter = document.getElementById('progressCounter');
+
+  function updateProgress() {
+    var scrollTop = window.scrollY || document.documentElement.scrollTop;
+    var viewportH = window.innerHeight;
+    var currentIndex = Math.round(scrollTop / viewportH);
+    // Clamp
+    if (currentIndex < 0) currentIndex = 0;
+    if (currentIndex >= sectionOrder.length) currentIndex = sectionOrder.length - 1;
+
+    // Show/hide progress bar (hide on hero and thank you)
+    if (currentIndex === 0) {
+      progressBar.classList.remove('visible');
+    } else {
+      progressBar.classList.add('visible');
+    }
+
+    // Offset by 1 since hero is index 0 and dots start from contact
+    progressDots.forEach(function(dot, i) {
+      dot.classList.remove('active', 'filled');
+      if (i < currentIndex - 1) dot.classList.add('filled');
+      if (i === currentIndex - 1) dot.classList.add('active');
+    });
+
+    var displayIndex = Math.max(1, currentIndex);
+    var total = sectionOrder.length - 1; // exclude hero
+    progressCounter.textContent = displayIndex + ' / ' + total;
+  }
+
+  window.addEventListener('scroll', updateProgress, { passive: true });
+
+  // ===== REVIEW =====
+  function buildReview() {
+    var container = document.getElementById('reviewContent');
+    container.innerHTML = '';
+
+    questions.forEach(function(q) {
+      var item = document.createElement('div');
+      item.className = 'review-item';
+
+      var label = document.createElement('div');
+      label.className = 'review-item-label';
+      label.textContent = q.label;
+
+      var value = document.createElement('div');
+      value.className = 'review-item-value';
+
+      if (q.isTable) {
+        var tableData = getTableData();
+        var filledRows = tableData.filter(function(row) {
+          return Object.values(row).every(function(v) { return v.trim() !== ''; });
+        });
+        if (filledRows.length === 0) {
+          value.textContent = '(No tasks entered)';
+        } else {
+          var text = filledRows.map(function(row, i) {
+            return (i + 1) + '. ' + row.task + ' | ' + row.frequency + ' | ' + row.avgTime + ' hrs | ' + row.whoDoes + ' | ' + row.toolsUsed;
+          }).join('\n');
+          value.textContent = text;
+        }
+      } else {
+        var el = document.querySelector('[data-key="' + q.key + '"]');
+        value.textContent = el ? (el.value || '(Not provided)') : '(Not provided)';
+      }
+
+      var editBtn = document.createElement('button');
+      editBtn.className = 'review-item-edit';
+      editBtn.textContent = 'Edit';
+      editBtn.type = 'button';
+      editBtn.setAttribute('aria-label', 'Edit ' + q.label);
+
+      // Determine which section to jump to
+      var targetSection;
+      if (q.key === 'name' || q.key === 'email') {
+        targetSection = 'section-contact';
+      } else {
+        targetSection = 'section-' + q.key;
+      }
+      editBtn.addEventListener('click', function() {
+        scrollToSection(targetSection);
+      });
+
+      item.appendChild(label);
+      item.appendChild(value);
+      item.appendChild(editBtn);
+      container.appendChild(item);
+    });
+  }
+
+  // ===== SUBMIT =====
+  document.getElementById('submitBtn').addEventListener('click', function() {
+    var formData = {};
+    document.querySelectorAll('[data-key]').forEach(function(el) {
+      formData[el.dataset.key] = el.value;
+    });
+    formData.q5_table = getTableData().filter(function(row) {
+      return Object.values(row).some(function(v) { return v.trim() !== ''; });
+    });
+    formData.submittedAt = new Date().toISOString();
+
+    console.log('=== Nexus AI Consultancy Intake Form ===');
+    console.log(JSON.stringify(formData, null, 2));
+
+    // Hide review, show thank you
+    document.getElementById('section-review').style.display = 'none';
+    var ty = document.getElementById('section-thankyou');
+    ty.classList.add('visible');
+    ty.scrollIntoView({ behavior: 'smooth' });
+
+    // Clear storage
+    try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+  });
+
+  // ===== INIT =====
+  initTable();
+  loadData();
+
+  // Run all validations after load
+  document.querySelectorAll('textarea[data-key]').forEach(function(ta) {
+    updateCharCount(ta);
+    var sec = ta.closest('.snap-section');
+    if (sec) validateTextSection(sec.id);
+  });
+  validateContact();
+  validateTable();
+  updateProgress();
+
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus AI Consultancy — Transform Your Business with Intelligent Automation</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg: #1e1e1e;
+  --blue: #0066ff;
+  --cyan: #00ffff;
+  --white: #fff;
+  --gray-light: #2a2a2a;
+  --gray-mid: #3a3a3a;
+  --gray-text: #b0b0b0;
+  --font-heading: 'Bebas Neue', sans-serif;
+  --font-body: 'Source Sans 3', sans-serif;
+  --glow-cyan: 0 0 8px rgba(0,255,255,.6), 0 0 20px rgba(0,255,255,.3);
+  --glow-blue: 0 0 8px rgba(0,102,255,.6), 0 0 20px rgba(0,102,255,.3);
+  --transition-speed: .35s;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation: none !important; transition-duration: 0s !important; }
+  :root { --glow-cyan: none; --glow-blue: none; }
+}
+
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-body); background: var(--bg); color: var(--white); line-height: 1.6; }
+h1, h2, h3, h4 { font-family: var(--font-heading); letter-spacing: .04em; }
+
+/* ── Geometric Grid Background ── */
+.geo-grid {
+  position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0;
+  background-image:
+    linear-gradient(rgba(0,102,255,.08) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,102,255,.08) 1px, transparent 1px),
+    linear-gradient(45deg, transparent 48%, rgba(0,255,255,.04) 49%, rgba(0,255,255,.04) 51%, transparent 52%);
+  background-size: 60px 60px, 60px 60px, 120px 120px;
+}
+
+/* ── Hero ── */
+.hero {
+  position: relative; min-height: 80vh; display: flex; align-items: center; justify-content: center;
+  text-align: center; padding: 4rem 1.5rem; overflow: hidden;
+}
+.hero-content { position: relative; z-index: 1; max-width: 800px; }
+.hero-content h1 {
+  font-size: clamp(3rem, 8vw, 6rem); line-height: 1;
+  background: linear-gradient(135deg, var(--cyan), var(--blue));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  background-clip: text; color: transparent;
+  margin-bottom: .5rem;
+}
+.hero-content p {
+  font-size: clamp(1.1rem, 2.5vw, 1.5rem); color: var(--gray-text);
+  max-width: 600px; margin: 0 auto 2rem;
+}
+.btn-primary {
+  display: inline-block; padding: .9rem 2.5rem; font-family: var(--font-heading);
+  font-size: 1.25rem; letter-spacing: .06em; color: var(--bg);
+  background: var(--cyan); border: none; border-radius: 0; cursor: pointer;
+  text-decoration: none; text-transform: uppercase;
+  box-shadow: var(--glow-cyan); transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+}
+.btn-primary:hover, .btn-primary:focus-visible { transform: translateY(-2px); box-shadow: 0 0 16px rgba(0,255,255,.8), 0 0 40px rgba(0,255,255,.4); }
+
+/* ── Form Section ── */
+.form-section {
+  max-width: 1100px; margin: 0 auto; padding: 2rem 1.5rem 4rem;
+  display: flex; gap: 2.5rem; align-items: flex-start;
+}
+
+/* ── Progress Tracker (left rail) ── */
+.progress-rail {
+  position: sticky; top: 2rem; flex-shrink: 0; width: 200px; padding: 1rem 0;
+}
+.progress-rail ol {
+  list-style: none; position: relative; padding-left: 20px;
+}
+.progress-rail ol::before {
+  content: ''; position: absolute; left: 15px; top: 16px; bottom: 16px;
+  width: 2px; background: var(--gray-mid);
+}
+.progress-step {
+  position: relative; display: flex; align-items: center; gap: .75rem;
+  padding: .6rem 0; cursor: pointer; transition: opacity var(--transition-speed);
+}
+.progress-step:hover { opacity: .85; }
+.step-circle {
+  width: 32px; height: 32px; border-radius: 50%; display: flex; align-items: center;
+  justify-content: center; font-family: var(--font-heading); font-size: .95rem;
+  border: 2px solid var(--gray-mid); background: var(--bg); color: var(--gray-text);
+  position: relative; z-index: 1; transition: all var(--transition-speed); flex-shrink: 0;
+}
+.progress-step.completed .step-circle { background: var(--blue); border-color: var(--blue); color: var(--white); }
+.progress-step.active .step-circle {
+  border-color: var(--cyan); color: var(--cyan); box-shadow: var(--glow-cyan);
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 6px rgba(0,255,255,.4); }
+  50% { box-shadow: 0 0 14px rgba(0,255,255,.7), 0 0 28px rgba(0,255,255,.3); }
+}
+.step-label { font-size: .82rem; color: var(--gray-text); line-height: 1.3; }
+.progress-step.active .step-label { color: var(--cyan); }
+.progress-step.completed .step-label { color: var(--white); }
+
+/* ── Accordion ── */
+.accordion-area { flex: 1; min-width: 0; }
+.identity-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 2rem; }
+
+.accordion-item {
+  border: 1px solid var(--gray-mid); margin-bottom: .5rem; border-radius: 2px;
+  background: var(--gray-light); overflow: hidden;
+  transition: border-color var(--transition-speed);
+}
+.accordion-item.active { border-color: var(--cyan); }
+.accordion-header {
+  width: 100%; background: none; border: none; color: var(--white);
+  font-family: var(--font-body); font-weight: 600; font-size: 1rem;
+  padding: 1rem 1.25rem; text-align: left; cursor: pointer;
+  display: flex; align-items: center; gap: .75rem;
+  transition: background var(--transition-speed);
+}
+.accordion-header:hover, .accordion-header:focus-visible { background: rgba(255,255,255,.04); }
+.accordion-header .num {
+  width: 28px; height: 28px; border-radius: 50%; display: inline-flex;
+  align-items: center; justify-content: center; font-family: var(--font-heading);
+  font-size: .85rem; border: 2px solid var(--gray-mid); flex-shrink: 0;
+  transition: all var(--transition-speed);
+}
+.accordion-item.completed .accordion-header .num { background: var(--blue); border-color: var(--blue); }
+.accordion-item.active .accordion-header .num { border-color: var(--cyan); color: var(--cyan); }
+.accordion-header .chevron {
+  margin-left: auto; transition: transform var(--transition-speed); font-size: 1.2rem; flex-shrink: 0;
+}
+.accordion-item.active .accordion-header .chevron { transform: rotate(180deg); }
+
+.accordion-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height var(--transition-speed) ease, padding var(--transition-speed) ease;
+}
+.accordion-item.active .accordion-body { max-height: 800px; }
+.accordion-body-inner { padding: 0 1.25rem 1.25rem; }
+
+/* ── Form Controls ── */
+label { display: block; font-size: .85rem; color: var(--gray-text); margin-bottom: .35rem; }
+textarea, input[type="text"], input[type="email"] {
+  width: 100%; padding: .7rem .9rem; font-family: var(--font-body); font-size: .95rem;
+  background: var(--bg); border: 1px solid var(--gray-mid); color: var(--white);
+  border-radius: 2px; resize: vertical; transition: border-color var(--transition-speed);
+}
+textarea:focus, input:focus { outline: none; border-color: var(--cyan); box-shadow: 0 0 4px rgba(0,255,255,.25); }
+textarea { min-height: 100px; }
+.char-count { font-size: .75rem; color: var(--gray-text); text-align: right; margin-top: .25rem; }
+.char-count.valid { color: #4caf50; }
+.char-count.invalid { color: #ff5252; }
+.field-error { font-size: .78rem; color: #ff5252; margin-top: .25rem; display: none; }
+
+/* ── Dynamic Table (Q5) ── */
+.task-table { width: 100%; border-collapse: collapse; margin-bottom: .75rem; font-size: .85rem; }
+.task-table th {
+  background: var(--bg); padding: .5rem; text-align: left; font-weight: 600;
+  border-bottom: 2px solid var(--blue); color: var(--cyan); white-space: nowrap;
+}
+.task-table td { padding: .35rem .25rem; }
+.task-table input {
+  width: 100%; padding: .4rem .5rem; font-size: .82rem;
+  background: var(--bg); border: 1px solid var(--gray-mid); color: var(--white); border-radius: 2px;
+}
+.task-table input:focus { border-color: var(--cyan); outline: none; }
+.btn-add-row {
+  padding: .45rem 1rem; font-size: .85rem; background: transparent; color: var(--cyan);
+  border: 1px solid var(--cyan); cursor: pointer; font-family: var(--font-body);
+  transition: background var(--transition-speed);
+}
+.btn-add-row:hover { background: rgba(0,255,255,.1); }
+.btn-remove-row {
+  background: none; border: none; color: #ff5252; cursor: pointer; font-size: 1.1rem; padding: .2rem .4rem;
+}
+
+/* ── Review Panel ── */
+.review-panel {
+  border: 1px solid var(--blue); background: rgba(0,102,255,.05); padding: 1.5rem;
+  margin-top: 1.5rem; display: none; border-radius: 2px;
+}
+.review-panel.visible { display: block; }
+.review-panel h3 { font-size: 1.6rem; margin-bottom: 1rem; color: var(--cyan); }
+.review-item { margin-bottom: 1rem; padding-bottom: .75rem; border-bottom: 1px solid var(--gray-mid); }
+.review-item:last-child { border-bottom: none; }
+.review-item .q-label { font-size: .8rem; color: var(--cyan); margin-bottom: .2rem; }
+.review-item .q-answer { font-size: .9rem; color: var(--gray-text); white-space: pre-wrap; }
+
+.btn-submit {
+  display: block; width: 100%; padding: 1rem; margin-top: 1.5rem;
+  font-family: var(--font-heading); font-size: 1.4rem; letter-spacing: .06em;
+  background: var(--blue); color: var(--white); border: none; cursor: pointer;
+  text-transform: uppercase; transition: box-shadow var(--transition-speed), transform var(--transition-speed);
+}
+.btn-submit:hover, .btn-submit:focus-visible { box-shadow: var(--glow-blue); transform: translateY(-1px); }
+.btn-submit:disabled { opacity: .5; cursor: not-allowed; transform: none; box-shadow: none; }
+
+/* ── Thank You ── */
+.thank-you {
+  display: none; text-align: center; padding: 4rem 2rem;
+  border: 2px solid var(--cyan); background: rgba(0,255,255,.04); margin-top: 2rem;
+}
+.thank-you.visible { display: block; }
+.thank-you h2 { font-size: 3rem; color: var(--cyan); text-shadow: var(--glow-cyan); margin-bottom: .5rem; }
+.thank-you p { color: var(--gray-text); font-size: 1.1rem; }
+
+/* ── Mobile: horizontal tracker ── */
+@media (max-width: 767px) {
+  .form-section { flex-direction: column; gap: 1.5rem; }
+  .progress-rail {
+    position: relative; top: 0; width: 100%; overflow-x: auto; padding: .5rem 0;
+  }
+  .progress-rail ol {
+    display: flex; gap: .25rem; padding-left: 0; flex-wrap: nowrap;
+  }
+  .progress-rail ol::before { display: none; }
+  .progress-step { flex-direction: column; gap: .25rem; padding: .25rem .5rem; min-width: 60px; text-align: center; }
+  .step-label { font-size: .7rem; }
+  .identity-fields { grid-template-columns: 1fr; }
+  .task-table { font-size: .75rem; }
+  .task-table th, .task-table td { padding: .3rem .15rem; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════ HERO ════ -->
+<section class="hero" aria-label="Hero">
+  <div class="geo-grid" aria-hidden="true"></div>
+  <div class="hero-content">
+    <h1>Nexus AI Consultancy</h1>
+    <p>Transform your business with intelligent automation</p>
+    <a href="#intake-form" class="btn-primary">Get Started</a>
+  </div>
+</section>
+
+<!-- ════ FORM SECTION ════ -->
+<section id="intake-form" class="form-section" aria-label="Intake form">
+
+  <!-- Left Rail: Progress Tracker -->
+  <nav class="progress-rail" aria-label="Form progress">
+    <ol id="progressList">
+      <li class="progress-step active" data-step="1"><span class="step-circle">1</span><span class="step-label">Business Model</span></li>
+      <li class="progress-step" data-step="2"><span class="step-circle">2</span><span class="step-label">Top Revenue</span></li>
+      <li class="progress-step" data-step="3"><span class="step-circle">3</span><span class="step-label">Tools &amp; Systems</span></li>
+      <li class="progress-step" data-step="4"><span class="step-circle">4</span><span class="step-label">Customer Journey</span></li>
+      <li class="progress-step" data-step="5"><span class="step-circle">5</span><span class="step-label">Time-Consuming Tasks</span></li>
+      <li class="progress-step" data-step="6"><span class="step-circle">6</span><span class="step-label">Operational Problems</span></li>
+      <li class="progress-step" data-step="7"><span class="step-circle">7</span><span class="step-label">Time Investment</span></li>
+      <li class="progress-step" data-step="8"><span class="step-circle">8</span><span class="step-label">Admired Process</span></li>
+      <li class="progress-step" data-step="9"><span class="step-circle">9</span><span class="step-label">Anything Else</span></li>
+    </ol>
+  </nav>
+
+  <!-- Right: Accordion Form -->
+  <div class="accordion-area">
+    <form id="intakeForm" novalidate>
+
+      <!-- Identity Fields -->
+      <div class="identity-fields">
+        <div>
+          <label for="userName">Full Name <span aria-hidden="true">*</span></label>
+          <input type="text" id="userName" name="userName" required aria-required="true" autocomplete="name" placeholder="Jane Doe">
+        </div>
+        <div>
+          <label for="userEmail">Email Address <span aria-hidden="true">*</span></label>
+          <input type="email" id="userEmail" name="userEmail" required aria-required="true" autocomplete="email" placeholder="jane@company.com">
+        </div>
+      </div>
+
+      <!-- Q1 -->
+      <div class="accordion-item active" data-question="1">
+        <button type="button" class="accordion-header" aria-expanded="true" aria-controls="panel-1">
+          <span class="num">1</span>
+          <span>Walk me through what your business does — your core model, how you make money, and who your customers are.</span>
+          <span class="chevron" aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="accordion-body" id="panel-1" role="region">
+          <div class="accordion-body-inner">
+            <label for="q1">Your answer <span aria-hidden="true">*</span></label>
+            <textarea id="q1" name="q1" data-min="50" required aria-required="true" placeholder="Describe your business model, revenue streams, and target customers..."></textarea>
+            <div class="char-count" id="cc-q1">0 / 50 min</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q2 -->
+      <div class="accordion-item" data-question="2">
+        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="panel-2">
+          <span class="num">2</span>
+          <span>What are the top 3 services or products that generate the most revenue?</span>
+          <span class="chevron" aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="accordion-body" id="panel-2" role="region">
+          <div class="accordion-body-inner">
+            <label for="q2">Your answer <span aria-hidden="true">*</span></label>
+            <textarea id="q2" name="q2" data-min="30" required aria-required="true" placeholder="List your top revenue-generating offerings..."></textarea>
+            <div class="char-count" id="cc-q2">0 / 30 min</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q3 -->
+      <div class="accordion-item" data-question="3">
+        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="panel-3">
+          <span class="num">3</span>
+          <span>List every software tool, platform, or system your team uses daily.</span>
+          <span class="chevron" aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="accordion-body" id="panel-3" role="region">
+          <div class="accordion-body-inner">
+            <label for="q3">Your answer <span aria-hidden="true">*</span></label>
+            <textarea id="q3" name="q3" data-min="30" required aria-required="true" placeholder="e.g., Slack, Salesforce, Google Workspace, Notion..."></textarea>
+            <div class="char-count" id="cc-q3">0 / 30 min</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q4 -->
+      <div class="accordion-item" data-question="4">
+        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="panel-4">
+          <span class="num">4</span>
+          <span>Describe your full customer journey — from first contact to delivery and follow-up.</span>
+          <span class="chevron" aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="accordion-body" id="panel-4" role="region">
+          <div class="accordion-body-inner">
+            <label for="q4">Your answer <span aria-hidden="true">*</span></label>
+            <textarea id="q4" name="q4" data-min="50" required aria-required="true" placeholder="Walk us through each stage of the customer experience..."></textarea>
+            <div class="char-count" id="cc-q4">0 / 50 min</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q5: Dynamic Table -->
+      <div class="accordion-item" data-question="5">
+        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="panel-5">
+          <span class="num">5</span>
+          <span>What recurring tasks consume the most time?</span>
+          <span class="chevron" aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="accordion-body" id="panel-5" role="region">
+          <div class="accordion-body-inner">
+            <table class="task-table" aria-label="Recurring tasks">
+              <thead>
+                <tr>
+                  <th>Task</th><th>Frequency</th><th>Avg Time (hrs)</th><th>Who Does It</th><th>Tools Used</th><th></th>
+                </tr>
+              </thead>
+              <tbody id="taskTableBody">
+                <tr>
+                  <td><input type="text" name="task_name_1" placeholder="Task" aria-label="Task name"></td>
+                  <td><input type="text" name="task_freq_1" placeholder="Daily/Weekly" aria-label="Frequency"></td>
+                  <td><input type="text" name="task_time_1" placeholder="Hours" aria-label="Average time"></td>
+                  <td><input type="text" name="task_who_1" placeholder="Role" aria-label="Who does it"></td>
+                  <td><input type="text" name="task_tools_1" placeholder="Tools" aria-label="Tools used"></td>
+                  <td><button type="button" class="btn-remove-row" aria-label="Remove row">&times;</button></td>
+                </tr>
+                <tr>
+                  <td><input type="text" name="task_name_2" placeholder="Task" aria-label="Task name"></td>
+                  <td><input type="text" name="task_freq_2" placeholder="Daily/Weekly" aria-label="Frequency"></td>
+                  <td><input type="text" name="task_time_2" placeholder="Hours" aria-label="Average time"></td>
+                  <td><input type="text" name="task_who_2" placeholder="Role" aria-label="Who does it"></td>
+                  <td><input type="text" name="task_tools_2" placeholder="Tools" aria-label="Tools used"></td>
+                  <td><button type="button" class="btn-remove-row" aria-label="Remove row">&times;</button></td>
+                </tr>
+                <tr>
+                  <td><input type="text" name="task_name_3" placeholder="Task" aria-label="Task name"></td>
+                  <td><input type="text" name="task_freq_3" placeholder="Daily/Weekly" aria-label="Frequency"></td>
+                  <td><input type="text" name="task_time_3" placeholder="Hours" aria-label="Average time"></td>
+                  <td><input type="text" name="task_who_3" placeholder="Role" aria-label="Who does it"></td>
+                  <td><input type="text" name="task_tools_3" placeholder="Tools" aria-label="Tools used"></td>
+                  <td><button type="button" class="btn-remove-row" aria-label="Remove row">&times;</button></td>
+                </tr>
+              </tbody>
+            </table>
+            <button type="button" class="btn-add-row" id="addRowBtn">+ Add Row</button>
+            <div class="char-count" id="cc-q5">0 filled rows / 1 min</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q6 -->
+      <div class="accordion-item" data-question="6">
+        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="panel-6">
+          <span class="num">6</span>
+          <span>What are the top 3 operational problems slowing your business down?</span>
+          <span class="chevron" aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="accordion-body" id="panel-6" role="region">
+          <div class="accordion-body-inner">
+            <label for="q6">Your answer <span aria-hidden="true">*</span></label>
+            <textarea id="q6" name="q6" data-min="30" required aria-required="true" placeholder="Describe your biggest operational bottlenecks..."></textarea>
+            <div class="char-count" id="cc-q6">0 / 30 min</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q7 -->
+      <div class="accordion-item" data-question="7">
+        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="panel-7">
+          <span class="num">7</span>
+          <span>If you had 20 additional productive hours each week, where would you invest them?</span>
+          <span class="chevron" aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="accordion-body" id="panel-7" role="region">
+          <div class="accordion-body-inner">
+            <label for="q7">Your answer <span aria-hidden="true">*</span></label>
+            <textarea id="q7" name="q7" data-min="30" required aria-required="true" placeholder="Where would extra time make the biggest impact?"></textarea>
+            <div class="char-count" id="cc-q7">0 / 30 min</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q8 -->
+      <div class="accordion-item" data-question="8">
+        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="panel-8">
+          <span class="num">8</span>
+          <span>Describe a process you've admired at another business that you wish you could replicate.</span>
+          <span class="chevron" aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="accordion-body" id="panel-8" role="region">
+          <div class="accordion-body-inner">
+            <label for="q8">Your answer <span aria-hidden="true">*</span></label>
+            <textarea id="q8" name="q8" data-min="20" required aria-required="true" placeholder="What process inspired you and why?"></textarea>
+            <div class="char-count" id="cc-q8">0 / 20 min</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Q9 -->
+      <div class="accordion-item" data-question="9">
+        <button type="button" class="accordion-header" aria-expanded="false" aria-controls="panel-9">
+          <span class="num">9</span>
+          <span>Is there anything else we should know about your business or goals?</span>
+          <span class="chevron" aria-hidden="true">&#9662;</span>
+        </button>
+        <div class="accordion-body" id="panel-9" role="region">
+          <div class="accordion-body-inner">
+            <label for="q9">Your answer (optional)</label>
+            <textarea id="q9" name="q9" data-min="0" placeholder="Any additional context is welcome..."></textarea>
+            <div class="char-count" id="cc-q9">0 characters</div>
+          </div>
+        </div>
+      </div>
+
+    </form>
+
+    <!-- Review Panel -->
+    <div class="review-panel" id="reviewPanel" aria-live="polite">
+      <h3>Review Your Answers</h3>
+      <div id="reviewContent"></div>
+      <button type="button" class="btn-submit" id="submitBtn">Submit</button>
+    </div>
+
+    <!-- Thank You -->
+    <div class="thank-you" id="thankYou" role="alert">
+      <h2>Thank You</h2>
+      <p>We've received your information. Our team will review and reach out within 24 hours.</p>
+    </div>
+  </div>
+</section>
+
+<script>
+(function() {
+  'use strict';
+
+  const STORAGE_KEY = 'tech-innovation';
+  const TOTAL_QUESTIONS = 9;
+  const form = document.getElementById('intakeForm');
+  const progressSteps = document.querySelectorAll('.progress-step');
+  const accordionItems = document.querySelectorAll('.accordion-item');
+  const reviewPanel = document.getElementById('reviewPanel');
+  const reviewContent = document.getElementById('reviewContent');
+  const submitBtn = document.getElementById('submitBtn');
+  const thankYou = document.getElementById('thankYou');
+  const taskTableBody = document.getElementById('taskTableBody');
+  const addRowBtn = document.getElementById('addRowBtn');
+
+  const questionLabels = [
+    'Business Model',
+    'Top Revenue Services/Products',
+    'Software Tools & Systems',
+    'Customer Journey',
+    'Time-Consuming Recurring Tasks',
+    'Operational Problems',
+    'Time Investment Priorities',
+    'Admired Process',
+    'Additional Information'
+  ];
+
+  const minChars = { q1: 50, q2: 30, q3: 30, q4: 50, q6: 30, q7: 30, q8: 20, q9: 0 };
+
+  let activeStep = 1;
+  let taskRowCounter = 3;
+
+  // ── Accordion toggle ──
+  function setActiveAccordion(step) {
+    activeStep = step;
+    accordionItems.forEach(item => {
+      const q = parseInt(item.dataset.question);
+      const header = item.querySelector('.accordion-header');
+      if (q === step) {
+        item.classList.add('active');
+        header.setAttribute('aria-expanded', 'true');
+      } else {
+        item.classList.remove('active');
+        header.setAttribute('aria-expanded', 'false');
+      }
+    });
+    updateProgress();
+  }
+
+  accordionItems.forEach(item => {
+    const header = item.querySelector('.accordion-header');
+    header.addEventListener('click', () => {
+      const step = parseInt(item.dataset.question);
+      // Allow clicking completed or current step
+      if (isStepCompleted(step) || step === activeStep || step <= getFirstIncompleteStep()) {
+        setActiveAccordion(step);
+      }
+    });
+  });
+
+  // Progress rail click
+  progressSteps.forEach(step => {
+    step.addEventListener('click', () => {
+      const s = parseInt(step.dataset.step);
+      if (isStepCompleted(s) || s === activeStep || s <= getFirstIncompleteStep()) {
+        setActiveAccordion(s);
+      }
+    });
+  });
+
+  // ── Validation helpers ──
+  function isStepCompleted(step) {
+    if (step === 5) return getFilledRowCount() >= 1;
+    if (step === 9) return true; // optional
+    const ta = document.getElementById('q' + step);
+    if (!ta) return false;
+    const min = parseInt(ta.dataset.min) || 0;
+    return min === 0 || ta.value.trim().length >= min;
+  }
+
+  function getFirstIncompleteStep() {
+    for (let i = 1; i <= TOTAL_QUESTIONS; i++) {
+      if (!isStepCompleted(i)) return i;
+    }
+    return TOTAL_QUESTIONS + 1;
+  }
+
+  function allRequiredComplete() {
+    const name = document.getElementById('userName').value.trim();
+    const email = document.getElementById('userEmail').value.trim();
+    if (!name || !email || !isValidEmail(email)) return false;
+    for (let i = 1; i <= 8; i++) {
+      if (!isStepCompleted(i)) return false;
+    }
+    return true;
+  }
+
+  function isValidEmail(e) {
+    return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(e);
+  }
+
+  // ── Update progress tracker ──
+  function updateProgress() {
+    progressSteps.forEach(ps => {
+      const s = parseInt(ps.dataset.step);
+      ps.classList.remove('active', 'completed');
+      if (s === activeStep) ps.classList.add('active');
+      else if (isStepCompleted(s)) ps.classList.add('completed');
+    });
+    accordionItems.forEach(item => {
+      const q = parseInt(item.dataset.question);
+      item.classList.toggle('completed', isStepCompleted(q) && q !== activeStep);
+    });
+    // Show review if all done
+    if (allRequiredComplete()) {
+      reviewPanel.classList.add('visible');
+      buildReview();
+    } else {
+      reviewPanel.classList.remove('visible');
+    }
+  }
+
+  // ── Character counts ──
+  function updateCharCount(id) {
+    const ta = document.getElementById(id);
+    const cc = document.getElementById('cc-' + id);
+    if (!ta || !cc) return;
+    const len = ta.value.length;
+    const min = parseInt(ta.dataset.min) || 0;
+    if (min === 0) {
+      cc.textContent = len + ' characters';
+      cc.className = 'char-count';
+    } else {
+      cc.textContent = len + ' / ' + min + ' min';
+      cc.className = 'char-count ' + (len >= min ? 'valid' : 'invalid');
+    }
+  }
+
+  // Attach textarea listeners
+  for (let i = 1; i <= 9; i++) {
+    if (i === 5) continue;
+    const ta = document.getElementById('q' + i);
+    if (ta) {
+      ta.addEventListener('input', () => {
+        updateCharCount('q' + i);
+        updateProgress();
+        saveToStorage();
+      });
+    }
+  }
+
+  // Identity fields
+  ['userName', 'userEmail'].forEach(id => {
+    document.getElementById(id).addEventListener('input', () => {
+      updateProgress();
+      saveToStorage();
+    });
+  });
+
+  // ── Q5 Dynamic Table ──
+  function getFilledRowCount() {
+    const rows = taskTableBody.querySelectorAll('tr');
+    let filled = 0;
+    rows.forEach(row => {
+      const inputs = row.querySelectorAll('input');
+      const hasVal = Array.from(inputs).some(inp => inp.value.trim().length > 0);
+      if (hasVal) filled++;
+    });
+    return filled;
+  }
+
+  function updateQ5Count() {
+    const cc = document.getElementById('cc-q5');
+    const count = getFilledRowCount();
+    cc.textContent = count + ' filled rows / 1 min';
+    cc.className = 'char-count ' + (count >= 1 ? 'valid' : 'invalid');
+  }
+
+  function createTableRow(idx) {
+    const tr = document.createElement('tr');
+    const fields = ['name', 'freq', 'time', 'who', 'tools'];
+    const placeholders = ['Task', 'Daily/Weekly', 'Hours', 'Role', 'Tools'];
+    const labels = ['Task name', 'Frequency', 'Average time', 'Who does it', 'Tools used'];
+    fields.forEach((f, fi) => {
+      const td = document.createElement('td');
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.name = 'task_' + f + '_' + idx;
+      input.placeholder = placeholders[fi];
+      input.setAttribute('aria-label', labels[fi]);
+      input.addEventListener('input', () => { updateQ5Count(); updateProgress(); saveToStorage(); });
+      td.appendChild(input);
+      tr.appendChild(td);
+    });
+    const td = document.createElement('td');
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'btn-remove-row';
+    btn.setAttribute('aria-label', 'Remove row');
+    btn.innerHTML = '&times;';
+    btn.addEventListener('click', () => {
+      if (taskTableBody.querySelectorAll('tr').length > 1) {
+        tr.remove();
+        updateQ5Count();
+        updateProgress();
+        saveToStorage();
+      }
+    });
+    td.appendChild(btn);
+    tr.appendChild(td);
+    return tr;
+  }
+
+  addRowBtn.addEventListener('click', () => {
+    taskRowCounter++;
+    taskTableBody.appendChild(createTableRow(taskRowCounter));
+  });
+
+  // Attach listeners to initial rows
+  taskTableBody.querySelectorAll('input').forEach(inp => {
+    inp.addEventListener('input', () => { updateQ5Count(); updateProgress(); saveToStorage(); });
+  });
+  taskTableBody.querySelectorAll('.btn-remove-row').forEach(btn => {
+    btn.addEventListener('click', function() {
+      const row = this.closest('tr');
+      if (taskTableBody.querySelectorAll('tr').length > 1) {
+        row.remove();
+        updateQ5Count();
+        updateProgress();
+        saveToStorage();
+      }
+    });
+  });
+
+  // ── Review panel ──
+  function buildReview() {
+    let html = '';
+    html += reviewItem('Name', document.getElementById('userName').value);
+    html += reviewItem('Email', document.getElementById('userEmail').value);
+    for (let i = 1; i <= 9; i++) {
+      if (i === 5) {
+        html += reviewItem(questionLabels[i - 1], getTaskTableSummary());
+      } else {
+        const ta = document.getElementById('q' + i);
+        html += reviewItem(questionLabels[i - 1], ta ? ta.value : '');
+      }
+    }
+    reviewContent.innerHTML = html;
+  }
+
+  function reviewItem(label, value) {
+    return '<div class="review-item"><div class="q-label">' + escapeHtml(label) + '</div><div class="q-answer">' + escapeHtml(value || '(not provided)') + '</div></div>';
+  }
+
+  function getTaskTableSummary() {
+    const rows = taskTableBody.querySelectorAll('tr');
+    let lines = [];
+    rows.forEach(row => {
+      const inputs = row.querySelectorAll('input');
+      const vals = Array.from(inputs).map(i => i.value.trim());
+      if (vals.some(v => v)) lines.push(vals.join(' | '));
+    });
+    return lines.join('\n') || '(none)';
+  }
+
+  function escapeHtml(str) {
+    const d = document.createElement('div');
+    d.textContent = str;
+    return d.innerHTML;
+  }
+
+  // ── Submit ──
+  submitBtn.addEventListener('click', () => {
+    if (!allRequiredComplete()) return;
+    const data = {
+      name: document.getElementById('userName').value.trim(),
+      email: document.getElementById('userEmail').value.trim(),
+      questions: {}
+    };
+    for (let i = 1; i <= 9; i++) {
+      if (i === 5) {
+        data.questions['q5'] = getTaskTableData();
+      } else {
+        const ta = document.getElementById('q' + i);
+        data.questions['q' + i] = ta ? ta.value.trim() : '';
+      }
+    }
+    console.log('Form Submission:', JSON.stringify(data, null, 2));
+    form.style.display = 'none';
+    reviewPanel.classList.remove('visible');
+    thankYou.classList.add('visible');
+    localStorage.removeItem(STORAGE_KEY);
+  });
+
+  function getTaskTableData() {
+    const rows = taskTableBody.querySelectorAll('tr');
+    const result = [];
+    rows.forEach(row => {
+      const inputs = row.querySelectorAll('input');
+      const vals = Array.from(inputs).map(i => i.value.trim());
+      if (vals.some(v => v)) {
+        result.push({ task: vals[0], frequency: vals[1], avgTime: vals[2], who: vals[3], tools: vals[4] });
+      }
+    });
+    return result;
+  }
+
+  // ── localStorage ──
+  function saveToStorage() {
+    const data = {
+      userName: document.getElementById('userName').value,
+      userEmail: document.getElementById('userEmail').value,
+      activeStep: activeStep
+    };
+    for (let i = 1; i <= 9; i++) {
+      if (i === 5) continue;
+      const ta = document.getElementById('q' + i);
+      if (ta) data['q' + i] = ta.value;
+    }
+    // Save table rows
+    const rows = taskTableBody.querySelectorAll('tr');
+    data.taskRows = [];
+    rows.forEach(row => {
+      const inputs = row.querySelectorAll('input');
+      data.taskRows.push(Array.from(inputs).map(i => i.value));
+    });
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch(e) {}
+  }
+
+  function restoreFromStorage() {
+    let data;
+    try { data = JSON.parse(localStorage.getItem(STORAGE_KEY)); } catch(e) { return; }
+    if (!data) return;
+
+    if (data.userName) document.getElementById('userName').value = data.userName;
+    if (data.userEmail) document.getElementById('userEmail').value = data.userEmail;
+
+    for (let i = 1; i <= 9; i++) {
+      if (i === 5) continue;
+      const ta = document.getElementById('q' + i);
+      if (ta && data['q' + i]) ta.value = data['q' + i];
+      updateCharCount('q' + i);
+    }
+
+    // Restore table
+    if (data.taskRows && data.taskRows.length) {
+      taskTableBody.innerHTML = '';
+      data.taskRows.forEach((vals, idx) => {
+        const row = createTableRow(idx + 1);
+        const inputs = row.querySelectorAll('input');
+        vals.forEach((v, vi) => { if (inputs[vi]) inputs[vi].value = v; });
+        taskTableBody.appendChild(row);
+      });
+      taskRowCounter = data.taskRows.length;
+    }
+    updateQ5Count();
+
+    if (data.activeStep) setActiveAccordion(data.activeStep);
+    updateProgress();
+  }
+
+  // ── Init ──
+  restoreFromStorage();
+  updateQ5Count();
+  for (let i = 1; i <= 9; i++) { if (i !== 5) updateCharCount('q' + i); }
+  updateProgress();
+
+})();
+</script>
+</body>
+</html>

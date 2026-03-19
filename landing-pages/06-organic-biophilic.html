@@ -1,0 +1,936 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nexus AI Consultancy — Organic Biophilic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;0,700;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ── Reset & Base ─────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --forest: #228B22;
+  --forest-dark: #1a6e1a;
+  --earth: #8B4513;
+  --sky: #87CEEB;
+  --beige: #F5F5DC;
+  --cream: #FFFEF7;
+  --white: #ffffff;
+  --text: #2c2c2c;
+  --text-light: #5a5a5a;
+  --radius-sm: 16px;
+  --radius-md: 20px;
+  --radius-lg: 24px;
+  --shadow-soft: 0 4px 20px rgba(34,139,34,0.08), 0 2px 8px rgba(0,0,0,0.04);
+  --shadow-card: 0 6px 30px rgba(34,139,34,0.10), 0 2px 10px rgba(0,0,0,0.05);
+}
+
+html { scroll-behavior: smooth; }
+body {
+  font-family: 'Raleway', sans-serif;
+  color: var(--text);
+  background: var(--beige);
+  line-height: 1.6;
+  overflow-x: hidden;
+}
+
+h1, h2, h3, h4 { font-family: 'Lora', serif; font-weight: 700; }
+
+a { color: var(--forest); text-decoration: none; }
+
+/* ── Utility ──────────────────────────────────────── */
+.container { max-width: 1100px; margin: 0 auto; padding: 0 24px; }
+
+.btn-primary {
+  display: inline-block;
+  background: var(--forest);
+  color: var(--white);
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+  font-size: 1.05rem;
+  padding: 14px 40px;
+  border: none;
+  border-radius: 50px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.2s, box-shadow 0.3s;
+  box-shadow: 0 4px 16px rgba(34,139,34,0.25);
+}
+.btn-primary:hover { background: var(--forest-dark); transform: translateY(-2px); box-shadow: 0 6px 24px rgba(34,139,34,0.35); }
+.btn-primary:active { transform: translateY(0); }
+
+/* ── SVG Blobs ────────────────────────────────────── */
+.blob-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; overflow: hidden; z-index: 0; }
+.blob-container svg { position: absolute; }
+.blob-1 { top: -80px; right: -120px; width: 500px; height: 500px; opacity: 0.15; }
+.blob-2 { bottom: -60px; left: -100px; width: 400px; height: 400px; opacity: 0.12; }
+.blob-3 { top: 40%; right: 5%; width: 300px; height: 300px; opacity: 0.08; }
+
+/* ── Hero ─────────────────────────────────────────── */
+.hero {
+  position: relative;
+  background: linear-gradient(160deg, var(--cream) 0%, var(--beige) 100%);
+  padding: 100px 0 80px;
+  text-align: center;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.hero-content { position: relative; z-index: 1; }
+.hero h1 { font-size: 3.2rem; color: var(--forest); margin-bottom: 16px; letter-spacing: -0.5px; }
+.hero .tagline { font-size: 1.3rem; color: var(--text-light); max-width: 560px; margin: 0 auto 40px; font-weight: 400; }
+.hero .leaf-decoration {
+  display: inline-block;
+  margin: 0 8px;
+  animation: sway 4s ease-in-out infinite;
+}
+
+@keyframes sway {
+  0%, 100% { transform: rotate(-3deg); }
+  50% { transform: rotate(3deg); }
+}
+
+/* ── Services ─────────────────────────────────────── */
+.services {
+  position: relative;
+  padding: 80px 0;
+  background: var(--cream);
+}
+.services h2 { text-align: center; font-size: 2.2rem; color: var(--earth); margin-bottom: 48px; }
+.services-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px; }
+.service-card {
+  background: var(--white);
+  border-radius: var(--radius-lg);
+  padding: 36px 28px;
+  box-shadow: var(--shadow-card);
+  transition: transform 0.3s, box-shadow 0.3s;
+  border: 1px solid rgba(34,139,34,0.08);
+}
+.service-card:hover { transform: translateY(-4px); box-shadow: 0 10px 40px rgba(34,139,34,0.14); }
+.service-icon {
+  width: 56px; height: 56px;
+  background: linear-gradient(135deg, rgba(34,139,34,0.12), rgba(135,206,235,0.15));
+  border-radius: var(--radius-sm);
+  display: flex; align-items: center; justify-content: center;
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+}
+.service-card h3 { font-size: 1.25rem; color: var(--forest); margin-bottom: 10px; }
+.service-card p { color: var(--text-light); font-size: 0.95rem; line-height: 1.7; }
+
+/* ── Chat Section ─────────────────────────────────── */
+.chat-section {
+  position: relative;
+  padding: 80px 0 100px;
+  background: var(--beige);
+}
+.chat-section h2 { text-align: center; font-size: 2.2rem; color: var(--earth); margin-bottom: 12px; }
+.chat-section .subtitle { text-align: center; color: var(--text-light); margin-bottom: 40px; font-size: 1.05rem; }
+
+.chat-wrapper {
+  max-width: 700px;
+  margin: 0 auto;
+  background: var(--cream);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-card);
+  overflow: hidden;
+  border: 1px solid rgba(34,139,34,0.1);
+  display: flex;
+  flex-direction: column;
+  height: 600px;
+}
+
+.chat-header {
+  background: var(--forest);
+  color: var(--white);
+  padding: 16px 24px;
+  display: flex; align-items: center; gap: 12px;
+  flex-shrink: 0;
+}
+.chat-avatar {
+  width: 40px; height: 40px;
+  background: rgba(255,255,255,0.2);
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem;
+}
+.chat-header-info h4 { font-family: 'Lora', serif; font-size: 1rem; font-weight: 600; }
+.chat-header-info span { font-size: 0.8rem; opacity: 0.85; }
+
+.chat-messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  scroll-behavior: smooth;
+}
+
+/* Chat bubbles */
+.chat-bubble {
+  max-width: 80%;
+  padding: 14px 18px;
+  border-radius: var(--radius-sm);
+  font-size: 0.95rem;
+  line-height: 1.6;
+  animation: fadeSlideUp 0.35s ease-out;
+  word-wrap: break-word;
+}
+
+.chat-bubble.bot {
+  align-self: flex-start;
+  background: var(--forest);
+  color: var(--white);
+  border-bottom-left-radius: 4px;
+}
+
+.chat-bubble.user {
+  align-self: flex-end;
+  background: var(--white);
+  color: var(--text);
+  border-bottom-right-radius: 4px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  border: 1px solid rgba(0,0,0,0.05);
+}
+
+.chat-bubble.bot .bubble-label,
+.chat-bubble.user .bubble-label {
+  font-size: 0.72rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 4px;
+  opacity: 0.7;
+  font-weight: 600;
+}
+
+@keyframes fadeSlideUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+/* Typing indicator */
+.typing-indicator {
+  align-self: flex-start;
+  background: var(--forest);
+  color: var(--white);
+  padding: 14px 22px;
+  border-radius: var(--radius-sm);
+  border-bottom-left-radius: 4px;
+  display: flex; gap: 5px; align-items: center;
+}
+.typing-indicator span {
+  width: 8px; height: 8px;
+  background: rgba(255,255,255,0.6);
+  border-radius: 50%;
+  animation: typingBounce 1.4s infinite;
+}
+.typing-indicator span:nth-child(2) { animation-delay: 0.2s; }
+.typing-indicator span:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes typingBounce {
+  0%, 60%, 100% { transform: translateY(0); opacity: 0.4; }
+  30% { transform: translateY(-6px); opacity: 1; }
+}
+
+/* Chat input area */
+.chat-input-area {
+  border-top: 1px solid rgba(34,139,34,0.1);
+  padding: 16px 20px;
+  background: var(--white);
+  flex-shrink: 0;
+}
+.chat-input-row { display: flex; gap: 10px; align-items: flex-end; }
+.chat-input-row input,
+.chat-input-row textarea {
+  flex: 1;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.95rem;
+  padding: 12px 16px;
+  border: 2px solid rgba(34,139,34,0.15);
+  border-radius: var(--radius-sm);
+  background: var(--cream);
+  color: var(--text);
+  outline: none;
+  transition: border-color 0.3s;
+  resize: none;
+}
+.chat-input-row input:focus,
+.chat-input-row textarea:focus { border-color: var(--forest); }
+.chat-input-row textarea { min-height: 48px; max-height: 120px; }
+
+.send-btn {
+  width: 48px; height: 48px;
+  background: var(--forest);
+  color: var(--white);
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  transition: background 0.3s, transform 0.2s;
+  flex-shrink: 0;
+}
+.send-btn:hover { background: var(--forest-dark); transform: scale(1.05); }
+.send-btn:disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.send-btn svg { width: 20px; height: 20px; }
+
+.char-count {
+  font-size: 0.75rem;
+  color: var(--text-light);
+  margin-top: 4px;
+  text-align: right;
+  opacity: 0.7;
+}
+.char-count.warning { color: #cc4444; opacity: 1; }
+
+/* Dynamic table UI */
+.table-input-area { width: 100%; }
+.task-table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  margin-bottom: 12px;
+  font-size: 0.82rem;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(34,139,34,0.15);
+}
+.task-table th {
+  background: var(--forest);
+  color: var(--white);
+  padding: 8px 6px;
+  text-align: left;
+  font-weight: 600;
+  font-size: 0.75rem;
+}
+.task-table td { padding: 4px; background: var(--cream); }
+.task-table input {
+  width: 100%;
+  border: 1px solid rgba(34,139,34,0.15);
+  border-radius: 8px;
+  padding: 7px 8px;
+  font-family: 'Raleway', sans-serif;
+  font-size: 0.82rem;
+  background: var(--white);
+  color: var(--text);
+  outline: none;
+}
+.task-table input:focus { border-color: var(--forest); }
+.table-actions { display: flex; gap: 8px; }
+.add-row-btn {
+  background: transparent;
+  color: var(--forest);
+  border: 2px dashed var(--forest);
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.add-row-btn:hover { background: rgba(34,139,34,0.06); }
+
+/* Review summary */
+.review-summary {
+  background: var(--cream);
+  border-radius: var(--radius-sm);
+  padding: 18px;
+  margin-top: 8px;
+  border: 1px solid rgba(34,139,34,0.12);
+  max-height: 300px;
+  overflow-y: auto;
+}
+.review-summary h4 { font-family: 'Lora', serif; color: var(--forest); margin-bottom: 12px; font-size: 0.95rem; }
+.review-item { margin-bottom: 12px; }
+.review-item .label { font-size: 0.75rem; text-transform: uppercase; color: var(--text-light); font-weight: 600; letter-spacing: 0.3px; }
+.review-item .value { font-size: 0.9rem; color: var(--text); margin-top: 2px; white-space: pre-wrap; }
+
+.review-actions { display: flex; gap: 10px; margin-top: 14px; }
+.review-actions button {
+  padding: 10px 28px;
+  border-radius: 50px;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+.review-actions .submit-btn { background: var(--forest); color: var(--white); }
+.review-actions .submit-btn:hover { background: var(--forest-dark); }
+.review-actions .edit-btn { background: transparent; color: var(--forest); border: 2px solid var(--forest); }
+.review-actions .edit-btn:hover { background: rgba(34,139,34,0.06); }
+
+/* Hidden state */
+.hidden { display: none !important; }
+
+/* ── Footer ───────────────────────────────────────── */
+footer {
+  background: var(--earth);
+  color: var(--beige);
+  text-align: center;
+  padding: 32px 24px;
+  font-size: 0.9rem;
+}
+footer a { color: var(--sky); }
+
+/* ── Reduced Motion ───────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+  html { scroll-behavior: auto; }
+  .chat-bubble { animation: none; }
+  .typing-indicator span { animation: none; opacity: 0.6; }
+  .hero .leaf-decoration { animation: none; }
+}
+
+/* ── Responsive ───────────────────────────────────── */
+@media (max-width: 768px) {
+  .hero { padding: 70px 0 60px; min-height: auto; }
+  .hero h1 { font-size: 2.4rem; }
+  .hero .tagline { font-size: 1.1rem; }
+  .services { padding: 60px 0; }
+  .services-grid { grid-template-columns: 1fr; }
+  .chat-wrapper { height: 550px; border-radius: var(--radius-md); margin: 0 8px; }
+  .chat-bubble { max-width: 88%; }
+  .task-table { font-size: 0.75rem; }
+  .task-table th { padding: 6px 4px; font-size: 0.7rem; }
+  .task-table input { padding: 5px 4px; font-size: 0.75rem; }
+  .blob-1 { width: 300px; height: 300px; right: -80px; }
+  .blob-2 { width: 250px; height: 250px; left: -60px; }
+  .blob-3 { display: none; }
+}
+
+@media (max-width: 375px) {
+  .hero h1 { font-size: 1.9rem; }
+  .hero .tagline { font-size: 1rem; }
+  .chat-wrapper { height: 500px; }
+  .chat-bubble { max-width: 92%; font-size: 0.9rem; }
+  .chat-input-row input, .chat-input-row textarea { font-size: 0.9rem; padding: 10px 12px; }
+}
+</style>
+</head>
+<body>
+
+<!-- ════════════ HERO ════════════ -->
+<section class="hero" role="banner">
+  <div class="blob-container" aria-hidden="true">
+    <svg class="blob-1" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+      <path d="M421.9,363.3Q370.6,426.6,295.3,446.5Q220,466.4,162.7,407.2Q105.4,348,88.5,274Q71.6,200,128.8,142.7Q186,85.4,262.5,75.7Q339,66,404.5,118Q470,170,438.2,235Q406.4,300,421.9,363.3Z" fill="#228B22"/>
+    </svg>
+    <svg class="blob-2" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+      <path d="M415.2,353.8Q356.6,407.6,290.8,424.4Q225,441.2,172.6,393.6Q120.2,346,97.8,278Q75.4,210,122.8,148.4Q170.2,86.8,248.6,70.2Q327,53.6,395.4,103.8Q463.8,154,434.4,227Q405,300,415.2,353.8Z" fill="#87CEEB"/>
+    </svg>
+    <svg class="blob-3" viewBox="0 0 600 600" xmlns="http://www.w3.org/2000/svg">
+      <path d="M398.3,357.1Q358.2,414.2,291.6,434.4Q225,454.6,174.4,401.3Q123.8,348,101.9,279Q80,210,130.5,152.5Q181,95,255,78.3Q329,61.6,388.3,113.8Q447.6,166,419.8,233Q392,300,398.3,357.1Z" fill="#8B4513"/>
+    </svg>
+  </div>
+  <div class="hero-content container">
+    <h1>
+      <span class="leaf-decoration" aria-hidden="true">
+        <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#228B22" stroke-width="2"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 008 20c4 0 8-3 8-3s4-4 1-11"/><path d="M2 2s7.5 2.5 10 5c1.5 1.5 2.5 3.5 2.5 3.5"/></svg>
+      </span>
+      Nexus AI Consultancy
+    </h1>
+    <p class="tagline">Transform your business with intelligent automation</p>
+    <a href="#chat-section" class="btn-primary">Start Your Consultation</a>
+  </div>
+</section>
+
+<!-- ════════════ SERVICES ════════════ -->
+<section class="services" aria-labelledby="services-heading">
+  <div class="container">
+    <h2 id="services-heading">Our Services</h2>
+    <div class="services-grid">
+      <article class="service-card">
+        <div class="service-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#228B22" stroke-width="2"><path d="M12 2a10 10 0 0 1 10 10 10 10 0 0 1-10 10A10 10 0 0 1 2 12 10 10 0 0 1 12 2z"/><path d="M12 6v6l4 2"/></svg>
+        </div>
+        <h3>Process Automation</h3>
+        <p>Streamline repetitive workflows with intelligent AI agents that learn and adapt to your business processes, saving you hours each week.</p>
+      </article>
+      <article class="service-card">
+        <div class="service-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#228B22" stroke-width="2"><path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"/><polyline points="3.27 6.96 12 12.01 20.73 6.96"/><line x1="12" y1="22.08" x2="12" y2="12"/></svg>
+        </div>
+        <h3>AI Strategy Consulting</h3>
+        <p>Develop a tailored AI roadmap aligned with your business goals. We identify the highest-impact opportunities for AI integration.</p>
+      </article>
+      <article class="service-card">
+        <div class="service-icon" aria-hidden="true">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#228B22" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+        </div>
+        <h3>Custom AI Solutions</h3>
+        <p>From chatbots to predictive analytics, we build bespoke AI tools designed for your unique operational needs and customer experience.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ CHAT FORM ════════════ -->
+<section class="chat-section" id="chat-section" aria-labelledby="chat-heading">
+  <div class="container">
+    <h2 id="chat-heading">Let's Talk About Your Business</h2>
+    <p class="subtitle">Our AI assistant will walk you through a quick consultation</p>
+
+    <div class="chat-wrapper">
+      <div class="chat-header">
+        <div class="chat-avatar" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M17 8C8 10 5.9 16.17 3.82 21.34L5.71 22l1-2.3A4.49 4.49 0 008 20c4 0 8-3 8-3s4-4 1-11"/><path d="M2 2s7.5 2.5 10 5c1.5 1.5 2.5 3.5 2.5 3.5"/></svg>
+        </div>
+        <div class="chat-header-info">
+          <h4>AI Consultation Assistant</h4>
+          <span>Online now</span>
+        </div>
+      </div>
+
+      <div class="chat-messages" id="chatMessages" role="log" aria-live="polite" aria-label="Chat conversation"></div>
+
+      <div class="chat-input-area" id="chatInputArea">
+        <div class="chat-input-row" id="chatInputRow">
+          <!-- Dynamic input rendered here by JS -->
+        </div>
+        <div class="char-count hidden" id="charCount"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════════ FOOTER ════════════ -->
+<footer>
+  <p>&copy; 2026 Nexus AI Consultancy. Cultivating intelligent growth.</p>
+</footer>
+
+<script>
+(function() {
+  'use strict';
+
+  const STORAGE_KEY = 'organic-biophilic';
+  const messagesEl = document.getElementById('chatMessages');
+  const inputArea = document.getElementById('chatInputArea');
+  const inputRow = document.getElementById('chatInputRow');
+  const charCountEl = document.getElementById('charCount');
+
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  const questions = [
+    { id: 'name', type: 'text', placeholder: 'Type your name...', min: 1,
+      bot: "Hi! I'm your AI consultation assistant. Let's get to know your business. First, what's your name?" },
+    { id: 'email', type: 'email', placeholder: 'your@email.com', min: 1,
+      bot: null }, // dynamic - uses name
+    { id: 'business', type: 'textarea', placeholder: 'Describe your business model, revenue streams, and target customers...', min: 50,
+      bot: "Walk me through what your business does \u2014 your core model, how you make money, and who your customers are." },
+    { id: 'revenue', type: 'textarea', placeholder: 'List your top 3 revenue-generating products/services...', min: 30,
+      bot: "What are the top 3 services or products that generate the most revenue?" },
+    { id: 'tools', type: 'textarea', placeholder: 'List all software tools and platforms...', min: 30,
+      bot: "List every software tool, platform, or system your team uses daily." },
+    { id: 'journey', type: 'textarea', placeholder: 'Describe the full customer journey...', min: 50,
+      bot: "Describe your full customer journey \u2014 from first contact to delivery and follow-up." },
+    { id: 'tasks', type: 'table', min: 1,
+      bot: "Let's map out your recurring tasks. Add each task with its frequency, time spent, who does it, and tools used." },
+    { id: 'problems', type: 'textarea', placeholder: 'What are your top 3 operational challenges?', min: 30,
+      bot: "What are the top 3 operational problems slowing your business down?" },
+    { id: 'invest', type: 'textarea', placeholder: 'Where would you invest extra time?', min: 30,
+      bot: "If you had 20 additional productive hours each week, where would you invest them?" },
+    { id: 'admired', type: 'textarea', placeholder: 'Describe a process you admire...', min: 20,
+      bot: "Describe a process you've admired at another business that you wish you could replicate." },
+    { id: 'other', type: 'textarea', placeholder: 'Anything else? (optional)', min: 0,
+      bot: "Is there anything else we should know about your business or goals?" },
+    { id: 'review', type: 'review', min: 0,
+      bot: "Here's a summary of everything you shared. Does it look good?" }
+  ];
+
+  let currentStep = 0;
+  let answers = {};
+  let tableRows = [{ task: '', frequency: '', time: '', who: '', tools: '' }];
+
+  // ── LocalStorage ──
+  function saveState() {
+    const state = { currentStep, answers, tableRows };
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(state)); } catch(e) {}
+  }
+
+  function loadState() {
+    try {
+      const data = JSON.parse(localStorage.getItem(STORAGE_KEY));
+      if (data && typeof data.currentStep === 'number') {
+        answers = data.answers || {};
+        tableRows = data.tableRows || [{ task: '', frequency: '', time: '', who: '', tools: '' }];
+        return data.currentStep;
+      }
+    } catch(e) {}
+    return 0;
+  }
+
+  // ── Chat Bubble Rendering ──
+  function addBotBubble(text) {
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble bot';
+    bubble.innerHTML = '<div class="bubble-label">AI Consultant</div>' + text;
+    messagesEl.appendChild(bubble);
+    scrollToBottom();
+  }
+
+  function addUserBubble(text) {
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble user';
+    bubble.innerHTML = '<div class="bubble-label">You</div>' + escapeHtml(text);
+    messagesEl.appendChild(bubble);
+    scrollToBottom();
+  }
+
+  function showTypingIndicator() {
+    const el = document.createElement('div');
+    el.className = 'typing-indicator';
+    el.id = 'typingIndicator';
+    el.setAttribute('aria-label', 'Assistant is typing');
+    el.innerHTML = '<span></span><span></span><span></span>';
+    messagesEl.appendChild(el);
+    scrollToBottom();
+    return el;
+  }
+
+  function removeTypingIndicator() {
+    const el = document.getElementById('typingIndicator');
+    if (el) el.remove();
+  }
+
+  function scrollToBottom() {
+    requestAnimationFrame(() => {
+      messagesEl.scrollTop = messagesEl.scrollHeight;
+    });
+  }
+
+  function escapeHtml(str) {
+    const div = document.createElement('div');
+    div.textContent = str;
+    return div.innerHTML;
+  }
+
+  // ── Get Bot Message for Step ──
+  function getBotMessage(step) {
+    if (step === 1) {
+      const name = answers.name || 'there';
+      return `Nice to meet you, ${escapeHtml(name)}! What's the best email to reach you?`;
+    }
+    return questions[step].bot;
+  }
+
+  // ── Render Input for Current Step ──
+  function renderInput(step) {
+    const q = questions[step];
+    inputRow.innerHTML = '';
+    charCountEl.classList.add('hidden');
+
+    if (q.type === 'review') {
+      renderReview();
+      inputArea.classList.add('hidden');
+      return;
+    }
+
+    inputArea.classList.remove('hidden');
+
+    if (q.type === 'table') {
+      renderTableInput();
+      return;
+    }
+
+    let inputEl;
+    if (q.type === 'textarea') {
+      inputEl = document.createElement('textarea');
+      inputEl.rows = 3;
+    } else {
+      inputEl = document.createElement('input');
+      inputEl.type = q.type;
+    }
+
+    inputEl.id = 'chatInput';
+    inputEl.placeholder = q.placeholder || '';
+    inputEl.setAttribute('aria-label', 'Your response');
+    if (q.min > 0) inputEl.required = true;
+
+    const sendBtn = createSendButton();
+
+    inputRow.appendChild(inputEl);
+    inputRow.appendChild(sendBtn);
+
+    if (q.min > 0 && q.type === 'textarea') {
+      charCountEl.classList.remove('hidden');
+      updateCharCount(0, q.min);
+      inputEl.addEventListener('input', () => {
+        updateCharCount(inputEl.value.length, q.min);
+      });
+    }
+
+    inputEl.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' && q.type !== 'textarea') {
+        e.preventDefault();
+        handleSend();
+      } else if (e.key === 'Enter' && e.ctrlKey && q.type === 'textarea') {
+        e.preventDefault();
+        handleSend();
+      }
+    });
+
+    sendBtn.addEventListener('click', handleSend);
+    inputEl.focus();
+  }
+
+  function createSendButton() {
+    const btn = document.createElement('button');
+    btn.className = 'send-btn';
+    btn.setAttribute('aria-label', 'Send message');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>';
+    return btn;
+  }
+
+  function updateCharCount(current, min) {
+    if (min <= 0) { charCountEl.classList.add('hidden'); return; }
+    charCountEl.textContent = `${current} / ${min} min characters`;
+    charCountEl.classList.toggle('warning', current > 0 && current < min);
+  }
+
+  // ── Table Input ──
+  function renderTableInput() {
+    inputRow.innerHTML = '';
+    const wrapper = document.createElement('div');
+    wrapper.className = 'table-input-area';
+
+    const table = document.createElement('table');
+    table.className = 'task-table';
+    table.innerHTML = `
+      <thead><tr>
+        <th>Task</th><th>Frequency</th><th>Avg Time (hrs)</th><th>Who Does It</th><th>Tools Used</th>
+      </tr></thead>
+      <tbody id="taskTableBody"></tbody>
+    `;
+    wrapper.appendChild(table);
+
+    const actions = document.createElement('div');
+    actions.className = 'table-actions';
+    actions.style.display = 'flex';
+    actions.style.justifyContent = 'space-between';
+    actions.style.alignItems = 'center';
+
+    const addBtn = document.createElement('button');
+    addBtn.className = 'add-row-btn';
+    addBtn.textContent = '+ Add Row';
+    addBtn.type = 'button';
+    addBtn.addEventListener('click', () => {
+      syncTableData();
+      tableRows.push({ task: '', frequency: '', time: '', who: '', tools: '' });
+      renderTableRows();
+      saveState();
+    });
+
+    const sendBtn = createSendButton();
+
+    actions.appendChild(addBtn);
+    actions.appendChild(sendBtn);
+    wrapper.appendChild(actions);
+
+    inputRow.appendChild(wrapper);
+    sendBtn.addEventListener('click', handleSend);
+
+    renderTableRows();
+    charCountEl.classList.add('hidden');
+  }
+
+  function renderTableRows() {
+    const tbody = document.getElementById('taskTableBody');
+    if (!tbody) return;
+    tbody.innerHTML = '';
+    tableRows.forEach((row, i) => {
+      const tr = document.createElement('tr');
+      ['task','frequency','time','who','tools'].forEach(field => {
+        const td = document.createElement('td');
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.value = row[field] || '';
+        input.dataset.row = i;
+        input.dataset.field = field;
+        input.setAttribute('aria-label', field + ' for row ' + (i+1));
+        input.addEventListener('input', (e) => {
+          tableRows[i][field] = e.target.value;
+        });
+        td.appendChild(input);
+        tr.appendChild(td);
+      });
+      tbody.appendChild(tr);
+    });
+  }
+
+  function syncTableData() {
+    document.querySelectorAll('#taskTableBody input').forEach(input => {
+      const r = parseInt(input.dataset.row);
+      const f = input.dataset.field;
+      if (tableRows[r]) tableRows[r][f] = input.value;
+    });
+  }
+
+  function getTableSummary() {
+    return tableRows
+      .filter(r => r.task.trim())
+      .map(r => `${r.task} | ${r.frequency} | ${r.time}h | ${r.who} | ${r.tools}`)
+      .join('\n');
+  }
+
+  // ── Review ──
+  function renderReview() {
+    const labels = {
+      name: 'Name', email: 'Email', business: 'Business Description',
+      revenue: 'Top Revenue Sources', tools: 'Software & Tools',
+      journey: 'Customer Journey', tasks: 'Recurring Tasks',
+      problems: 'Operational Problems', invest: 'Time Investment',
+      admired: 'Admired Process', other: 'Additional Notes'
+    };
+
+    let html = '<div class="review-summary"><h4>Your Consultation Summary</h4>';
+    for (const key of Object.keys(labels)) {
+      const val = answers[key];
+      if (val && val.trim()) {
+        html += `<div class="review-item"><div class="label">${labels[key]}</div><div class="value">${escapeHtml(val)}</div></div>`;
+      }
+    }
+    html += '</div>';
+    html += '<div class="review-actions">';
+    html += '<button class="submit-btn" id="submitBtn">Submit</button>';
+    html += '<button class="edit-btn" id="editBtn">Edit Responses</button>';
+    html += '</div>';
+
+    const bubble = document.createElement('div');
+    bubble.className = 'chat-bubble bot';
+    bubble.innerHTML = '<div class="bubble-label">AI Consultant</div>' + html;
+    messagesEl.appendChild(bubble);
+    scrollToBottom();
+
+    document.getElementById('submitBtn').addEventListener('click', handleSubmit);
+    document.getElementById('editBtn').addEventListener('click', handleEdit);
+  }
+
+  function handleSubmit() {
+    const data = { ...answers, tableRows };
+    console.log('Form submission:', JSON.stringify(data, null, 2));
+
+    document.getElementById('submitBtn').disabled = true;
+    document.getElementById('editBtn').disabled = true;
+
+    localStorage.removeItem(STORAGE_KEY);
+
+    const delay = prefersReducedMotion ? 0 : 800;
+    if (!prefersReducedMotion) showTypingIndicator();
+
+    setTimeout(() => {
+      removeTypingIndicator();
+      addBotBubble("Thank you! We'll be in touch within 24 hours. We're excited to help transform your business with AI. \uD83C\uDF3F");
+    }, delay);
+  }
+
+  function handleEdit() {
+    // Go back to step 0 but keep answers
+    currentStep = 0;
+    messagesEl.innerHTML = '';
+    inputArea.classList.remove('hidden');
+    saveState();
+    startConversation(true);
+  }
+
+  // ── Send Handler ──
+  function handleSend() {
+    const q = questions[currentStep];
+
+    if (q.type === 'table') {
+      syncTableData();
+      const filledRows = tableRows.filter(r => r.task.trim());
+      if (filledRows.length < 1) {
+        alert('Please add at least one task.');
+        return;
+      }
+      answers.tasks = getTableSummary();
+      addUserBubble(answers.tasks);
+    } else {
+      const input = document.getElementById('chatInput');
+      if (!input) return;
+      const value = input.value.trim();
+
+      if (q.min > 0 && value.length < q.min) {
+        if (q.type === 'email') {
+          alert('Please enter a valid email address.');
+        } else if (q.type === 'textarea') {
+          alert(`Please enter at least ${q.min} characters.`);
+        } else {
+          alert('This field is required.');
+        }
+        return;
+      }
+
+      if (q.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value)) {
+        alert('Please enter a valid email address.');
+        return;
+      }
+
+      answers[q.id] = value;
+      addUserBubble(value);
+    }
+
+    currentStep++;
+    saveState();
+
+    if (currentStep < questions.length) {
+      showNextQuestion();
+    }
+  }
+
+  // ── Show Next Question with Typing Delay ──
+  function showNextQuestion() {
+    const delay = prefersReducedMotion ? 0 : 1000;
+
+    if (!prefersReducedMotion) showTypingIndicator();
+
+    setTimeout(() => {
+      removeTypingIndicator();
+      addBotBubble(getBotMessage(currentStep));
+      renderInput(currentStep);
+    }, delay);
+  }
+
+  // ── Restore / Start Conversation ──
+  function startConversation(isEdit) {
+    const savedStep = isEdit ? 0 : loadState();
+    const restoreTo = Math.min(savedStep, questions.length - 1);
+
+    // Replay conversation up to saved point
+    for (let i = 0; i < restoreTo; i++) {
+      addBotBubble(getBotMessage(i));
+      const q = questions[i];
+      const ans = answers[q.id];
+      if (ans) addUserBubble(ans);
+    }
+
+    currentStep = restoreTo;
+
+    // Show current question
+    const delay = restoreTo === 0 && !isEdit ? (prefersReducedMotion ? 0 : 600) : 0;
+    if (delay > 0 && !prefersReducedMotion) showTypingIndicator();
+
+    setTimeout(() => {
+      removeTypingIndicator();
+      addBotBubble(getBotMessage(currentStep));
+      renderInput(currentStep);
+    }, delay);
+  }
+
+  // ── Init ──
+  startConversation(false);
+
+})();
+</script>
+</body>
+</html>

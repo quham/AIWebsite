@@ -1,0 +1,1251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nexus AI Consultancy — Transform Your Business</title>
+    <meta name="description" content="Nexus AI Consultancy helps businesses transform with intelligent automation. Get a free consultation today.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <style>
+        *, *::before, *::after {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --deep-purple: #2b1e3e;
+            --cosmic-blue: #4a4e8f;
+            --lavender: #a490c2;
+            --silver: #e6e6fa;
+            --glass-bg: rgba(43, 30, 62, 0.6);
+            --glass-border: rgba(164, 144, 194, 0.3);
+            --glass-blur: 20px;
+            --radius: 16px;
+            --transition-speed: 0.4s;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Raleway', sans-serif;
+            background: var(--deep-purple);
+            color: var(--silver);
+            min-height: 100vh;
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        h1, h2, h3, h4 {
+            font-family: 'Playfair Display', serif;
+        }
+
+        /* Star Canvas */
+        #star-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* Main Content */
+        .page-wrapper {
+            position: relative;
+            z-index: 1;
+            min-height: 100vh;
+        }
+
+        /* Hero Section */
+        .hero {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            text-align: center;
+            padding: 2rem 1rem;
+        }
+
+        .hero__brand {
+            font-size: clamp(2.2rem, 5vw, 4rem);
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--silver), var(--lavender), var(--cosmic-blue));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            margin-bottom: 1rem;
+            letter-spacing: 0.02em;
+        }
+
+        .hero__tagline {
+            font-size: clamp(1rem, 2.5vw, 1.4rem);
+            font-weight: 300;
+            color: var(--lavender);
+            max-width: 600px;
+            margin-bottom: 2.5rem;
+            opacity: 0.9;
+        }
+
+        .btn-cta {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            font-family: 'Raleway', sans-serif;
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--silver);
+            background: linear-gradient(135deg, var(--cosmic-blue), var(--lavender));
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: transform var(--transition-speed) ease, box-shadow var(--transition-speed) ease;
+            box-shadow: 0 4px 20px rgba(74, 78, 143, 0.4);
+        }
+
+        .btn-cta:hover,
+        .btn-cta:focus-visible {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 30px rgba(74, 78, 143, 0.6);
+            outline: none;
+        }
+
+        /* Form Section */
+        .form-section {
+            display: flex;
+            justify-content: center;
+            padding: 2rem 1rem 4rem;
+        }
+
+        /* Glass Card */
+        .glass-card {
+            background: var(--glass-bg);
+            backdrop-filter: blur(var(--glass-blur));
+            -webkit-backdrop-filter: blur(var(--glass-blur));
+            border: 1px solid var(--glass-border);
+            border-radius: var(--radius);
+            width: 100%;
+            max-width: 700px;
+            padding: 2.5rem 2rem;
+            position: relative;
+        }
+
+        /* Step Indicator */
+        .step-indicator {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .step-dot {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(164, 144, 194, 0.3);
+            border: 1px solid var(--glass-border);
+            transition: background var(--transition-speed) ease, transform var(--transition-speed) ease;
+        }
+
+        .step-dot.active {
+            background: var(--lavender);
+            transform: scale(1.3);
+        }
+
+        .step-dot.completed {
+            background: var(--cosmic-blue);
+        }
+
+        /* Wizard Steps */
+        .wizard-step {
+            display: none;
+            opacity: 0;
+            transition: opacity var(--transition-speed) ease;
+        }
+
+        .wizard-step.active {
+            display: block;
+            opacity: 1;
+        }
+
+        .wizard-step h2 {
+            font-size: clamp(1.2rem, 3vw, 1.5rem);
+            color: var(--silver);
+            margin-bottom: 0.5rem;
+        }
+
+        .wizard-step p.step-description {
+            font-size: 0.95rem;
+            color: var(--lavender);
+            margin-bottom: 1.5rem;
+            font-weight: 300;
+        }
+
+        /* Form Elements */
+        label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--lavender);
+            margin-bottom: 0.4rem;
+        }
+
+        .question-label {
+            font-size: 1rem;
+            font-weight: 500;
+            color: var(--silver);
+            margin-bottom: 0.75rem;
+            line-height: 1.5;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        textarea {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            font-family: 'Raleway', sans-serif;
+            font-size: 0.95rem;
+            color: var(--silver);
+            background: rgba(43, 30, 62, 0.5);
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.3s ease, box-shadow 0.3s ease;
+            resize: vertical;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        textarea:focus {
+            border-color: var(--lavender);
+            box-shadow: 0 0 12px rgba(164, 144, 194, 0.2);
+        }
+
+        input[type="text"]::placeholder,
+        input[type="email"]::placeholder,
+        textarea::placeholder {
+            color: rgba(230, 230, 250, 0.4);
+        }
+
+        .field-group {
+            margin-bottom: 1.25rem;
+        }
+
+        .char-count {
+            font-size: 0.8rem;
+            color: var(--lavender);
+            opacity: 0.7;
+            text-align: right;
+            margin-top: 0.25rem;
+        }
+
+        .char-count.invalid {
+            color: #e07070;
+            opacity: 1;
+        }
+
+        .field-error {
+            font-size: 0.8rem;
+            color: #e07070;
+            margin-top: 0.25rem;
+            display: none;
+        }
+
+        .field-error.visible {
+            display: block;
+        }
+
+        /* Dynamic Table (Question 5) */
+        .task-table-wrapper {
+            overflow-x: auto;
+            margin-bottom: 1rem;
+        }
+
+        .task-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.85rem;
+            min-width: 600px;
+        }
+
+        .task-table th {
+            font-family: 'Raleway', sans-serif;
+            font-weight: 600;
+            color: var(--lavender);
+            padding: 0.6rem 0.5rem;
+            text-align: left;
+            border-bottom: 1px solid var(--glass-border);
+            font-size: 0.8rem;
+            white-space: nowrap;
+        }
+
+        .task-table td {
+            padding: 0.4rem 0.3rem;
+        }
+
+        .task-table input {
+            width: 100%;
+            padding: 0.5rem;
+            font-family: 'Raleway', sans-serif;
+            font-size: 0.85rem;
+            color: var(--silver);
+            background: rgba(43, 30, 62, 0.5);
+            border: 1px solid var(--glass-border);
+            border-radius: 6px;
+            outline: none;
+        }
+
+        .task-table input:focus {
+            border-color: var(--lavender);
+        }
+
+        .btn-add-row {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.4rem;
+            padding: 0.5rem 1rem;
+            font-family: 'Raleway', sans-serif;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: var(--lavender);
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, border-color 0.3s ease;
+        }
+
+        .btn-add-row:hover {
+            background: rgba(164, 144, 194, 0.1);
+            border-color: var(--lavender);
+        }
+
+        .btn-remove-row {
+            background: transparent;
+            border: none;
+            color: #e07070;
+            cursor: pointer;
+            font-size: 1.1rem;
+            padding: 0.25rem;
+            opacity: 0.7;
+            transition: opacity 0.2s;
+        }
+
+        .btn-remove-row:hover {
+            opacity: 1;
+        }
+
+        /* Navigation Buttons */
+        .wizard-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 2rem;
+            gap: 1rem;
+        }
+
+        .btn-back,
+        .btn-next,
+        .btn-submit {
+            padding: 0.75rem 1.75rem;
+            font-family: 'Raleway', sans-serif;
+            font-size: 0.95rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, opacity 0.3s ease;
+            border: none;
+        }
+
+        .btn-back {
+            color: var(--lavender);
+            background: transparent;
+            border: 1px solid var(--glass-border);
+        }
+
+        .btn-back:hover {
+            background: rgba(164, 144, 194, 0.1);
+            border-color: var(--lavender);
+        }
+
+        .btn-back:disabled {
+            opacity: 0.3;
+            cursor: default;
+        }
+
+        .btn-next,
+        .btn-submit {
+            color: var(--silver);
+            background: linear-gradient(135deg, var(--cosmic-blue), var(--lavender));
+            box-shadow: 0 4px 15px rgba(74, 78, 143, 0.3);
+        }
+
+        .btn-next:hover,
+        .btn-submit:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 20px rgba(74, 78, 143, 0.5);
+        }
+
+        /* Review Step */
+        .review-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .review-section h3 {
+            font-size: 1rem;
+            color: var(--lavender);
+            margin-bottom: 0.3rem;
+            font-family: 'Raleway', sans-serif;
+            font-weight: 600;
+        }
+
+        .review-answer {
+            font-size: 0.9rem;
+            color: var(--silver);
+            opacity: 0.85;
+            white-space: pre-wrap;
+            word-break: break-word;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid rgba(164, 144, 194, 0.15);
+        }
+
+        .review-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.8rem;
+            margin-top: 0.5rem;
+        }
+
+        .review-table th,
+        .review-table td {
+            padding: 0.4rem 0.5rem;
+            text-align: left;
+            border-bottom: 1px solid rgba(164, 144, 194, 0.15);
+        }
+
+        .review-table th {
+            color: var(--lavender);
+            font-weight: 600;
+        }
+
+        /* Thank You */
+        .thank-you {
+            text-align: center;
+            padding: 3rem 1rem;
+            display: none;
+        }
+
+        .thank-you.visible {
+            display: block;
+        }
+
+        .thank-you h2 {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(135deg, var(--silver), var(--lavender));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .thank-you p {
+            font-size: 1.1rem;
+            color: var(--lavender);
+            font-weight: 300;
+        }
+
+        .sparkle-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .sparkle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: var(--silver);
+            border-radius: 50%;
+            animation: sparkle-burst 1.5s ease-out forwards;
+            pointer-events: none;
+        }
+
+        @keyframes sparkle-burst {
+            0% {
+                opacity: 1;
+                transform: translate(0, 0) scale(1);
+            }
+            100% {
+                opacity: 0;
+                transform: translate(var(--tx), var(--ty)) scale(0);
+            }
+        }
+
+        /* Accessibility */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        *:focus-visible {
+            outline: 2px solid var(--lavender);
+            outline-offset: 2px;
+        }
+
+        /* Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+
+            .wizard-step {
+                transition: none;
+            }
+
+            .btn-cta:hover,
+            .btn-next:hover,
+            .btn-submit:hover {
+                transform: none;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .glass-card {
+                padding: 2rem 1.25rem;
+            }
+
+            .wizard-nav {
+                flex-wrap: wrap;
+            }
+        }
+
+        @media (max-width: 375px) {
+            .glass-card {
+                padding: 1.5rem 1rem;
+                border-radius: 12px;
+            }
+
+            .hero__brand {
+                font-size: 1.8rem;
+            }
+
+            .hero__tagline {
+                font-size: 0.95rem;
+            }
+
+            .step-indicator {
+                gap: 0.35rem;
+            }
+
+            .step-dot {
+                width: 8px;
+                height: 8px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <canvas id="star-canvas" aria-hidden="true"></canvas>
+
+    <div class="page-wrapper">
+        <!-- Hero -->
+        <header class="hero" role="banner">
+            <h1 class="hero__brand">Nexus AI Consultancy</h1>
+            <p class="hero__tagline">Transform your business with intelligent automation</p>
+            <a href="#intake-form" class="btn-cta" role="button" aria-label="Begin your free consultation">Begin Your Journey</a>
+        </header>
+
+        <!-- Form Section -->
+        <section class="form-section" id="intake-form" aria-label="Business intake form">
+            <div class="glass-card">
+                <!-- Step Indicator -->
+                <nav class="step-indicator" aria-label="Form progress">
+                    <span class="step-dot active" aria-label="Step 1 of 12" role="img"></span>
+                    <span class="step-dot" aria-label="Step 2 of 12" role="img"></span>
+                    <span class="step-dot" aria-label="Step 3 of 12" role="img"></span>
+                    <span class="step-dot" aria-label="Step 4 of 12" role="img"></span>
+                    <span class="step-dot" aria-label="Step 5 of 12" role="img"></span>
+                    <span class="step-dot" aria-label="Step 6 of 12" role="img"></span>
+                    <span class="step-dot" aria-label="Step 7 of 12" role="img"></span>
+                    <span class="step-dot" aria-label="Step 8 of 12" role="img"></span>
+                    <span class="step-dot" aria-label="Step 9 of 12" role="img"></span>
+                    <span class="step-dot" aria-label="Step 10 of 12" role="img"></span>
+                    <span class="step-dot" aria-label="Step 11 of 12" role="img"></span>
+                    <span class="step-dot" aria-label="Step 12 of 12" role="img"></span>
+                </nav>
+
+                <form id="wizard-form" novalidate>
+                    <!-- Step 0: Name & Email -->
+                    <div class="wizard-step active" data-step="0" role="group" aria-labelledby="step0-heading">
+                        <h2 id="step0-heading">Let's Get Started</h2>
+                        <p class="step-description">Tell us who you are so we can personalize your experience.</p>
+                        <div class="field-group">
+                            <label for="field-name">Full Name <span aria-hidden="true">*</span></label>
+                            <input type="text" id="field-name" name="name" required placeholder="Your full name" aria-required="true" autocomplete="name">
+                            <div class="field-error" role="alert">Please enter your name.</div>
+                        </div>
+                        <div class="field-group">
+                            <label for="field-email">Email Address <span aria-hidden="true">*</span></label>
+                            <input type="email" id="field-email" name="email" required placeholder="you@company.com" aria-required="true" autocomplete="email">
+                            <div class="field-error" role="alert">Please enter a valid email address.</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 1: Business Model -->
+                    <div class="wizard-step" data-step="1" role="group" aria-labelledby="step1-heading">
+                        <h2 id="step1-heading">Question 1 of 9</h2>
+                        <p class="question-label" id="q1-label">Walk me through what your business does &mdash; your core model, how you make money, and who your customers are.</p>
+                        <div class="field-group">
+                            <textarea id="field-q1" name="q1" rows="5" required minlength="50" placeholder="Describe your business model, revenue streams, and target customers..." aria-required="true" aria-describedby="q1-label q1-count"></textarea>
+                            <div class="char-count" id="q1-count">0 / 50 min characters</div>
+                            <div class="field-error" role="alert">Please provide at least 50 characters.</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Top Revenue Services -->
+                    <div class="wizard-step" data-step="2" role="group" aria-labelledby="step2-heading">
+                        <h2 id="step2-heading">Question 2 of 9</h2>
+                        <p class="question-label" id="q2-label">What are the top 3 services or products that generate the most revenue?</p>
+                        <div class="field-group">
+                            <textarea id="field-q2" name="q2" rows="4" required minlength="30" placeholder="List your top 3 revenue-generating services or products..." aria-required="true" aria-describedby="q2-label q2-count"></textarea>
+                            <div class="char-count" id="q2-count">0 / 30 min characters</div>
+                            <div class="field-error" role="alert">Please provide at least 30 characters.</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Software Tools -->
+                    <div class="wizard-step" data-step="3" role="group" aria-labelledby="step3-heading">
+                        <h2 id="step3-heading">Question 3 of 9</h2>
+                        <p class="question-label" id="q3-label">List every software tool, platform, or system your team uses daily.</p>
+                        <div class="field-group">
+                            <textarea id="field-q3" name="q3" rows="4" required minlength="30" placeholder="e.g., Slack, Google Workspace, Salesforce, Notion..." aria-required="true" aria-describedby="q3-label q3-count"></textarea>
+                            <div class="char-count" id="q3-count">0 / 30 min characters</div>
+                            <div class="field-error" role="alert">Please provide at least 30 characters.</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Customer Journey -->
+                    <div class="wizard-step" data-step="4" role="group" aria-labelledby="step4-heading">
+                        <h2 id="step4-heading">Question 4 of 9</h2>
+                        <p class="question-label" id="q4-label">Describe your full customer journey &mdash; from first contact to delivery and follow-up.</p>
+                        <div class="field-group">
+                            <textarea id="field-q4" name="q4" rows="5" required minlength="50" placeholder="Walk us through how a customer discovers you, engages, purchases, and what happens after..." aria-required="true" aria-describedby="q4-label q4-count"></textarea>
+                            <div class="char-count" id="q4-count">0 / 50 min characters</div>
+                            <div class="field-error" role="alert">Please provide at least 50 characters.</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 5: Time-Consuming Tasks (Dynamic Table) -->
+                    <div class="wizard-step" data-step="5" role="group" aria-labelledby="step5-heading">
+                        <h2 id="step5-heading">Question 5 of 9</h2>
+                        <p class="question-label" id="q5-label">What recurring tasks consume the most time?</p>
+                        <div class="task-table-wrapper">
+                            <table class="task-table" id="task-table" aria-label="Recurring tasks table">
+                                <thead>
+                                    <tr>
+                                        <th scope="col">Task</th>
+                                        <th scope="col">Frequency</th>
+                                        <th scope="col">Avg Time (hrs)</th>
+                                        <th scope="col">Who Does It</th>
+                                        <th scope="col">Tools Used</th>
+                                        <th scope="col"><span class="sr-only">Actions</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody id="task-table-body">
+                                </tbody>
+                            </table>
+                        </div>
+                        <button type="button" class="btn-add-row" id="btn-add-row" aria-label="Add another task row">+ Add Row</button>
+                        <div class="field-error" id="table-error" role="alert">Please fill in at least one complete row.</div>
+                    </div>
+
+                    <!-- Step 6: Operational Problems -->
+                    <div class="wizard-step" data-step="6" role="group" aria-labelledby="step6-heading">
+                        <h2 id="step6-heading">Question 6 of 9</h2>
+                        <p class="question-label" id="q6-label">What are the top 3 operational problems slowing your business down?</p>
+                        <div class="field-group">
+                            <textarea id="field-q6" name="q6" rows="4" required minlength="30" placeholder="Describe the bottlenecks and pain points..." aria-required="true" aria-describedby="q6-label q6-count"></textarea>
+                            <div class="char-count" id="q6-count">0 / 30 min characters</div>
+                            <div class="field-error" role="alert">Please provide at least 30 characters.</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 7: Extra 20 Hours -->
+                    <div class="wizard-step" data-step="7" role="group" aria-labelledby="step7-heading">
+                        <h2 id="step7-heading">Question 7 of 9</h2>
+                        <p class="question-label" id="q7-label">If you had 20 additional productive hours each week, where would you invest them?</p>
+                        <div class="field-group">
+                            <textarea id="field-q7" name="q7" rows="4" required minlength="30" placeholder="How would you use extra time to grow your business..." aria-required="true" aria-describedby="q7-label q7-count"></textarea>
+                            <div class="char-count" id="q7-count">0 / 30 min characters</div>
+                            <div class="field-error" role="alert">Please provide at least 30 characters.</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 8: Admired Process -->
+                    <div class="wizard-step" data-step="8" role="group" aria-labelledby="step8-heading">
+                        <h2 id="step8-heading">Question 8 of 9</h2>
+                        <p class="question-label" id="q8-label">Describe a process you've admired at another business that you wish you could replicate.</p>
+                        <div class="field-group">
+                            <textarea id="field-q8" name="q8" rows="4" required minlength="20" placeholder="What impressed you and why..." aria-required="true" aria-describedby="q8-label q8-count"></textarea>
+                            <div class="char-count" id="q8-count">0 / 20 min characters</div>
+                            <div class="field-error" role="alert">Please provide at least 20 characters.</div>
+                        </div>
+                    </div>
+
+                    <!-- Step 9: Anything Else -->
+                    <div class="wizard-step" data-step="9" role="group" aria-labelledby="step9-heading">
+                        <h2 id="step9-heading">Question 9 of 9</h2>
+                        <p class="question-label" id="q9-label">Is there anything else we should know about your business or goals?</p>
+                        <div class="field-group">
+                            <textarea id="field-q9" name="q9" rows="4" placeholder="Optional — share anything else relevant..." aria-describedby="q9-label"></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Step 10: Review -->
+                    <div class="wizard-step" data-step="10" role="group" aria-labelledby="step10-heading">
+                        <h2 id="step10-heading">Review Your Responses</h2>
+                        <p class="step-description">Please review your answers before submitting.</p>
+                        <div id="review-content"></div>
+                    </div>
+
+                    <!-- Navigation -->
+                    <div class="wizard-nav">
+                        <button type="button" class="btn-back" id="btn-back" disabled aria-label="Go to previous step">Back</button>
+                        <button type="button" class="btn-next" id="btn-next" aria-label="Go to next step">Next</button>
+                        <button type="submit" class="btn-submit" id="btn-submit" style="display:none;" aria-label="Submit your responses">Submit</button>
+                    </div>
+                </form>
+
+                <!-- Thank You -->
+                <div class="thank-you" id="thank-you" role="status" aria-live="polite">
+                    <div class="sparkle-container" id="sparkle-anchor">
+                        <h2>Thank You!</h2>
+                    </div>
+                    <p>Your responses have been received. Our team will reach out within 24 hours to discuss how we can transform your business.</p>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <script>
+    (function() {
+        'use strict';
+
+        // ===== Star Canvas =====
+        const canvas = document.getElementById('star-canvas');
+        const ctx = canvas.getContext('2d');
+        const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let stars = [];
+        const STAR_COUNT = 220;
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+
+        function createStars() {
+            stars = [];
+            for (let i = 0; i < STAR_COUNT; i++) {
+                const twinkle = Math.random() > 0.6;
+                stars.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    r: Math.random() * 1.5 + 0.5,
+                    dx: (Math.random() - 0.5) * 0.4,
+                    dy: (Math.random() - 0.5) * 0.4,
+                    baseOpacity: Math.random() * 0.5 + 0.5,
+                    opacity: 1,
+                    twinkle: twinkle,
+                    twinkleSpeed: Math.random() * 0.02 + 0.005,
+                    twinklePhase: Math.random() * Math.PI * 2
+                });
+            }
+        }
+
+        function drawStars() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            for (const star of stars) {
+                ctx.beginPath();
+                ctx.arc(star.x, star.y, star.r, 0, Math.PI * 2);
+                ctx.fillStyle = 'rgba(255, 255, 255, ' + (star.baseOpacity * star.opacity) + ')';
+                ctx.fill();
+            }
+        }
+
+        function animateStars() {
+            for (const star of stars) {
+                star.x += star.dx;
+                star.y += star.dy;
+
+                // Wrap around edges
+                if (star.x < -5) star.x = canvas.width + 5;
+                if (star.x > canvas.width + 5) star.x = -5;
+                if (star.y < -5) star.y = canvas.height + 5;
+                if (star.y > canvas.height + 5) star.y = -5;
+
+                // Twinkle
+                if (star.twinkle) {
+                    star.twinklePhase += star.twinkleSpeed;
+                    star.opacity = 0.5 + 0.5 * Math.sin(star.twinklePhase);
+                }
+            }
+            drawStars();
+            requestAnimationFrame(animateStars);
+        }
+
+        resizeCanvas();
+        createStars();
+        window.addEventListener('resize', function() {
+            resizeCanvas();
+            createStars();
+        });
+
+        if (prefersReducedMotion) {
+            drawStars(); // Static stars only
+        } else {
+            animateStars();
+        }
+
+        // ===== Wizard Logic =====
+        const STORAGE_KEY = 'midnight-galaxy';
+        const form = document.getElementById('wizard-form');
+        const steps = document.querySelectorAll('.wizard-step');
+        const dots = document.querySelectorAll('.step-dot');
+        const btnBack = document.getElementById('btn-back');
+        const btnNext = document.getElementById('btn-next');
+        const btnSubmit = document.getElementById('btn-submit');
+        const thankYou = document.getElementById('thank-you');
+        const totalSteps = steps.length; // 0..10 (11 steps: info + 9 questions + review)
+        let currentStep = 0;
+
+        const questionMeta = [
+            { id: 'field-name', type: 'text' },    // step 0 has two fields, handled specially
+            { id: 'field-q1', type: 'textarea', min: 50 },
+            { id: 'field-q2', type: 'textarea', min: 30 },
+            { id: 'field-q3', type: 'textarea', min: 30 },
+            { id: 'field-q4', type: 'textarea', min: 50 },
+            { id: 'task-table', type: 'table' },
+            { id: 'field-q6', type: 'textarea', min: 30 },
+            { id: 'field-q7', type: 'textarea', min: 30 },
+            { id: 'field-q8', type: 'textarea', min: 20 },
+            { id: 'field-q9', type: 'textarea', min: 0, optional: true },
+            { id: 'review', type: 'review' }
+        ];
+
+        // ===== Dynamic Table =====
+        const tableBody = document.getElementById('task-table-body');
+        const btnAddRow = document.getElementById('btn-add-row');
+
+        function createTableRow() {
+            const tr = document.createElement('tr');
+            const fields = ['task', 'frequency', 'avgTime', 'who', 'tools'];
+            fields.forEach(function(field) {
+                const td = document.createElement('td');
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.name = 'table_' + field;
+                input.setAttribute('data-col', field);
+                input.setAttribute('aria-label', field.charAt(0).toUpperCase() + field.slice(1));
+                input.addEventListener('input', saveToStorage);
+                td.appendChild(input);
+                tr.appendChild(td);
+            });
+            // Remove button
+            const tdAction = document.createElement('td');
+            const btnRemove = document.createElement('button');
+            btnRemove.type = 'button';
+            btnRemove.className = 'btn-remove-row';
+            btnRemove.textContent = '\u00D7';
+            btnRemove.setAttribute('aria-label', 'Remove this row');
+            btnRemove.addEventListener('click', function() {
+                if (tableBody.querySelectorAll('tr').length > 1) {
+                    tr.remove();
+                    saveToStorage();
+                }
+            });
+            tdAction.appendChild(btnRemove);
+            tr.appendChild(tdAction);
+            return tr;
+        }
+
+        function initTable(rows) {
+            tableBody.innerHTML = '';
+            const count = rows && rows.length > 0 ? rows.length : 3;
+            for (let i = 0; i < count; i++) {
+                const tr = createTableRow();
+                if (rows && rows[i]) {
+                    const inputs = tr.querySelectorAll('input');
+                    const cols = ['task', 'frequency', 'avgTime', 'who', 'tools'];
+                    cols.forEach(function(col, idx) {
+                        if (rows[i][col]) inputs[idx].value = rows[i][col];
+                    });
+                }
+                tableBody.appendChild(tr);
+            }
+        }
+
+        btnAddRow.addEventListener('click', function() {
+            tableBody.appendChild(createTableRow());
+            saveToStorage();
+        });
+
+        function getTableData() {
+            const rows = [];
+            tableBody.querySelectorAll('tr').forEach(function(tr) {
+                const inputs = tr.querySelectorAll('input');
+                const row = {
+                    task: inputs[0].value.trim(),
+                    frequency: inputs[1].value.trim(),
+                    avgTime: inputs[2].value.trim(),
+                    who: inputs[3].value.trim(),
+                    tools: inputs[4].value.trim()
+                };
+                rows.push(row);
+            });
+            return rows;
+        }
+
+        function isTableValid() {
+            const data = getTableData();
+            return data.some(function(row) {
+                return row.task && row.frequency && row.avgTime && row.who && row.tools;
+            });
+        }
+
+        // ===== Character Counts =====
+        function setupCharCount(fieldId, min) {
+            const field = document.getElementById(fieldId);
+            if (!field) return;
+            const countEl = document.getElementById(fieldId.replace('field-', '') + '-count');
+            if (!countEl) return;
+            function update() {
+                const len = field.value.length;
+                countEl.textContent = len + ' / ' + min + ' min characters';
+                countEl.classList.toggle('invalid', len > 0 && len < min);
+            }
+            field.addEventListener('input', update);
+            update();
+        }
+
+        setupCharCount('field-q1', 50);
+        setupCharCount('field-q2', 30);
+        setupCharCount('field-q3', 30);
+        setupCharCount('field-q4', 50);
+        setupCharCount('field-q6', 30);
+        setupCharCount('field-q7', 30);
+        setupCharCount('field-q8', 20);
+
+        // ===== Validation =====
+        function validateStep(step) {
+            clearErrors(step);
+            if (step === 0) {
+                const nameField = document.getElementById('field-name');
+                const emailField = document.getElementById('field-email');
+                let valid = true;
+                if (!nameField.value.trim()) {
+                    showError(nameField);
+                    valid = false;
+                }
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(emailField.value.trim())) {
+                    showError(emailField);
+                    valid = false;
+                }
+                return valid;
+            }
+            if (step === 5) {
+                // Table validation
+                const errEl = document.getElementById('table-error');
+                if (!isTableValid()) {
+                    errEl.classList.add('visible');
+                    return false;
+                }
+                errEl.classList.remove('visible');
+                return true;
+            }
+            if (step === 9) return true; // Optional
+            if (step === 10) return true; // Review
+
+            const meta = questionMeta[step];
+            if (!meta || meta.optional) return true;
+            const field = document.getElementById(meta.id);
+            if (!field) return true;
+            const val = field.value.trim();
+            const min = meta.min || 0;
+            if (val.length < min) {
+                showError(field);
+                return false;
+            }
+            return true;
+        }
+
+        function showError(field) {
+            const errEl = field.closest('.field-group').querySelector('.field-error');
+            if (errEl) errEl.classList.add('visible');
+            field.setAttribute('aria-invalid', 'true');
+        }
+
+        function clearErrors(step) {
+            const stepEl = steps[step];
+            stepEl.querySelectorAll('.field-error').forEach(function(el) {
+                el.classList.remove('visible');
+            });
+            stepEl.querySelectorAll('[aria-invalid]').forEach(function(el) {
+                el.removeAttribute('aria-invalid');
+            });
+        }
+
+        // ===== Step Navigation =====
+        function goToStep(newStep) {
+            if (newStep < 0 || newStep >= totalSteps) return;
+
+            steps[currentStep].classList.remove('active');
+
+            // Small delay for fade effect
+            requestAnimationFrame(function() {
+                steps[newStep].classList.add('active');
+            });
+
+            dots[currentStep].classList.remove('active');
+            if (newStep > currentStep) {
+                dots[currentStep].classList.add('completed');
+            }
+            dots[newStep].classList.add('active');
+
+            currentStep = newStep;
+
+            btnBack.disabled = currentStep === 0;
+            if (currentStep === totalSteps - 1) {
+                btnNext.style.display = 'none';
+                btnSubmit.style.display = 'inline-block';
+                buildReview();
+            } else {
+                btnNext.style.display = 'inline-block';
+                btnSubmit.style.display = 'none';
+            }
+
+            // Focus management
+            const heading = steps[currentStep].querySelector('h2');
+            if (heading) heading.focus();
+
+            saveToStorage();
+        }
+
+        btnNext.addEventListener('click', function() {
+            if (validateStep(currentStep)) {
+                goToStep(currentStep + 1);
+            }
+        });
+
+        btnBack.addEventListener('click', function() {
+            goToStep(currentStep - 1);
+        });
+
+        // ===== Review Builder =====
+        function buildReview() {
+            const container = document.getElementById('review-content');
+            container.innerHTML = '';
+
+            const labels = [
+                'Name', 'Email',
+                'Q1: Business Model', 'Q2: Top Revenue Services', 'Q3: Software Tools',
+                'Q4: Customer Journey', 'Q5: Time-Consuming Tasks',
+                'Q6: Operational Problems', 'Q7: Extra 20 Hours',
+                'Q8: Admired Process', 'Q9: Additional Notes'
+            ];
+            const fields = ['field-name', 'field-email', 'field-q1', 'field-q2', 'field-q3', 'field-q4', null, 'field-q6', 'field-q7', 'field-q8', 'field-q9'];
+
+            fields.forEach(function(fieldId, i) {
+                const section = document.createElement('div');
+                section.className = 'review-section';
+                const h3 = document.createElement('h3');
+                h3.textContent = labels[i];
+                section.appendChild(h3);
+
+                if (fieldId === null) {
+                    // Table review
+                    const data = getTableData().filter(function(r) {
+                        return r.task || r.frequency || r.avgTime || r.who || r.tools;
+                    });
+                    if (data.length > 0) {
+                        const table = document.createElement('table');
+                        table.className = 'review-table';
+                        table.innerHTML = '<thead><tr><th>Task</th><th>Frequency</th><th>Avg Time</th><th>Who</th><th>Tools</th></tr></thead>';
+                        const tbody = document.createElement('tbody');
+                        data.forEach(function(row) {
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = '<td>' + escapeHtml(row.task) + '</td><td>' + escapeHtml(row.frequency) + '</td><td>' + escapeHtml(row.avgTime) + '</td><td>' + escapeHtml(row.who) + '</td><td>' + escapeHtml(row.tools) + '</td>';
+                            tbody.appendChild(tr);
+                        });
+                        table.appendChild(tbody);
+                        section.appendChild(table);
+                    } else {
+                        const p = document.createElement('div');
+                        p.className = 'review-answer';
+                        p.textContent = '(No tasks entered)';
+                        section.appendChild(p);
+                    }
+                } else {
+                    const p = document.createElement('div');
+                    p.className = 'review-answer';
+                    const val = document.getElementById(fieldId).value.trim();
+                    p.textContent = val || '(Not provided)';
+                    section.appendChild(p);
+                }
+
+                container.appendChild(section);
+            });
+        }
+
+        function escapeHtml(str) {
+            const div = document.createElement('div');
+            div.textContent = str;
+            return div.innerHTML;
+        }
+
+        // ===== Submit =====
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            const data = {
+                name: document.getElementById('field-name').value.trim(),
+                email: document.getElementById('field-email').value.trim(),
+                q1: document.getElementById('field-q1').value.trim(),
+                q2: document.getElementById('field-q2').value.trim(),
+                q3: document.getElementById('field-q3').value.trim(),
+                q4: document.getElementById('field-q4').value.trim(),
+                q5_tasks: getTableData().filter(function(r) { return r.task; }),
+                q6: document.getElementById('field-q6').value.trim(),
+                q7: document.getElementById('field-q7').value.trim(),
+                q8: document.getElementById('field-q8').value.trim(),
+                q9: document.getElementById('field-q9').value.trim()
+            };
+
+            console.log('Midnight Galaxy Form Submission:', JSON.stringify(data, null, 2));
+
+            // Hide form, show thank you
+            form.style.display = 'none';
+            document.querySelector('.step-indicator').style.display = 'none';
+            thankYou.classList.add('visible');
+
+            // Sparkle animation
+            createSparkles();
+
+            // Clear storage
+            localStorage.removeItem(STORAGE_KEY);
+        });
+
+        // ===== Sparkle Animation =====
+        function createSparkles() {
+            if (prefersReducedMotion) return;
+            const anchor = document.getElementById('sparkle-anchor');
+            const rect = anchor.getBoundingClientRect();
+            for (let i = 0; i < 20; i++) {
+                const sparkle = document.createElement('div');
+                sparkle.className = 'sparkle';
+                const angle = Math.random() * Math.PI * 2;
+                const distance = 40 + Math.random() * 80;
+                sparkle.style.setProperty('--tx', Math.cos(angle) * distance + 'px');
+                sparkle.style.setProperty('--ty', Math.sin(angle) * distance + 'px');
+                sparkle.style.left = (rect.width / 2 - 3) + 'px';
+                sparkle.style.top = (rect.height / 2 - 3) + 'px';
+                sparkle.style.animationDelay = (Math.random() * 0.5) + 's';
+                anchor.appendChild(sparkle);
+            }
+            setTimeout(function() {
+                anchor.querySelectorAll('.sparkle').forEach(function(s) { s.remove(); });
+            }, 2500);
+        }
+
+        // ===== localStorage =====
+        function saveToStorage() {
+            const data = {
+                currentStep: currentStep,
+                name: document.getElementById('field-name').value,
+                email: document.getElementById('field-email').value,
+                q1: document.getElementById('field-q1').value,
+                q2: document.getElementById('field-q2').value,
+                q3: document.getElementById('field-q3').value,
+                q4: document.getElementById('field-q4').value,
+                q5_tasks: getTableData(),
+                q6: document.getElementById('field-q6').value,
+                q7: document.getElementById('field-q7').value,
+                q8: document.getElementById('field-q8').value,
+                q9: document.getElementById('field-q9').value
+            };
+            try {
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(data));
+            } catch (e) {
+                // Storage full or unavailable
+            }
+        }
+
+        function loadFromStorage() {
+            try {
+                const raw = localStorage.getItem(STORAGE_KEY);
+                if (!raw) return null;
+                return JSON.parse(raw);
+            } catch (e) {
+                return null;
+            }
+        }
+
+        function restoreFromStorage() {
+            const data = loadFromStorage();
+            if (!data) {
+                initTable(null);
+                return;
+            }
+            if (data.name) document.getElementById('field-name').value = data.name;
+            if (data.email) document.getElementById('field-email').value = data.email;
+            if (data.q1) document.getElementById('field-q1').value = data.q1;
+            if (data.q2) document.getElementById('field-q2').value = data.q2;
+            if (data.q3) document.getElementById('field-q3').value = data.q3;
+            if (data.q4) document.getElementById('field-q4').value = data.q4;
+            if (data.q6) document.getElementById('field-q6').value = data.q6;
+            if (data.q7) document.getElementById('field-q7').value = data.q7;
+            if (data.q8) document.getElementById('field-q8').value = data.q8;
+            if (data.q9) document.getElementById('field-q9').value = data.q9;
+
+            initTable(data.q5_tasks || null);
+
+            // Update char counts
+            ['field-q1', 'field-q2', 'field-q3', 'field-q4', 'field-q6', 'field-q7', 'field-q8'].forEach(function(id) {
+                const el = document.getElementById(id);
+                if (el) el.dispatchEvent(new Event('input'));
+            });
+
+            // Restore step
+            if (data.currentStep && data.currentStep > 0 && data.currentStep < totalSteps) {
+                // Mark previous dots as completed, navigate to saved step
+                for (let i = 0; i <= data.currentStep; i++) {
+                    if (i < data.currentStep) dots[i].classList.add('completed');
+                }
+                goToStep(data.currentStep);
+            }
+        }
+
+        // Auto-save on input
+        form.addEventListener('input', saveToStorage);
+
+        // Initialize
+        restoreFromStorage();
+    })();
+    </script>
+</body>
+</html>
