@@ -745,7 +745,7 @@ textarea { min-height: 100px; }
   }
 
   // ── Submit ──
-  submitBtn.addEventListener('click', () => {
+  submitBtn.addEventListener('click', async () => {
     if (!allRequiredComplete()) return;
     const data = {
       name: document.getElementById('userName').value.trim(),
@@ -760,11 +760,37 @@ textarea { min-height: 100px; }
         data.questions['q' + i] = ta ? ta.value.trim() : '';
       }
     }
-    console.log('Form Submission:', JSON.stringify(data, null, 2));
-    form.style.display = 'none';
-    reviewPanel.classList.remove('visible');
-    thankYou.classList.add('visible');
-    localStorage.removeItem(STORAGE_KEY);
+
+    const originalText = submitBtn.textContent;
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
+
+    try {
+      const response = await fetch("https://formspree.io/f/mnjgwypb", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (response.ok) {
+        form.style.display = 'none';
+        reviewPanel.classList.remove('visible');
+        thankYou.classList.add('visible');
+        localStorage.removeItem(STORAGE_KEY);
+      } else {
+        const errorData = await response.json();
+        alert("Oops! There was a problem: " + (errorData.errors ? errorData.errors.map(e => e.message).join(", ") : "Submission failed."));
+        submitBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
+    } catch (error) {
+      alert("Oops! There was a problem submitting your form. Please check your connection.");
+      submitBtn.disabled = false;
+      submitBtn.textContent = originalText;
+    }
   });
 
   function getTaskTableData() {

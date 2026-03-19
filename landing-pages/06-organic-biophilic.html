@@ -815,22 +815,49 @@ footer a { color: var(--sky); }
     document.getElementById('editBtn').addEventListener('click', handleEdit);
   }
 
-  function handleSubmit() {
+  async function handleSubmit() {
     const data = { ...answers, tableRows };
-    console.log('Form submission:', JSON.stringify(data, null, 2));
+    
+    const submitBtn = document.getElementById('submitBtn');
+    const editBtn = document.getElementById('editBtn');
+    const originalText = submitBtn.textContent;
+    
+    submitBtn.disabled = true;
+    editBtn.disabled = true;
+    submitBtn.textContent = 'Sending...';
 
-    document.getElementById('submitBtn').disabled = true;
-    document.getElementById('editBtn').disabled = true;
+    try {
+      const response = await fetch("https://formspree.io/f/mnjgwypb", {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
 
-    localStorage.removeItem(STORAGE_KEY);
+      if (response.ok) {
+        localStorage.removeItem(STORAGE_KEY);
+        const delay = prefersReducedMotion ? 0 : 800;
+        if (!prefersReducedMotion) showTypingIndicator();
 
-    const delay = prefersReducedMotion ? 0 : 800;
-    if (!prefersReducedMotion) showTypingIndicator();
-
-    setTimeout(() => {
-      removeTypingIndicator();
-      addBotBubble("Thank you! We'll be in touch within 24 hours. We're excited to help transform your business with AI. \uD83C\uDF3F");
-    }, delay);
+        setTimeout(() => {
+          removeTypingIndicator();
+          addBotBubble("Thank you! We'll be in touch within 24 hours. We're excited to help transform your business with AI. \uD83C\uDF3F");
+        }, delay);
+      } else {
+        const errorData = await response.json();
+        alert("Oops! There was a problem: " + (errorData.errors ? errorData.errors.map(e => e.message).join(", ") : "Submission failed."));
+        submitBtn.disabled = false;
+        editBtn.disabled = false;
+        submitBtn.textContent = originalText;
+      }
+    } catch (error) {
+      alert("Oops! There was a problem submitting your form. Please check your connection.");
+      submitBtn.disabled = false;
+      editBtn.disabled = false;
+      submitBtn.textContent = originalText;
+    }
   }
 
   function handleEdit() {

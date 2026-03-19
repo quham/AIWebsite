@@ -1119,7 +1119,7 @@
         }
 
         // ===== Submit =====
-        form.addEventListener('submit', function(e) {
+        form.addEventListener('submit', async function(e) {
             e.preventDefault();
 
             const data = {
@@ -1136,18 +1136,42 @@
                 q9: document.getElementById('field-q9').value.trim()
             };
 
-            console.log('Midnight Galaxy Form Submission:', JSON.stringify(data, null, 2));
+            const originalText = btnSubmit.textContent;
+            btnSubmit.disabled = true;
+            btnSubmit.textContent = 'Sending...';
 
-            // Hide form, show thank you
-            form.style.display = 'none';
-            document.querySelector('.step-indicator').style.display = 'none';
-            thankYou.classList.add('visible');
+            try {
+                const response = await fetch("https://formspree.io/f/mnjgwypb", {
+                    method: "POST",
+                    body: JSON.stringify(data),
+                    headers: {
+                        'Accept': 'application/json',
+                        'Content-Type': 'application/json'
+                    }
+                });
 
-            // Sparkle animation
-            createSparkles();
+                if (response.ok) {
+                    // Hide form, show thank you
+                    form.style.display = 'none';
+                    document.querySelector('.step-indicator').style.display = 'none';
+                    thankYou.classList.add('visible');
 
-            // Clear storage
-            localStorage.removeItem(STORAGE_KEY);
+                    // Sparkle animation
+                    createSparkles();
+
+                    // Clear storage
+                    localStorage.removeItem(STORAGE_KEY);
+                } else {
+                    const errorData = await response.json();
+                    alert("Oops! There was a problem: " + (errorData.errors ? errorData.errors.map(e => e.message).join(", ") : "Submission failed."));
+                    btnSubmit.disabled = false;
+                    btnSubmit.textContent = originalText;
+                }
+            } catch (error) {
+                alert("Oops! There was a problem submitting your form. Please check your connection.");
+                btnSubmit.disabled = false;
+                btnSubmit.textContent = originalText;
+            }
         });
 
         // ===== Sparkle Animation =====

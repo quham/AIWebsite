@@ -963,7 +963,7 @@
   }
 
   // ===== SUBMIT =====
-  document.getElementById('submitBtn').addEventListener('click', function() {
+  document.getElementById('submitBtn').addEventListener('click', async function() {
     var formData = {};
     document.querySelectorAll('[data-key]').forEach(function(el) {
       formData[el.dataset.key] = el.value;
@@ -973,17 +973,41 @@
     });
     formData.submittedAt = new Date().toISOString();
 
-    console.log('=== Nexus AI Consultancy Intake Form ===');
-    console.log(JSON.stringify(formData, null, 2));
+    const btn = this;
+    const originalText = btn.textContent;
+    btn.disabled = true;
+    btn.textContent = 'Sending...';
 
-    // Hide review, show thank you
-    document.getElementById('section-review').style.display = 'none';
-    var ty = document.getElementById('section-thankyou');
-    ty.classList.add('visible');
-    ty.scrollIntoView({ behavior: 'smooth' });
+    try {
+      const response = await fetch("https://formspree.io/f/mnjgwypb", {
+        method: "POST",
+        body: JSON.stringify(formData),
+        headers: {
+          'Accept': 'application/json',
+          'Content-Type': 'application/json'
+        }
+      });
 
-    // Clear storage
-    try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+      if (response.ok) {
+        // Hide review, show thank you
+        document.getElementById('section-review').style.display = 'none';
+        var ty = document.getElementById('section-thankyou');
+        ty.classList.add('visible');
+        ty.scrollIntoView({ behavior: 'smooth' });
+
+        // Clear storage
+        try { localStorage.removeItem(STORAGE_KEY); } catch(e) {}
+      } else {
+        const errorData = await response.json();
+        alert("Oops! There was a problem: " + (errorData.errors ? errorData.errors.map(e => e.message).join(", ") : "Submission failed."));
+        btn.disabled = false;
+        btn.textContent = originalText;
+      }
+    } catch (error) {
+      alert("Oops! There was a problem submitting your form. Please check your connection.");
+      btn.disabled = false;
+      btn.textContent = originalText;
+    }
   });
 
   // ===== INIT =====
