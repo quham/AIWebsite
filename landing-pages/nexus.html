@@ -582,6 +582,132 @@
       color: var(--error);
     }
 
+    /* Task Cards (Q5 replacement for table) */
+    .task-cards-container {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .task-card {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      padding: 1.5rem;
+      border-radius: 4px;
+      position: relative;
+      transition: border-color 0.2s ease;
+    }
+
+    .task-card:hover {
+      border-color: var(--accent);
+    }
+
+    .task-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.25rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--gray-100);
+    }
+
+    .task-card-number {
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+    }
+
+    .task-card-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+    }
+
+    .task-card-full {
+      grid-column: 1 / -1;
+    }
+
+    .task-card-field label {
+      font-size: 0.75rem;
+      font-weight: 600;
+      color: var(--gray-500);
+      text-transform: uppercase;
+      margin-bottom: 0.375rem;
+      display: flex;
+      align-items: center;
+      gap: 0.375rem;
+    }
+
+    .info-icon {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 14px;
+      height: 14px;
+      background: var(--gray-200);
+      color: var(--gray-600);
+      border-radius: 50%;
+      font-size: 10px;
+      font-style: normal;
+      cursor: help;
+      position: relative;
+    }
+
+    .info-icon:hover {
+      background: var(--accent);
+      color: var(--white);
+    }
+
+    .info-icon::after {
+      content: attr(data-tooltip);
+      position: absolute;
+      bottom: calc(100% + 8px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      background: var(--gray-900);
+      color: var(--white);
+      padding: 0.625rem 0.875rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 400;
+      text-transform: none;
+      white-space: normal;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 100;
+      width: 180px;
+      line-height: 1.4;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+      pointer-events: none;
+    }
+
+    .info-icon::before {
+      content: '';
+      position: absolute;
+      bottom: calc(100% + 2px);
+      left: 50%;
+      transform: translateX(-50%) translateY(4px);
+      border: 6px solid transparent;
+      border-top-color: var(--gray-900);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, transform 0.2s ease;
+      z-index: 100;
+      pointer-events: none;
+    }
+
+    .info-icon:hover::after,
+    .info-icon:hover::before {
+      opacity: 1;
+      visibility: visible;
+      transform: translateX(-50%) translateY(0);
+    }
+
     /* Form Navigation */
     .form-nav {
       display: flex;
@@ -852,11 +978,6 @@
             <h3>Custom AI Solutions</h3>
             <p>From natural language processing to predictive analytics, we build and integrate bespoke AI tools into your existing stack.</p>
           </article>
-          <article class="service-card">
-            <div class="service-icon" aria-hidden="true">04</div>
-            <h3>Training &amp; Adoption</h3>
-            <p>Empower your team with hands-on workshops and ongoing support to ensure successful adoption of new AI-driven workflows.</p>
-          </article>
         </div>
       </div>
     </section>
@@ -906,7 +1027,7 @@
 
               <!-- Step 1: Q1 -->
               <div class="form-step" data-step="1">
-                <p class="form-step-question">Walk me through what your business does &mdash; your core model, how you make money, and who your customers are.</p>
+                <p class="form-step-question">Walk through what your business does, as if your speaking to a new employee on Day 1.</p>
                 <div class="field-group">
                   <label for="q1">Your Answer <span aria-hidden="true">*</span></label>
                   <textarea id="q1" name="q1" required aria-required="true" aria-label="Describe your business model, revenue, and customers" aria-describedby="q1-count" data-min="50" placeholder="Describe your business model, how you generate revenue, and your target customers..."></textarea>
@@ -917,26 +1038,65 @@
               <!-- Step 2: Q2 -->
               <div class="form-step" data-step="2">
                 <p class="form-step-question">What are the top 3 services or products that generate the most revenue?</p>
-                <div class="field-group">
-                  <label for="q2">Your Answer <span aria-hidden="true">*</span></label>
-                  <textarea id="q2" name="q2" required aria-required="true" aria-label="Top 3 revenue-generating services or products" aria-describedby="q2-count" data-min="30" placeholder="List your top revenue drivers..."></textarea>
-                  <div class="char-count" id="q2-count">0 / 30 minimum characters</div>
+                <div class="field-group" style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem;">
+                  <div>
+                    <label for="q2-1">Service/Product 1 <span aria-hidden="true">*</span></label>
+                    <input type="text" id="q2-1" name="q2-1" required aria-required="true" placeholder="Primary revenue generator">
+                  </div>
+                  <div>
+                    <label for="q2-1-rev">Est. Annual Revenue <span aria-hidden="true">*</span></label>
+                    <input type="text" id="q2-1-rev" name="q2-1-rev" required aria-required="true" placeholder="e.g. $500k">
+                  </div>
+                </div>
+                <div class="field-group" style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem;">
+                  <div>
+                    <label for="q2-2">Service/Product 2 <span aria-hidden="true">*</span></label>
+                    <input type="text" id="q2-2" name="q2-2" required aria-required="true" placeholder="Secondary revenue generator">
+                  </div>
+                  <div>
+                    <label for="q2-2-rev">Est. Annual Revenue <span aria-hidden="true">*</span></label>
+                    <input type="text" id="q2-2-rev" name="q2-2-rev" required aria-required="true" placeholder="e.g. $300k">
+                  </div>
+                </div>
+                <div class="field-group" style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem;">
+                  <div>
+                    <label for="q2-3">Service/Product 3 <span aria-hidden="true">*</span></label>
+                    <input type="text" id="q2-3" name="q2-3" required aria-required="true" placeholder="Third revenue generator">
+                  </div>
+                  <div>
+                    <label for="q2-3-rev">Est. Annual Revenue <span aria-hidden="true">*</span></label>
+                    <input type="text" id="q2-3-rev" name="q2-3-rev" required aria-required="true" placeholder="e.g. $200k">
+                  </div>
                 </div>
               </div>
 
-              <!-- Step 3: Q3 -->
+              <!-- Step 3: Q3 — Dynamic Table -->
               <div class="form-step" data-step="3">
-                <p class="form-step-question">List every software tool, platform, or system your team uses daily.</p>
-                <div class="field-group">
-                  <label for="q3">Your Answer <span aria-hidden="true">*</span></label>
-                  <textarea id="q3" name="q3" required aria-required="true" aria-label="Software tools and platforms used daily" aria-describedby="q3-count" data-min="30" placeholder="e.g., Slack, Salesforce, Google Workspace, Asana..."></textarea>
-                  <div class="char-count" id="q3-count">0 / 30 minimum characters</div>
+                <p class="form-step-question">List every software tool your business uses.</p>
+                <p style="font-size: 0.875rem; color: var(--gray-500); margin-bottom: 1.25rem;">Fill in at least one complete row to proceed. For each tool, specify its purpose, integrations, and your satisfaction level.</p>
+                <div class="dynamic-table-wrapper">
+                  <table class="dynamic-table" aria-label="Software tools table">
+                    <thead>
+                      <tr>
+                        <th scope="col">Tool Name</th>
+                        <th scope="col">What your using it for</th>
+                        <th scope="col">Connects to...</th>
+                        <th scope="col">Any problems?</th>
+                        <th scope="col"><span class="sr-only">Actions</span></th>
+                      </tr>
+                    </thead>
+                    <tbody id="toolTableBody">
+                      <!-- Rows added by JS -->
+                    </tbody>
+                  </table>
                 </div>
+                <button type="button" class="btn-add-row" id="addToolRowBtn" aria-label="Add another tool row">+ Add Tool</button>
+                <div class="validation-msg" id="tool-table-error" role="alert"></div>
               </div>
 
               <!-- Step 4: Q4 -->
               <div class="form-step" data-step="4">
-                <p class="form-step-question">Describe your full customer journey &mdash; from first contact to delivery and follow-up.</p>
+                <p class="form-step-question">Describe your Full Customer Journey, from First Contact, to Payment, to Product or Service delivery</p>
                 <div class="field-group">
                   <label for="q4">Your Answer <span aria-hidden="true">*</span></label>
                   <textarea id="q4" name="q4" required aria-required="true" aria-label="Full customer journey description" aria-describedby="q4-count" data-min="50" placeholder="Walk us through each stage from lead generation to post-delivery follow-up..."></textarea>
@@ -946,51 +1106,30 @@
 
               <!-- Step 5: Q5 — Dynamic Table -->
               <div class="form-step" data-step="5">
-                <p class="form-step-question">What recurring tasks consume the most time?</p>
-                <p style="font-size: 0.875rem; color: var(--gray-500); margin-bottom: 1.25rem;">Fill in at least one complete row to proceed.</p>
-                <div class="dynamic-table-wrapper">
-                  <table class="dynamic-table" aria-label="Recurring tasks table">
-                    <thead>
-                      <tr>
-                        <th scope="col">Task</th>
-                        <th scope="col">Frequency</th>
-                        <th scope="col">Avg Time (hrs)</th>
-                        <th scope="col">Who Does It</th>
-                        <th scope="col">Tools Used</th>
-                        <th scope="col"><span class="sr-only">Actions</span></th>
-                      </tr>
-                    </thead>
-                    <tbody id="taskTableBody">
-                      <!-- Rows added by JS -->
-                    </tbody>
-                  </table>
+                <p class="form-step-question">What recurring business processes or tasks consume the most time?</p>
+                <p style="font-size: 0.875rem; color: var(--gray-500); margin-bottom: 1.5rem;">Fill in at least one complete entry to proceed.</p>
+                <div id="taskCardsContainer" class="task-cards-container">
+                  <!-- Task Cards added by JS -->
                 </div>
-                <button type="button" class="btn-add-row" id="addRowBtn" aria-label="Add another task row">+ Add Row</button>
+                <button type="button" class="btn-add-row" id="addRowBtn" aria-label="Add another task entry">+ Add Task Entry</button>
                 <div class="validation-msg" id="table-error" role="alert"></div>
               </div>
 
-              <!-- Step 6: Q6 -->
+              <!-- Step 6: Q7 -->
               <div class="form-step" data-step="6">
-                <p class="form-step-question">What are the top 3 operational problems slowing your business down?</p>
+                <p class="form-step-question">If you had 20 additional hours each week, what would you spend them doing?</p>
                 <div class="field-group">
-                  <label for="q6">Your Answer <span aria-hidden="true">*</span></label>
-                  <textarea id="q6" name="q6" required aria-required="true" aria-label="Top 3 operational problems" aria-describedby="q6-count" data-min="30" placeholder="Describe the biggest bottlenecks in your operations..."></textarea>
-                  <div class="char-count" id="q6-count">0 / 30 minimum characters</div>
-                </div>
-              </div>
-
-              <!-- Step 7: Q7 -->
-              <div class="form-step" data-step="7">
-                <p class="form-step-question">If you had 20 additional productive hours each week, where would you invest them?</p>
-                <div class="field-group">
-                  <label for="q7">Your Answer <span aria-hidden="true">*</span></label>
+                  <label for="q7" style="display: flex; align-items: center; gap: 0.375rem;">
+                    Your Answer <span aria-hidden="true">*</span>
+                    <i class="info-icon" data-tooltip="This can be for you or a team member">?</i>
+                  </label>
                   <textarea id="q7" name="q7" required aria-required="true" aria-label="How you would invest 20 extra hours per week" aria-describedby="q7-count" data-min="30" placeholder="What would you focus on with more time?"></textarea>
                   <div class="char-count" id="q7-count">0 / 30 minimum characters</div>
                 </div>
               </div>
 
-              <!-- Step 8: Q8 -->
-              <div class="form-step" data-step="8">
+              <!-- Step 7: Q8 -->
+              <div class="form-step" data-step="7">
                 <p class="form-step-question">Describe a process you've admired at another business that you wish you could replicate.</p>
                 <div class="field-group">
                   <label for="q8">Your Answer <span aria-hidden="true">*</span></label>
@@ -999,8 +1138,8 @@
                 </div>
               </div>
 
-              <!-- Step 9: Q9 (Optional) -->
-              <div class="form-step" data-step="9">
+              <!-- Step 8: Q9 (Optional) -->
+              <div class="form-step" data-step="8">
                 <p class="form-step-question">Is there anything else we should know about your business or goals?</p>
                 <div class="field-group">
                   <label for="q9">Your Answer <em style="font-weight:400; color: var(--gray-400);">(optional)</em></label>
@@ -1009,8 +1148,8 @@
                 </div>
               </div>
 
-              <!-- Step 10: Review -->
-              <div class="form-step" data-step="10">
+              <!-- Step 9: Review -->
+              <div class="form-step" data-step="9">
                 <p class="form-step-question">Review your answers</p>
                 <p style="font-size: 0.9375rem; color: var(--gray-500); margin-bottom: 2rem;">Please review your responses below. Click "Edit" to make changes.</p>
                 <div id="reviewContent">
@@ -1058,8 +1197,8 @@
       'use strict';
 
       const STORAGE_KEY = 'swiss-precision';
-      const TOTAL_STEPS = 12; // 0=contact, 1-9=questions, 10=review, 11=submit(virtual)
-      const DISPLAY_TOTAL = 12;
+      const TOTAL_STEPS = 11; // 0=contact, 1-8=questions, 9=review, 10=submit(virtual)
+      const DISPLAY_TOTAL = 11;
 
       let currentStep = 0;
       const form = document.getElementById('intakeForm');
@@ -1071,33 +1210,231 @@
       const progressLabel = document.getElementById('progressLabel');
       const progressPercent = document.getElementById('progressPercent');
       const progressContainer = document.querySelector('.progress-container');
-      const taskTableBody = document.getElementById('taskTableBody');
+      const taskCardsContainer = document.getElementById('taskCardsContainer');
       const addRowBtn = document.getElementById('addRowBtn');
+      const toolTableBody = document.getElementById('toolTableBody');
+      const addToolRowBtn = document.getElementById('addToolRowBtn');
 
       const stepLabels = [
         'Contact Information',
-        'Question 1 of 9',
-        'Question 2 of 9',
-        'Question 3 of 9',
-        'Question 4 of 9',
-        'Question 5 of 9',
-        'Question 6 of 9',
-        'Question 7 of 9',
-        'Question 8 of 9',
-        'Question 9 of 9',
+        'Question 1 of 8',
+        'Question 2 of 8',
+        'Question 3 of 8',
+        'Question 4 of 8',
+        'Question 5 of 8',
+        'Question 6 of 8',
+        'Question 7 of 8',
+        'Question 8 of 8',
         'Review',
       ];
 
-      // ========== TASK TABLE ==========
+      // ========== TASK CARDS (Q5) ==========
       function createTaskRow(data) {
+        const index = taskCardsContainer.children.length + 1;
+        const card = document.createElement('div');
+        card.className = 'task-card';
+        card.setAttribute('data-task-index', index);
+
+        // Header with Remove Button
+        const header = document.createElement('div');
+        header.className = 'task-card-header';
+        header.innerHTML = `<span class="task-card-number">Task #${index}</span>`;
+        
+        const removeBtn = document.createElement('button');
+        removeBtn.type = 'button';
+        removeBtn.className = 'btn-remove-row';
+        removeBtn.innerHTML = '&times;';
+        removeBtn.setAttribute('aria-label', 'Remove this task');
+        removeBtn.addEventListener('click', function () {
+          card.remove();
+          updateTaskCardNumbers();
+          saveToStorage();
+          validateCurrentStep();
+        });
+        header.appendChild(removeBtn);
+        card.appendChild(header);
+
+        // Grid Container
+        const grid = document.createElement('div');
+        grid.className = 'task-card-grid';
+
+        const fields = [
+          { id: 'task', label: 'Task', full: true, placeholder: 'e.g. Monthly Invoicing' },
+          { id: 'objective', label: 'Objective', full: true, placeholder: 'e.g. Ensure all clients are billed accurately and on time' },
+          { id: 'frequency', label: 'Frequency', type: 'select' },
+          { id: 'avgTime', label: 'Avg Time (hrs)', placeholder: 'e.g. 4' },
+          { id: 'whoDoes', label: 'Who Does It', placeholder: 'e.g. Finance Team' },
+          { id: 'toolsUsed', label: 'Tools Used', placeholder: 'e.g. QuickBooks, Excel' },
+          { id: 'details', label: 'Additional Details', full: true, placeholder: 'Any extra context or complexity...' }
+        ];
+
+        fields.forEach(function (field) {
+          const fieldDiv = document.createElement('div');
+          fieldDiv.className = 'task-card-field' + (field.full ? ' task-card-full' : '');
+          
+          const label = document.createElement('label');
+          label.textContent = field.label;
+
+          if (field.id === 'objective') {
+            const infoIcon = document.createElement('i');
+            infoIcon.className = 'info-icon';
+            infoIcon.textContent = '?';
+            infoIcon.setAttribute('data-tooltip', 'The reason you do this task; its intrinsic purpose');
+            label.appendChild(infoIcon);
+          }
+
+          fieldDiv.appendChild(label);
+
+          if (field.id === 'frequency') {
+            const container = document.createElement('div');
+            container.style.display = 'flex';
+            container.style.flexDirection = 'column';
+            container.style.gap = '0.25rem';
+
+            const select = document.createElement('select');
+            select.name = 'taskRow_frequency';
+            select.setAttribute('aria-label', 'Frequency');
+            const options = ['', 'Daily', 'Weekly', 'Monthly', 'Quarterly', 'Annually', 'Other'];
+            options.forEach(function (opt) {
+              const option = document.createElement('option');
+              option.value = opt;
+              option.textContent = opt || 'Select...';
+              select.appendChild(option);
+            });
+            select.style.width = '100%';
+            select.style.padding = '0.5rem';
+            select.style.fontFamily = 'var(--font)';
+            select.style.fontSize = '0.875rem';
+            select.style.border = '1px solid var(--gray-200)';
+            select.style.borderRadius = '2px';
+            select.style.background = 'var(--white)';
+
+            const otherInput = document.createElement('input');
+            otherInput.type = 'text';
+            otherInput.name = 'taskRow_frequencyOther';
+            otherInput.placeholder = 'Please specify...';
+            otherInput.style.display = 'none';
+            otherInput.style.fontSize = '0.8125rem';
+            otherInput.style.padding = '0.375rem 0.5rem';
+            otherInput.style.border = '1px solid var(--gray-200)';
+            otherInput.style.borderRadius = '2px';
+            otherInput.style.fontFamily = 'var(--font)';
+
+            if (data && data.frequency) {
+              if (options.includes(data.frequency) && data.frequency !== 'Other') {
+                select.value = data.frequency;
+              } else if (data.frequency) {
+                select.value = 'Other';
+                otherInput.style.display = 'block';
+                otherInput.value = data.frequency === 'Other' ? '' : data.frequency;
+              }
+            }
+
+            select.addEventListener('change', function () {
+              if (select.value === 'Other') {
+                otherInput.style.display = 'block';
+                setTimeout(function() { otherInput.focus(); }, 10);
+              } else {
+                otherInput.style.display = 'none';
+                otherInput.value = '';
+              }
+              saveToStorage();
+              validateCurrentStep();
+            });
+
+            otherInput.addEventListener('input', function () {
+              saveToStorage();
+              validateCurrentStep();
+            });
+
+            container.appendChild(select);
+            container.appendChild(otherInput);
+            fieldDiv.appendChild(container);
+          } else if (field.id === 'objective' || field.id === 'details') {
+            const textarea = document.createElement('textarea');
+            textarea.name = 'taskRow_' + field.id;
+            textarea.placeholder = field.placeholder || '';
+            textarea.value = (data && data[field.id]) || '';
+            textarea.rows = 2;
+            textarea.style.minHeight = 'auto';
+            textarea.style.padding = '0.5rem 0.75rem';
+            textarea.addEventListener('input', function () { saveToStorage(); validateCurrentStep(); });
+            fieldDiv.appendChild(textarea);
+          } else {
+            const input = document.createElement('input');
+            input.type = 'text';
+            input.name = 'taskRow_' + field.id;
+            input.placeholder = field.placeholder || '';
+            input.value = (data && data[field.id]) || '';
+            input.addEventListener('input', function () { saveToStorage(); validateCurrentStep(); });
+            fieldDiv.appendChild(input);
+          }
+          grid.appendChild(fieldDiv);
+        });
+
+        card.appendChild(grid);
+        taskCardsContainer.appendChild(card);
+      }
+
+      function updateTaskCardNumbers() {
+        const cards = taskCardsContainer.querySelectorAll('.task-card');
+        cards.forEach((card, i) => {
+          card.querySelector('.task-card-number').textContent = `Task #${i + 1}`;
+        });
+      }
+
+      function getTaskRows() {
+        var rows = [];
+        var cards = taskCardsContainer.querySelectorAll('.task-card');
+        cards.forEach(function (card) {
+          var taskInput = card.querySelector('[name="taskRow_task"]');
+          var objectiveInput = card.querySelector('[name="taskRow_objective"]');
+          var freqSelect = card.querySelector('select[name="taskRow_frequency"]');
+          var freqOther = card.querySelector('[name="taskRow_frequencyOther"]');
+          var timeInput = card.querySelector('[name="taskRow_avgTime"]');
+          var whoInput = card.querySelector('[name="taskRow_whoDoes"]');
+          var toolsInput = card.querySelector('[name="taskRow_toolsUsed"]');
+          var detailsInput = card.querySelector('[name="taskRow_details"]');
+          if (taskInput) {
+            var frequency = freqSelect.value;
+            if (frequency === 'Other' && freqOther && freqOther.value.trim()) {
+              frequency = freqOther.value.trim();
+            }
+            rows.push({
+              task: taskInput.value,
+              objective: objectiveInput.value,
+              frequency: frequency,
+              avgTime: timeInput.value,
+              whoDoes: whoInput.value,
+              toolsUsed: toolsInput.value,
+              details: detailsInput.value,
+            });
+          }
+        });
+        return rows;
+      }
+
+      function hasFilledRow() {
+        var rows = getTaskRows();
+        return rows.some(function (r) {
+          return r.task.trim() && r.objective.trim() && r.frequency.trim() && r.avgTime.trim() && r.whoDoes.trim() && r.toolsUsed.trim();
+        });
+      }
+
+      addRowBtn.addEventListener('click', function () {
+        createTaskRow();
+      });
+
+      // ========== TOOL TABLE ==========
+      function createToolRow(data) {
         const tr = document.createElement('tr');
-        const fields = ['task', 'frequency', 'avgTime', 'whoDoes', 'toolsUsed'];
+        const fields = ['name', 'purpose', 'connects', 'happy'];
         fields.forEach(function (field) {
           const td = document.createElement('td');
           const input = document.createElement('input');
           input.type = 'text';
-          input.name = 'taskRow_' + field;
-          input.setAttribute('aria-label', field.replace(/([A-Z])/g, ' $1').trim());
+          input.name = 'toolRow_' + field;
+          input.setAttribute('aria-label', field);
           input.value = (data && data[field]) || '';
           input.addEventListener('input', function () { saveToStorage(); validateCurrentStep(); });
           td.appendChild(input);
@@ -1117,43 +1454,49 @@
         });
         tdAction.appendChild(removeBtn);
         tr.appendChild(tdAction);
-        taskTableBody.appendChild(tr);
+        toolTableBody.appendChild(tr);
       }
 
-      function getTaskRows() {
+      function getToolRows() {
         var rows = [];
-        var trs = taskTableBody.querySelectorAll('tr');
+        var trs = toolTableBody.querySelectorAll('tr');
         trs.forEach(function (tr) {
           var inputs = tr.querySelectorAll('input');
           rows.push({
-            task: inputs[0].value,
-            frequency: inputs[1].value,
-            avgTime: inputs[2].value,
-            whoDoes: inputs[3].value,
-            toolsUsed: inputs[4].value,
+            name: inputs[0].value,
+            purpose: inputs[1].value,
+            connects: inputs[2].value,
+            happy: inputs[3].value,
           });
         });
         return rows;
       }
 
-      function hasFilledRow() {
-        var rows = getTaskRows();
+      function hasFilledToolRow() {
+        var rows = getToolRows();
         return rows.some(function (r) {
-          return r.task.trim() && r.frequency.trim() && r.avgTime.trim() && r.whoDoes.trim() && r.toolsUsed.trim();
+          return r.name.trim() && r.purpose.trim() && r.connects.trim() && r.happy.trim();
         });
       }
 
-      addRowBtn.addEventListener('click', function () {
-        createTaskRow();
+      addToolRowBtn.addEventListener('click', function () {
+        createToolRow();
       });
 
-      // Initialize 3 empty rows
-      function initTable(data) {
-        taskTableBody.innerHTML = '';
-        if (data && data.length > 0) {
-          data.forEach(function (row) { createTaskRow(row); });
+      // Initialize tables
+      function initTables(taskData, toolData) {
+        taskCardsContainer.innerHTML = '';
+        if (taskData && taskData.length > 0) {
+          taskData.forEach(function (row) { createTaskRow(row); });
         } else {
           for (var i = 0; i < 3; i++) { createTaskRow(); }
+        }
+
+        toolTableBody.innerHTML = '';
+        if (toolData && toolData.length > 0) {
+          toolData.forEach(function (row) { createToolRow(row); });
+        } else {
+          for (var j = 0; j < 3; j++) { createToolRow(); }
         }
       }
 
@@ -1163,11 +1506,14 @@
           contactName: document.getElementById('contact-name').value,
           contactEmail: document.getElementById('contact-email').value,
           q1: document.getElementById('q1').value,
-          q2: document.getElementById('q2').value,
-          q3: document.getElementById('q3').value,
+          q2: [
+            { name: document.getElementById('q2-1').value, rev: document.getElementById('q2-1-rev').value },
+            { name: document.getElementById('q2-2').value, rev: document.getElementById('q2-2-rev').value },
+            { name: document.getElementById('q2-3').value, rev: document.getElementById('q2-3-rev').value }
+          ],
+          q3: getToolRows(),
           q4: document.getElementById('q4').value,
           q5: getTaskRows(),
-          q6: document.getElementById('q6').value,
           q7: document.getElementById('q7').value,
           q8: document.getElementById('q8').value,
           q9: document.getElementById('q9').value,
@@ -1193,19 +1539,27 @@
       function restoreForm() {
         var data = loadFromStorage();
         if (!data) {
-          initTable();
+          initTables();
           return;
         }
         document.getElementById('contact-name').value = data.contactName || '';
         document.getElementById('contact-email').value = data.contactEmail || '';
-        for (var i = 1; i <= 4; i++) {
-          document.getElementById('q' + i).value = data['q' + i] || '';
+        document.getElementById('q1').value = data.q1 || '';
+        if (Array.isArray(data.q2)) {
+          for (var k = 0; k < 3; k++) {
+            var el = document.getElementById('q2-' + (k + 1));
+            var revEl = document.getElementById('q2-' + (k + 1) + '-rev');
+            if (el && data.q2[k]) el.value = data.q2[k].name || '';
+            if (revEl && data.q2[k]) revEl.value = data.q2[k].rev || '';
+          }
         }
-        for (var j = 6; j <= 9; j++) {
-          document.getElementById('q' + j).value = data['q' + j] || '';
+        document.getElementById('q4').value = data.q4 || '';
+        for (var j = 7; j <= 9; j++) {
+          var qEl = document.getElementById('q' + j);
+          if (qEl) qEl.value = data['q' + j] || '';
         }
-        initTable(data.q5);
-        if (typeof data.currentStep === 'number' && data.currentStep >= 0 && data.currentStep <= 10) {
+        initTables(data.q5, data.q3);
+        if (typeof data.currentStep === 'number' && data.currentStep >= 0 && data.currentStep <= 9) {
           currentStep = data.currentStep;
         }
         showStep(currentStep);
@@ -1256,23 +1610,38 @@
           var email = document.getElementById('contact-email').value.trim();
           return name.length > 0 && isValidEmail(email);
         }
-        if (step >= 1 && step <= 4) {
+        if (step === 1 || step === 4) {
           var ta = document.getElementById('q' + step);
           var min = parseInt(ta.getAttribute('data-min'), 10);
           return ta.value.length >= min;
         }
+        if (step === 3) {
+          return hasFilledToolRow();
+        }
+        if (step === 2) {
+          var q21 = document.getElementById('q2-1').value.trim();
+          var q21r = document.getElementById('q2-1-rev').value.trim();
+          var q22 = document.getElementById('q2-2').value.trim();
+          var q22r = document.getElementById('q2-2-rev').value.trim();
+          var q23 = document.getElementById('q2-3').value.trim();
+          var q23r = document.getElementById('q2-3-rev').value.trim();
+          return q21.length > 0 && q21r.length > 0 && 
+                 q22.length > 0 && q22r.length > 0 && 
+                 q23.length > 0 && q23r.length > 0;
+        }
         if (step === 5) {
           return hasFilledRow();
         }
-        if (step >= 6 && step <= 8) {
-          var ta2 = document.getElementById('q' + step);
+        if (step === 6 || step === 7) {
+          var qNum = step === 6 ? 7 : 8;
+          var ta2 = document.getElementById('q' + qNum);
           var min2 = parseInt(ta2.getAttribute('data-min'), 10);
           return ta2.value.length >= min2;
         }
-        if (step === 9) {
-          return true; // optional
+        if (step === 8) {
+          return true; // optional (q9)
         }
-        if (step === 10) {
+        if (step === 9) {
           return true; // review
         }
         return true;
@@ -1290,6 +1659,9 @@
           var email = document.getElementById('contact-email').value.trim();
           document.getElementById('contact-name-error').textContent = name.length === 0 ? 'Name is required.' : '';
           document.getElementById('contact-email-error').textContent = !isValidEmail(email) ? 'Please enter a valid email address.' : '';
+        }
+        if (step === 3) {
+          document.getElementById('tool-table-error').textContent = !hasFilledToolRow() ? 'Please fill in at least one complete row.' : '';
         }
         if (step === 5) {
           document.getElementById('table-error').textContent = !hasFilledRow() ? 'Please fill in at least one complete row.' : '';
@@ -1312,7 +1684,7 @@
 
         // Nav buttons
         prevBtn.style.visibility = step === 0 ? 'hidden' : 'visible';
-        if (step === 10) {
+        if (step === 9) {
           nextBtn.textContent = 'Submit';
           nextBtn.setAttribute('aria-label', 'Submit your assessment');
           buildReview();
@@ -1338,7 +1710,7 @@
           showValidationErrors(currentStep);
           return;
         }
-        if (currentStep === 10) {
+        if (currentStep === 9) {
           submitForm();
           return;
         }
@@ -1361,10 +1733,9 @@
         { key: 'q3', label: 'Q3: Software & Tools' },
         { key: 'q4', label: 'Q4: Customer Journey' },
         { key: 'q5', label: 'Q5: Time-Consuming Tasks' },
-        { key: 'q6', label: 'Q6: Operational Problems' },
-        { key: 'q7', label: 'Q7: Extra Time Investment' },
-        { key: 'q8', label: 'Q8: Admired Process' },
-        { key: 'q9', label: 'Q9: Additional Info' },
+        { key: 'q7', label: 'Q6: Extra Time Investment' },
+        { key: 'q8', label: 'Q7: Admired Process' },
+        { key: 'q9', label: 'Q8: Additional Info' },
       ];
 
       function escapeHtml(str) {
@@ -1384,28 +1755,54 @@
         // Q1-Q4
         for (var i = 1; i <= 4; i++) {
           html += '<div class="review-section"><div class="review-section-header"><span class="review-section-label">' + questionLabels[i].label + '</span><button type="button" class="btn-edit" data-goto="' + i + '" aria-label="Edit ' + questionLabels[i].label + '">Edit</button></div>';
-          html += '<div class="review-section-answer">' + escapeHtml(data['q' + i] || '(empty)') + '</div></div>';
+          if (i === 2 && Array.isArray(data.q2)) {
+            html += '<div class="review-section-answer">' + data.q2.filter(function(s) { return s.name.trim(); }).map(function(s) { 
+              return escapeHtml(s.name) + ' — ' + escapeHtml(s.rev || 'N/A'); 
+            }).join('<br>') + '</div></div>';
+          } else if (i === 3 && Array.isArray(data.q3)) {
+            var toolRows = data.q3.filter(function (r) { return r.name.trim(); });
+            if (toolRows.length > 0) {
+              html += '<table class="review-table"><thead><tr><th>Tool</th><th>Purpose</th><th>Connects</th><th>Happy?</th></tr></thead><tbody>';
+              toolRows.forEach(function (r) {
+                html += '<tr><td>' + escapeHtml(r.name) + '</td><td>' + escapeHtml(r.purpose) + '</td><td>' + escapeHtml(r.connects) + '</td><td>' + escapeHtml(r.happy) + '</td></tr>';
+              });
+              html += '</tbody></table>';
+            } else {
+              html += '<div class="review-section-answer">(no tools entered)</div>';
+            }
+            html += '</div>';
+          } else {
+            html += '<div class="review-section-answer">' + escapeHtml(data['q' + i] || '(empty)') + '</div></div>';
+          }
         }
 
-        // Q5 table
+        // Q5 summary (Card list instead of table for readability)
         html += '<div class="review-section"><div class="review-section-header"><span class="review-section-label">' + questionLabels[5].label + '</span><button type="button" class="btn-edit" data-goto="5" aria-label="Edit recurring tasks">Edit</button></div>';
         var rows = data.q5.filter(function (r) { return r.task.trim(); });
         if (rows.length > 0) {
-          html += '<table class="review-table"><thead><tr><th>Task</th><th>Frequency</th><th>Avg Time</th><th>Who</th><th>Tools</th></tr></thead><tbody>';
-          rows.forEach(function (r) {
-            html += '<tr><td>' + escapeHtml(r.task) + '</td><td>' + escapeHtml(r.frequency) + '</td><td>' + escapeHtml(r.avgTime) + '</td><td>' + escapeHtml(r.whoDoes) + '</td><td>' + escapeHtml(r.toolsUsed) + '</td></tr>';
+          rows.forEach(function (r, idx) {
+            html += '<div style="margin-bottom: 1rem; padding: 1rem; background: var(--white); border: 1px solid var(--gray-200); border-radius: 4px;">';
+            html += '<div style="font-weight: 700; color: var(--black); margin-bottom: 0.5rem;">' + (idx + 1) + '. ' + escapeHtml(r.task) + '</div>';
+            html += '<div style="font-size: 0.8125rem; display: grid; grid-template-columns: 1fr 1fr; gap: 0.5rem;">';
+            html += '<div><strong style="color: var(--gray-500);">Objective:</strong> ' + escapeHtml(r.objective || '—') + '</div>';
+            html += '<div><strong style="color: var(--gray-500);">Frequency:</strong> ' + escapeHtml(r.frequency) + '</div>';
+            html += '<div><strong style="color: var(--gray-500);">Avg Time:</strong> ' + escapeHtml(r.avgTime) + ' hrs</div>';
+            html += '<div><strong style="color: var(--gray-500);">Who:</strong> ' + escapeHtml(r.whoDoes) + '</div>';
+            html += '<div><strong style="color: var(--gray-500);">Tools:</strong> ' + escapeHtml(r.toolsUsed) + '</div>';
+            html += '<div style="grid-column: 1 / -1;"><strong style="color: var(--gray-500);">Details:</strong> ' + escapeHtml(r.details || '—') + '</div>';
+            html += '</div></div>';
           });
-          html += '</tbody></table>';
         } else {
           html += '<div class="review-section-answer">(no tasks entered)</div>';
         }
         html += '</div>';
 
-        // Q6-Q9
-        for (var j = 6; j <= 9; j++) {
-          var qIdx = j === 6 ? 6 : j === 7 ? 7 : j === 8 ? 8 : 9;
-          html += '<div class="review-section"><div class="review-section-header"><span class="review-section-label">' + questionLabels[qIdx].label + '</span><button type="button" class="btn-edit" data-goto="' + j + '" aria-label="Edit ' + questionLabels[qIdx].label + '">Edit</button></div>';
-          html += '<div class="review-section-answer">' + escapeHtml(data['q' + j] || '(empty)') + '</div></div>';
+        // Q6-Q8 (mapping to original keys q7, q8, q9)
+        for (var j = 6; j <= 8; j++) {
+          var qLabelIdx = j;
+          var originalKey = questionLabels[qLabelIdx].key;
+          html += '<div class="review-section"><div class="review-section-header"><span class="review-section-label">' + questionLabels[qLabelIdx].label + '</span><button type="button" class="btn-edit" data-goto="' + j + '" aria-label="Edit ' + questionLabels[qLabelIdx].label + '">Edit</button></div>';
+          html += '<div class="review-section-answer">' + escapeHtml(data[originalKey] || '(empty)') + '</div></div>';
         }
 
         document.getElementById('reviewContent').innerHTML = html;
