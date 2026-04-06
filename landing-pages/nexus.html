@@ -8,6 +8,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
   <style>
     /* =============================================
        RESET & BASE
@@ -1170,7 +1171,11 @@
           <div class="thank-you" id="thankYou" role="status" aria-live="polite">
             <div class="thank-you-icon" aria-hidden="true">&#10003;</div>
             <h2>Thank You</h2>
-            <p>Your business assessment has been submitted successfully. Our team will review your responses and get back to you within 1-2 business days.</p>
+            <p style="margin-bottom: 2rem;">Your business assessment has been submitted successfully. Our team will review your responses and get back to you within 1-2 business days.</p>
+            <button type="button" class="btn btn-secondary" id="downloadResponseBtn">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v4"></path><polyline points="7 10 12 15 17 10"></polyline><line x1="12" y1="15" x2="12" y2="3"></line></svg>
+              Download Your Responses
+            </button>
           </div>
         </div>
       </div>
@@ -1201,11 +1206,13 @@
       const DISPLAY_TOTAL = 11;
 
       let currentStep = 0;
+      let submittedData = null;
       const form = document.getElementById('intakeForm');
       const formContainer = document.getElementById('formContainer');
       const thankYou = document.getElementById('thankYou');
       const prevBtn = document.getElementById('prevBtn');
       const nextBtn = document.getElementById('nextBtn');
+      const downloadResponseBtn = document.getElementById('downloadResponseBtn');
       const progressFill = document.getElementById('progressFill');
       const progressLabel = document.getElementById('progressLabel');
       const progressPercent = document.getElementById('progressPercent');
@@ -1820,6 +1827,7 @@
       async function submitForm() {
         var data = getFormData();
         delete data.currentStep;
+        submittedData = data; // Store for download
 
         // Change the button state to show progress
         nextBtn.disabled = true;
@@ -1853,6 +1861,252 @@
           nextBtn.disabled = false;
           nextBtn.textContent = 'Submit';
         }
+      }
+
+      function downloadResponse() {
+        if (!submittedData) return;
+
+        const date = new Date().toISOString().split('T')[0];
+        const filename = `Nexus_AI_Assessment_${date}.pdf`;
+
+        // Create a temporary element for PDF generation
+        const element = document.createElement('div');
+        // Ensure the element is hidden but in the DOM for proper rendering
+        element.style.position = 'absolute';
+        element.style.left = '-9999px';
+        element.style.top = '0';
+        element.style.width = '800px'; // Fixed width for consistent scaling
+        element.style.padding = '40px';
+        element.style.background = '#ffffff';
+        element.style.fontFamily = 'Inter, -apple-system, BlinkMacSystemFont, sans-serif';
+        element.style.color = '#111827';
+
+        let htmlContent = `
+          <div style="background: white; width: 100%;">
+            <div style="border-bottom: 2px solid #0080FF; padding-bottom: 20px; margin-bottom: 30px;">
+              <h1 style="margin: 0; color: #000; font-size: 28px; font-weight: 800;">NEXUS AI CONSULTANCY</h1>
+              <p style="margin: 5px 0 0; color: #0080FF; text-transform: uppercase; letter-spacing: 2px; font-size: 14px; font-weight: 700;">Business Assessment Report</p>
+            </div>
+            
+            <div style="margin-bottom: 40px; font-size: 16px; line-height: 1.5;">
+              <p style="margin: 0 0 8px;"><strong>Submitted:</strong> ${new Date().toLocaleString()}</p>
+              <p style="margin: 0 0 8px;"><strong>Client Name:</strong> ${submittedData.contactName}</p>
+              <p style="margin: 0;"><strong>Email:</strong> ${submittedData.contactEmail}</p>
+            </div>
+
+            <div style="margin-bottom: 40px;">
+              <h2 style="font-size: 18px; border-bottom: 2px solid #F3F4F6; padding-bottom: 10px; margin-bottom: 15px; color: #111827; font-weight: 700;">1. Business Model</h2>
+              <p style="font-size: 15px; line-height: 1.7; color: #374151;">${submittedData.q1}</p>
+            </div>
+
+            <div style="margin-bottom: 40px;">
+              <h2 style="font-size: 18px; border-bottom: 2px solid #F3F4F6; padding-bottom: 10px; margin-bottom: 15px; color: #111827; font-weight: 700;">2. Top Revenue Generators</h2>
+              <table style="width: 100%; border-collapse: collapse; font-size: 15px;">
+                <thead>
+                  <tr style="background: #F9FAFB;">
+                    <th style="padding: 12px; text-align: left; border: 1px solid #E5E7EB; font-weight: 700;">Service/Product</th>
+                    <th style="padding: 12px; text-align: left; border: 1px solid #E5E7EB; font-weight: 700;">Est. Annual Revenue</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${submittedData.q2.map(s => `
+                    <tr>
+                      <td style="padding: 12px; border: 1px solid #E5E7EB;">${s.name}</td>
+                      <td style="padding: 12px; border: 1px solid #E5E7EB;">${s.rev}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+
+            <div style="margin-bottom: 40px;">
+              <h2 style="font-size: 18px; border-bottom: 2px solid #F3F4F6; padding-bottom: 10px; margin-bottom: 15px; color: #111827; font-weight: 700;">3. Software Tech Stack</h2>
+              <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                <thead>
+                  <tr style="background: #F9FAFB;">
+                    <th style="padding: 10px; text-align: left; border: 1px solid #E5E7EB; font-weight: 700;">Tool</th>
+                    <th style="padding: 10px; text-align: left; border: 1px solid #E5E7EB; font-weight: 700;">Purpose</th>
+                    <th style="padding: 10px; text-align: left; border: 1px solid #E5E7EB; font-weight: 700;">Connects To</th>
+                    <th style="padding: 10px; text-align: left; border: 1px solid #E5E7EB; font-weight: 700;">Happy?</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  ${submittedData.q3.map(t => `
+                    <tr>
+                      <td style="padding: 10px; border: 1px solid #E5E7EB; font-weight: 600;">${t.name}</td>
+                      <td style="padding: 10px; border: 1px solid #E5E7EB;">${t.purpose}</td>
+                      <td style="padding: 10px; border: 1px solid #E5E7EB;">${t.connects}</td>
+                      <td style="padding: 10px; border: 1px solid #E5E7EB;">${t.happy}</td>
+                    </tr>
+                  `).join('')}
+                </tbody>
+              </table>
+            </div>
+
+            <div style="margin-bottom: 40px;">
+              <h2 style="font-size: 18px; border-bottom: 2px solid #F3F4F6; padding-bottom: 10px; margin-bottom: 15px; color: #111827; font-weight: 700;">4. Workflow Audit: Recurring Tasks</h2>
+              ${submittedData.q5.map((r, i) => `
+                <div style="margin-bottom: 20px; padding: 20px; border: 1px solid #E5E7EB; border-radius: 4px; background: #ffffff; page-break-inside: avoid;">
+                  <div style="margin-bottom: 15px; font-weight: 800; color: #0080FF; font-size: 16px; border-bottom: 1px solid #F3F4F6; padding-bottom: 10px;">
+                    Task #${i + 1}: ${r.task}
+                  </div>
+                  <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                    <tr>
+                      <td colspan="2" style="padding-bottom: 10px;">
+                        <strong style="color: #6B7280; text-transform: uppercase; font-size: 11px;">Objective:</strong><br>
+                        <span style="color: #111827;">${r.objective}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="width: 50%; padding-bottom: 10px;">
+                        <strong style="color: #6B7280; text-transform: uppercase; font-size: 11px;">Frequency:</strong><br>
+                        <span style="color: #111827;">${r.frequency}</span>
+                      </td>
+                      <td style="width: 50%; padding-bottom: 10px;">
+                        <strong style="color: #6B7280; text-transform: uppercase; font-size: 11px;">Avg Time:</strong><br>
+                        <span style="color: #111827;">${r.avgTime} hrs</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td style="width: 50%; padding-bottom: 10px;">
+                        <strong style="color: #6B7280; text-transform: uppercase; font-size: 11px;">Who:</strong><br>
+                        <span style="color: #111827;">${r.whoDoes}</span>
+                      </td>
+                      <td style="width: 50%; padding-bottom: 10px;">
+                        <strong style="color: #6B7280; text-transform: uppercase; font-size: 11px;">Tools:</strong><br>
+                        <span style="color: #111827;">${r.toolsUsed}</span>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td colspan="2" style="background: #F9FAFB; padding: 10px; border-radius: 4px; margin-top: 10px;">
+                        <strong style="color: #6B7280; text-transform: uppercase; font-size: 11px;">Additional Details:</strong><br>
+                        <span style="color: #4B5563; font-style: italic;">${r.details || 'No additional details provided.'}</span>
+                      </td>
+                    </tr>
+                  </table>
+                </div>
+              `).join('')}
+            </div>
+
+            <div style="margin-bottom: 40px;">
+              <h2 style="font-size: 18px; border-bottom: 2px solid #F3F4F6; padding-bottom: 10px; margin-bottom: 15px; color: #111827; font-weight: 700;">5. Strategic Growth</h2>
+              <div style="margin-bottom: 25px;">
+                <p style="margin: 0 0 10px; font-weight: 700; color: #111827;">Reinvestment of 20 Reclaimed Hours:</p>
+                <p style="font-size: 15px; line-height: 1.7; color: #4B5563;">${submittedData.q7}</p>
+              </div>
+              
+              <div>
+                <p style="margin: 0 0 10px; font-weight: 700; color: #111827;">Benchmark Process / Aspirational Model:</p>
+                <p style="font-size: 15px; line-height: 1.7; color: #4B5563;">${submittedData.q8}</p>
+              </div>
+            </div>
+
+            <div style="margin-top: 60px; text-align: center; border-top: 1px solid #E5E7EB; padding-top: 20px; color: #9CA3AF; font-size: 12px;">
+              © 2026 Nexus AI Consultancy. All rights reserved.
+            </div>
+          </div>
+        `;
+
+        element.innerHTML = htmlContent;
+        document.body.appendChild(element);
+
+        const opt = {
+          margin: 10,
+          filename: filename,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { 
+            scale: 2, 
+            useCORS: true, 
+            logging: true, 
+            letterRendering: true,
+            windowWidth: 800
+          },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // Add a 500ms delay to ensure everything is rendered
+        setTimeout(() => {
+          html2pdf().set(opt).from(element).save().then(() => {
+            console.log("PDF generated successfully");
+            document.body.removeChild(element);
+          }).catch(err => {
+            console.error("PDF Error:", err);
+            document.body.removeChild(element);
+          });
+        }, 500);
+      }
+
+        element.innerHTML = htmlContent;
+        document.body.appendChild(element); // Critical for html2canvas to "see" the element
+
+        const opt = {
+          margin: 10,
+          filename: filename,
+          image: { type: 'jpeg', quality: 0.98 },
+          html2canvas: { scale: 2, useCORS: true, letterRendering: true },
+          jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
+        };
+
+        // Trigger the PDF generation and then clean up
+        const worker = html2pdf().set(opt).from(element);
+        
+        // Use the worker to save, ensuring we wait for rendering
+        worker.save().then(() => {
+          console.log("PDF generated successfully");
+          document.body.removeChild(element);
+        }).catch(err => {
+          console.error("PDF Error:", err);
+          document.body.removeChild(element);
+        });
+      }
+
+      // ========== DIAGNOSTIC TEST ==========
+      window.runPdfTest = function() {
+        console.log("Starting PDF Diagnostic Test...");
+        submittedData = {
+          contactName: "Diagnostic Test User",
+          contactEmail: "test@example.com",
+          q1: "This is a diagnostic test of the PDF generation system. It verifies that multi-line text, tables, and grid layouts are rendering correctly in the exported document.",
+          q2: [
+            { name: "Test Service Alpha", rev: "$1,000,000" },
+            { name: "Test Product Beta", rev: "$500,000" },
+            { name: "Consulting Gamma", rev: "$250,000" }
+          ],
+          q3: [
+            { name: "Slack", purpose: "Internal Comm", connects: "Zapier", happy: "Yes" },
+            { name: "Salesforce", purpose: "CRM", connects: "Email", happy: "No" },
+            { name: "Nexus AI", purpose: "Automation", connects: "Everything", happy: "Absolutely" }
+          ],
+          q4: "Customer finds us via web, fills out assessment, receives PDF, and books a call.",
+          q5: [
+            { 
+              task: "Data Entry", 
+              objective: "Keep records updated", 
+              frequency: "Daily", 
+              avgTime: "2", 
+              whoDoes: "Admin", 
+              toolsUsed: "Excel", 
+              details: "Very manual and prone to human error." 
+            },
+            { 
+              task: "Report Generation", 
+              objective: "Inform stakeholders", 
+              frequency: "Weekly", 
+              avgTime: "5", 
+              whoDoes: "Manager", 
+              toolsUsed: "PowerBI", 
+              details: "Takes too long to compile data from multiple sources." 
+            }
+          ],
+          q7: "I would invest the 20 hours into high-level strategy and new product development.",
+          q8: "I admire the seamless onboarding process at Stripe.",
+          q9: "No additional info."
+        };
+        downloadResponse();
+      };
+
+      if (downloadResponseBtn) {
+        downloadResponseBtn.addEventListener('click', downloadResponse);
       }
 
       // ========== KEYBOARD ==========
