@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="description" content="Startup Idea Validation Report — Curated Influencer-Hotel Network">
+  <title>Idea Validation Report — Curated Influencer-Hotel Network</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <style>
+    /* ── Reset & Base ─────────────────────────────────── */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --font-sans: "Geist", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
+      --font-mono: "Geist Mono", ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, "Liberation Mono", monospace;
+
+      --color-bg: #ffffff;
+      --color-surface: #fafafa;
+      --color-border: #eaeaea;
+      --color-border-hover: #c9c9c9;
+      --color-text: #171717;
+      --color-text-secondary: #666666;
+      --color-text-tertiary: #999999;
+      --color-accent: #0070f3;
+      --color-accent-hover: #0060d0;
+      --color-success: #0cad56;
+      --color-warning: #f5a623;
+      --color-danger: #e00;
+      --color-caution-bg: #fffbeb;
+      --color-caution-border: #f5a623;
+
+      --radius-sm: 6px;
+      --radius-md: 8px;
+      --radius-lg: 12px;
+      --shadow-sm: 0 1px 2px rgba(0,0,0,0.04), 0 1px 3px rgba(0,0,0,0.06);
+      --shadow-md: 0 2px 8px rgba(0,0,0,0.08), 0 1px 2px rgba(0,0,0,0.06);
+      --shadow-lg: 0 4px 16px rgba(0,0,0,0.1);
+      --space-xs: 4px;
+      --space-sm: 8px;
+      --space-md: 16px;
+      --space-lg: 24px;
+      --space-xl: 32px;
+      --space-2xl: 48px;
+      --space-3xl: 64px;
+
+      --transition-fast: 150ms ease;
+      --transition-base: 200ms ease;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+        scroll-behavior: auto !important;
+      }
+    }
+
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+      text-size-adjust: 100%;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      font-size: 16px;
+      line-height: 1.6;
+      color: var(--color-text);
+      background: var(--color-bg);
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      touch-action: manipulation;
+    }
+
+    /* ── Skip Link ────────────────────────────────────── */
+    .skip-link {
+      position: absolute;
+      top: -100%;
+      left: var(--space-md);
+      z-index: 1000;
+      padding: var(--space-sm) var(--space-md);
+      background: var(--color-accent);
+      color: #fff;
+      border-radius: var(--radius-sm);
+      font-weight: 600;
+      font-size: 14px;
+      text-decoration: none;
+      transition: top var(--transition-fast);
+    }
+    .skip-link:focus {
+      top: var(--space-md);
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+    }
+
+    /* ── Focus Styles ─────────────────────────────────── */
+    :focus-visible {
+      outline: 2px solid var(--color-accent);
+      outline-offset: 2px;
+      border-radius: var(--radius-sm);
+    }
+    :focus:not(:focus-visible) {
+      outline: none;
+    }
+
+    /* ── Layout ───────────────────────────────────────── */
+    .container {
+      max-width: 960px;
+      margin: 0 auto;
+      padding: var(--space-lg) var(--space-md);
+    }
+    @media (min-width: 640px) {
+      .container { padding: var(--space-2xl) var(--space-lg); }
+    }
+
+    /* ── Header ───────────────────────────────────────── */
+    .report-header {
+      text-align: center;
+      margin-bottom: var(--space-2xl);
+      padding-bottom: var(--space-xl);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .report-header h1 {
+      font-size: clamp(1.5rem, 4vw, 2.25rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.2;
+      text-wrap: balance;
+      margin-bottom: var(--space-sm);
+    }
+    .report-date {
+      font-size: 14px;
+      color: var(--color-text-tertiary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── Verdict Banner ───────────────────────────────── */
+    .verdict-banner {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-xl);
+      margin-bottom: var(--space-2xl);
+      background: var(--color-caution-bg);
+      border: 1px solid var(--color-caution-border);
+      border-radius: var(--radius-lg);
+    }
+    .verdict-label {
+      display: inline-flex;
+      align-items: center;
+      gap: var(--space-sm);
+      font-size: 12px;
+      font-weight: 600;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      color: var(--color-warning);
+    }
+    .verdict-label svg {
+      width: 16px;
+      height: 16px;
+      flex-shrink: 0;
+    }
+    .verdict-title {
+      font-size: clamp(1.25rem, 3vw, 1.75rem);
+      font-weight: 700;
+      letter-spacing: -0.01em;
+      text-wrap: balance;
+      text-align: center;
+    }
+    .verdict-score {
+      font-size: 14px;
+      color: var(--color-text-secondary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── Card ─────────────────────────────────────────── */
+    .card {
+      background: var(--color-bg);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-sm);
+      margin-bottom: var(--space-lg);
+      overflow: hidden;
+    }
+    .card-header {
+      padding: var(--space-lg);
+      border-bottom: 1px solid var(--color-border);
+    }
+    .card-header h2 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      letter-spacing: -0.01em;
+    }
+    .card-body {
+      padding: var(--space-lg);
+    }
+
+    /* ── Tabs ─────────────────────────────────────────── */
+    .tabs {
+      margin-bottom: var(--space-2xl);
+    }
+    .tab-list {
+      display: flex;
+      gap: var(--space-xs);
+      overflow-x: auto;
+      border-bottom: 1px solid var(--color-border);
+      padding-bottom: 0;
+      margin-bottom: 0;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+    }
+    .tab-list::-webkit-scrollbar { display: none; }
+
+    .tab-btn {
+      appearance: none;
+      background: none;
+      border: none;
+      border-bottom: 2px solid transparent;
+      padding: var(--space-sm) var(--space-md);
+      font-family: inherit;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-text-tertiary);
+      cursor: pointer;
+      white-space: nowrap;
+      transition: color var(--transition-fast), border-color var(--transition-fast);
+      margin-bottom: -1px;
+    }
+    .tab-btn:hover {
+      color: var(--color-text);
+    }
+    .tab-btn[aria-selected="true"] {
+      color: var(--color-text);
+      border-bottom-color: var(--color-text);
+      font-weight: 600;
+    }
+
+    .tab-panel {
+      padding-top: var(--space-lg);
+    }
+    .tab-panel[hidden] {
+      display: none;
+    }
+
+    /* ── Key Stats Grid ───────────────────────────────── */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: var(--space-md);
+    }
+    .stat-card {
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      padding: var(--space-md);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .stat-label {
+      font-size: 12px;
+      font-weight: 500;
+      color: var(--color-text-tertiary);
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+    }
+    .stat-value {
+      font-size: 1.125rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--color-text);
+      overflow-wrap: break-word;
+    }
+
+    /* ── Scorecard ────────────────────────────────────── */
+    .scorecard-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .scorecard-item {
+      display: flex;
+      align-items: center;
+      gap: var(--space-md);
+      padding: var(--space-sm) 0;
+    }
+    .scorecard-item-label {
+      flex: 0 0 160px;
+      font-size: 14px;
+      font-weight: 500;
+      color: var(--color-text);
+    }
+    @media (max-width: 480px) {
+      .scorecard-item-label { flex: 0 0 120px; font-size: 13px; }
+    }
+    .scorecard-bar-track {
+      flex: 1;
+      min-width: 0;
+      height: 8px;
+      background: var(--color-surface);
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      overflow: hidden;
+    }
+    .scorecard-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      background: var(--color-text);
+      transition: width var(--transition-base);
+    }
+    .scorecard-item-score {
+      flex-shrink: 0;
+      width: 40px;
+      text-align: right;
+      font-size: 14px;
+      font-weight: 600;
+      font-variant-numeric: tabular-nums;
+      color: var(--color-text-secondary);
+    }
+
+    /* ── Competitors Table ────────────────────────────── */
+    .table-wrap {
+      overflow-x: auto;
+      -webkit-overflow-scrolling: touch;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+    }
+    thead th {
+      text-align: left;
+      font-weight: 600;
+      font-size: 12px;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--color-text-tertiary);
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: 1px solid var(--color-border);
+      white-space: nowrap;
+    }
+    tbody td {
+      padding: var(--space-sm) var(--space-md);
+      border-bottom: 1px solid var(--color-border);
+      vertical-align: top;
+    }
+    tbody tr:last-child td { border-bottom: none; }
+    tbody tr:hover { background: var(--color-surface); }
+    table a {
+      color: var(--color-accent);
+      text-decoration: none;
+      font-weight: 500;
+    }
+    table a:hover { text-decoration: underline; }
+
+    /* ── Moat Chart ───────────────────────────────────── */
+    .moat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: var(--space-md);
+    }
+    .moat-item {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .moat-item-label {
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--color-text-secondary);
+    }
+    .moat-dots {
+      display: flex;
+      gap: 4px;
+    }
+    .moat-dot {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1px solid var(--color-border);
+      background: var(--color-surface);
+    }
+    .moat-dot.filled {
+      background: var(--color-text);
+      border-color: var(--color-text);
+    }
+    .moat-score {
+      font-size: 12px;
+      color: var(--color-text-tertiary);
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── Quotes ───────────────────────────────────────── */
+    .quotes-list {
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-lg);
+    }
+    blockquote {
+      margin: 0;
+      padding-left: var(--space-md);
+      border-left: 3px solid var(--color-border);
+    }
+    blockquote p {
+      font-size: 15px;
+      font-style: italic;
+      color: var(--color-text-secondary);
+      line-height: 1.7;
+    }
+    blockquote cite {
+      display: block;
+      margin-top: var(--space-xs);
+      font-size: 13px;
+      font-style: normal;
+      color: var(--color-text-tertiary);
+    }
+
+    /* ── Ordered lists (Fail/Success) ─────────────────── */
+    .reasons-columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: var(--space-lg);
+    }
+    @media (max-width: 600px) {
+      .reasons-columns { grid-template-columns: 1fr; }
+    }
+    .reasons-col h3 {
+      font-size: 14px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: var(--color-text-secondary);
+      margin-bottom: var(--space-sm);
+    }
+    .reasons-col ol {
+      padding-left: var(--space-lg);
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .reasons-col li {
+      font-size: 14px;
+      line-height: 1.6;
+    }
+    .reasons-col.fail h3 { color: var(--color-danger); }
+    .reasons-col.success h3 { color: var(--color-success); }
+
+    /* ── M&A Table ────────────────────────────────────── */
+    .ma-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-sm);
+    }
+    .ma-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      gap: var(--space-sm);
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid var(--color-border);
+    }
+    .ma-item:last-child { border-bottom: none; }
+    .ma-deal {
+      font-size: 14px;
+      font-weight: 500;
+    }
+    .ma-value {
+      font-size: 14px;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      color: var(--color-text);
+    }
+    .ma-source {
+      font-size: 12px;
+    }
+    .ma-source a {
+      color: var(--color-accent);
+      text-decoration: none;
+    }
+    .ma-source a:hover { text-decoration: underline; }
+
+    /* ── Unit Economics ────────────────────────────────── */
+    .econ-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: var(--space-md);
+    }
+    .econ-item {
+      display: flex;
+      justify-content: space-between;
+      padding: var(--space-sm) 0;
+      border-bottom: 1px solid var(--color-border);
+      font-size: 14px;
+    }
+    .econ-item:last-child { border-bottom: none; }
+    .econ-label { color: var(--color-text-secondary); }
+    .econ-value { font-weight: 600; font-variant-numeric: tabular-nums; }
+
+    /* ── Exit Path ────────────────────────────────────── */
+    .exit-table {
+      width: 100%;
+    }
+    .exit-table th, .exit-table td {
+      font-variant-numeric: tabular-nums;
+    }
+
+    /* ── Sources (details/summary) ────────────────────── */
+    .sources-section {
+      margin-top: var(--space-3xl);
+      padding-top: var(--space-xl);
+      border-top: 1px solid var(--color-border);
+    }
+    .sources-section h2 {
+      font-size: 1.125rem;
+      font-weight: 600;
+      margin-bottom: var(--space-lg);
+    }
+    details {
+      border: 1px solid var(--color-border);
+      border-radius: var(--radius-md);
+      margin-bottom: var(--space-sm);
+      background: var(--color-bg);
+    }
+    details[open] {
+      box-shadow: var(--shadow-sm);
+    }
+    summary {
+      padding: var(--space-sm) var(--space-md);
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      gap: var(--space-sm);
+      user-select: none;
+    }
+    summary::-webkit-details-marker { display: none; }
+    summary::before {
+      content: "";
+      display: inline-block;
+      width: 6px;
+      height: 6px;
+      border-right: 2px solid var(--color-text-secondary);
+      border-bottom: 2px solid var(--color-text-secondary);
+      transform: rotate(-45deg);
+      transition: transform var(--transition-fast);
+      flex-shrink: 0;
+    }
+    details[open] > summary::before {
+      transform: rotate(45deg);
+    }
+    summary:hover { color: var(--color-accent); }
+    .sources-body {
+      padding: 0 var(--space-md) var(--space-md);
+    }
+    .sources-body ul {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: var(--space-xs);
+    }
+    .sources-body li {
+      font-size: 13px;
+      line-height: 1.6;
+    }
+    .sources-body a {
+      color: var(--color-accent);
+      text-decoration: none;
+      overflow-wrap: break-word;
+    }
+    .sources-body a:hover { text-decoration: underline; }
+
+    /* ── Footer ───────────────────────────────────────── */
+    .report-footer {
+      margin-top: var(--space-2xl);
+      padding-top: var(--space-lg);
+      border-top: 1px solid var(--color-border);
+      text-align: center;
+      font-size: 13px;
+      color: var(--color-text-tertiary);
+    }
+
+    /* ── Visually Hidden ──────────────────────────────── */
+    .sr-only {
+      position: absolute;
+      width: 1px;
+      height: 1px;
+      padding: 0;
+      margin: -1px;
+      overflow: hidden;
+      clip: rect(0,0,0,0);
+      white-space: nowrap;
+      border: 0;
+    }
+  </style>
+</head>
+<body>
+  <a href="#main" class="skip-link">Skip to content</a>
+
+  <main id="main" class="container" role="main">
+    <!-- Header -->
+    <header class="report-header">
+      <h1>Curated Influencer-Hotel Network</h1>
+      <p class="report-date"><time datetime="2026-04-06">April&nbsp;6,&nbsp;2026</time></p>
+    </header>
+
+    <!-- Verdict Banner -->
+    <section class="verdict-banner" aria-label="Verdict">
+      <span class="verdict-label" aria-hidden="true">
+        <svg viewBox="0 0 16 16" fill="currentColor"><path d="M8 1a1 1 0 0 1 .867.5l6.928 12A1 1 0 0 1 14.928 15H1.072a1 1 0 0 1-.867-1.5l6.928-12A1 1 0 0 1 8 1Zm0 4a.75.75 0 0 0-.75.75v3.5a.75.75 0 0 0 1.5 0v-3.5A.75.75 0 0 0 8 5Zm0 7.5a.875.875 0 1 0 0-1.75.875.875 0 0 0 0 1.75Z"/></svg>
+        Caution
+      </span>
+      <h2 class="verdict-title">CAUTION &mdash; Leaning&nbsp;GO</h2>
+      <p class="verdict-score">Overall Score: <strong>7.1&nbsp;/&nbsp;10</strong></p>
+    </section>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <div class="tab-list" role="tablist" aria-label="Report sections">
+        <button class="tab-btn" role="tab" aria-selected="true" aria-controls="panel-overview" id="tab-overview" tabindex="0">Overview</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-scorecard" id="tab-scorecard" tabindex="-1">Scorecard</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-competitors" id="tab-competitors" tabindex="-1">Competitors</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-economics" id="tab-economics" tabindex="-1">Economics</button>
+        <button class="tab-btn" role="tab" aria-selected="false" aria-controls="panel-risks" id="tab-risks" tabindex="-1">Risks&nbsp;&amp;&nbsp;Upside</button>
+      </div>
+
+      <!-- Panel: Overview -->
+      <section class="tab-panel" role="tabpanel" id="panel-overview" aria-labelledby="tab-overview">
+        <h2 class="sr-only">Overview</h2>
+
+        <!-- Key Stats -->
+        <div class="card">
+          <div class="card-header"><h3>Key Stats</h3></div>
+          <div class="card-body">
+            <div class="stats-grid">
+              <div class="stat-card">
+                <span class="stat-label">TAM</span>
+                <span class="stat-value">$750M&nbsp;&ndash;&nbsp;$1.5B</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-label">SAM</span>
+                <span class="stat-value">$225M&nbsp;&ndash;&nbsp;$450M</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-label">SOM</span>
+                <span class="stat-value">$2.25M&nbsp;&ndash;&nbsp;$13.5M&nbsp;ARR</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-label"><abbr title="Lifetime Value to Customer Acquisition Cost">LTV:CAC</abbr></span>
+                <span class="stat-value">36:1 to 72:1</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-label">CAC Payback</span>
+                <span class="stat-value">&lt;&nbsp;1&nbsp;month</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-label">Market Growth</span>
+                <span class="stat-value">25&ndash;40%&nbsp;annually</span>
+              </div>
+              <div class="stat-card">
+                <span class="stat-label">Hotels for $50M Exit</span>
+                <span class="stat-value">~640 (4% of TAM)</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Key Quotes -->
+        <div class="card">
+          <div class="card-header"><h3>Key Quotes</h3></div>
+          <div class="card-body">
+            <div class="quotes-list">
+              <blockquote>
+                <p>&ldquo;It takes a lot of balls to send an email like that&hellip; who is going to pay the staff?&rdquo;</p>
+                <cite>&mdash; Paul Stenson, Hotel Owner</cite>
+              </blockquote>
+              <blockquote>
+                <p>&ldquo;A majority of hotels get little to no measurable ROI from influencer campaigns&rdquo;</p>
+                <cite>&mdash; Hotel Online</cite>
+              </blockquote>
+              <blockquote>
+                <p>&ldquo;If you send 100 emails, 40 will see it, 15 answer, 1&ndash;2 collaborate&rdquo;</p>
+                <cite>&mdash; Travel blogger</cite>
+              </blockquote>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel: Scorecard -->
+      <section class="tab-panel" role="tabpanel" id="panel-scorecard" aria-labelledby="tab-scorecard" hidden>
+        <h2 class="sr-only">Scorecard</h2>
+        <div class="card">
+          <div class="card-header"><h3>Validation Scorecard</h3></div>
+          <div class="card-body">
+            <ul class="scorecard-list" aria-label="Scorecard ratings">
+              <li class="scorecard-item">
+                <span class="scorecard-item-label">Market Size</span>
+                <div class="scorecard-bar-track" role="progressbar" aria-valuenow="8" aria-valuemin="0" aria-valuemax="10" aria-label="Market Size: 8 out of 10">
+                  <div class="scorecard-bar-fill" style="width: 80%;"></div>
+                </div>
+                <span class="scorecard-item-score">8/10</span>
+              </li>
+              <li class="scorecard-item">
+                <span class="scorecard-item-label">Problem Severity</span>
+                <div class="scorecard-bar-track" role="progressbar" aria-valuenow="7" aria-valuemin="0" aria-valuemax="10" aria-label="Problem Severity: 7 out of 10">
+                  <div class="scorecard-bar-fill" style="width: 70%;"></div>
+                </div>
+                <span class="scorecard-item-score">7/10</span>
+              </li>
+              <li class="scorecard-item">
+                <span class="scorecard-item-label">Competitive Gap</span>
+                <div class="scorecard-bar-track" role="progressbar" aria-valuenow="7" aria-valuemin="0" aria-valuemax="10" aria-label="Competitive Gap: 7 out of 10">
+                  <div class="scorecard-bar-fill" style="width: 70%;"></div>
+                </div>
+                <span class="scorecard-item-score">7/10</span>
+              </li>
+              <li class="scorecard-item">
+                <span class="scorecard-item-label">Defensibility/Moat</span>
+                <div class="scorecard-bar-track" role="progressbar" aria-valuenow="5" aria-valuemin="0" aria-valuemax="10" aria-label="Defensibility/Moat: 5 out of 10">
+                  <div class="scorecard-bar-fill" style="width: 50%;"></div>
+                </div>
+                <span class="scorecard-item-score">5/10</span>
+              </li>
+              <li class="scorecard-item">
+                <span class="scorecard-item-label">Unit Economics</span>
+                <div class="scorecard-bar-track" role="progressbar" aria-valuenow="9" aria-valuemin="0" aria-valuemax="10" aria-label="Unit Economics: 9 out of 10">
+                  <div class="scorecard-bar-fill" style="width: 90%;"></div>
+                </div>
+                <span class="scorecard-item-score">9/10</span>
+              </li>
+              <li class="scorecard-item">
+                <span class="scorecard-item-label">Ease of First Sale</span>
+                <div class="scorecard-bar-track" role="progressbar" aria-valuenow="6" aria-valuemin="0" aria-valuemax="10" aria-label="Ease of First Sale: 6 out of 10">
+                  <div class="scorecard-bar-fill" style="width: 60%;"></div>
+                </div>
+                <span class="scorecard-item-score">6/10</span>
+              </li>
+              <li class="scorecard-item">
+                <span class="scorecard-item-label">Exit Viability</span>
+                <div class="scorecard-bar-track" role="progressbar" aria-valuenow="8" aria-valuemin="0" aria-valuemax="10" aria-label="Exit Viability: 8 out of 10">
+                  <div class="scorecard-bar-fill" style="width: 80%;"></div>
+                </div>
+                <span class="scorecard-item-score">8/10</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Moat Breakdown -->
+        <div class="card">
+          <div class="card-header"><h3>Moat Breakdown</h3></div>
+          <div class="card-body">
+            <div class="moat-grid" aria-label="Moat scores out of 5">
+              <div class="moat-item">
+                <span class="moat-item-label">Data</span>
+                <div class="moat-dots" aria-label="Data: 4 out of 5">
+                  <span class="moat-dot filled" aria-hidden="true"></span>
+                  <span class="moat-dot filled" aria-hidden="true"></span>
+                  <span class="moat-dot filled" aria-hidden="true"></span>
+                  <span class="moat-dot filled" aria-hidden="true"></span>
+                  <span class="moat-dot" aria-hidden="true"></span>
+                </div>
+                <span class="moat-score">4/5</span>
+              </div>
+              <div class="moat-item">
+                <span class="moat-item-label">Network</span>
+                <div class="moat-dots" aria-label="Network: 4 out of 5">
+                  <span class="moat-dot filled" aria-hidden="true"></span>
+                  <span class="moat-dot filled" aria-hidden="true"></span>
+                  <span class="moat-dot filled" aria-hidden="true"></span>
+                  <span class="moat-dot filled" aria-hidden="true"></span>
+                  <span class="moat-dot" aria-hidden="true"></span>
+                </div>
+                <span class="moat-score">4/5</span>
+              </div>
+              <div class="moat-item">
+                <span class="moat-item-label">Switching</span>
+                <div class="moat-dots" aria-label="Switching: 3 out of 5">
+                  <span class="moat-dot filled" aria-hidden="true"></span>
+                  <span class="moat-dot filled" aria-hidden="true"></span>
+                  <span class="moat-dot filled" aria-hidden="true"></span>
+                  <span class="moat-dot" aria-hidden="true"></span>
+                  <span class="moat-dot" aria-hidden="true"></span>
+                </div>
+                <span class="moat-score">3/5</span>
+              </div>
+              <div class="moat-item">
+                <span class="moat-item-label">Brand</span>
+                <div class="moat-dots" aria-label="Brand: 3 out of 5">
+                  <span class="moat-dot filled" aria-hidden="true"></span>
+                  <span class="moat-dot filled" aria-hidden="true"></span>
+                  <span class="moat-dot filled" aria-hidden="true"></span>
+                  <span class="moat-dot" aria-hidden="true"></span>
+                  <span class="moat-dot" aria-hidden="true"></span>
+                </div>
+                <span class="moat-score">3/5</span>
+              </div>
+              <div class="moat-item">
+                <span class="moat-item-label">Scale</span>
+                <div class="moat-dots" aria-label="Scale: 2 out of 5">
+                  <span class="moat-dot filled" aria-hidden="true"></span>
+                  <span class="moat-dot filled" aria-hidden="true"></span>
+                  <span class="moat-dot" aria-hidden="true"></span>
+                  <span class="moat-dot" aria-hidden="true"></span>
+                  <span class="moat-dot" aria-hidden="true"></span>
+                </div>
+                <span class="moat-score">2/5</span>
+              </div>
+              <div class="moat-item">
+                <span class="moat-item-label">Regulatory</span>
+                <div class="moat-dots" aria-label="Regulatory: 1 out of 5">
+                  <span class="moat-dot filled" aria-hidden="true"></span>
+                  <span class="moat-dot" aria-hidden="true"></span>
+                  <span class="moat-dot" aria-hidden="true"></span>
+                  <span class="moat-dot" aria-hidden="true"></span>
+                  <span class="moat-dot" aria-hidden="true"></span>
+                </div>
+                <span class="moat-score">1/5</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel: Competitors -->
+      <section class="tab-panel" role="tabpanel" id="panel-competitors" aria-labelledby="tab-competitors" hidden>
+        <h2 class="sr-only">Competitors</h2>
+        <div class="card">
+          <div class="card-header"><h3>Competitive Landscape</h3></div>
+          <div class="card-body">
+            <div class="table-wrap">
+              <table aria-label="Competitor comparison">
+                <thead>
+                  <tr>
+                    <th scope="col">Company</th>
+                    <th scope="col">Notes</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><a href="https://www.evolusen.com/" rel="noopener noreferrer" target="_blank">Evolusen</a></td>
+                    <td>Only hospitality-focused, Pre-Series&nbsp;A</td>
+                  </tr>
+                  <tr>
+                    <td><a href="https://curacity.com/" rel="noopener noreferrer" target="_blank">Curacity</a></td>
+                    <td>Best attribution, $14.2M raised</td>
+                  </tr>
+                  <tr>
+                    <td><a href="https://partnrup.ai/" rel="noopener noreferrer" target="_blank" translate="no">partnrUP</a></td>
+                    <td>AI-native, $0&ndash;$299/mo</td>
+                  </tr>
+                  <tr>
+                    <td><a href="https://grin.co/" rel="noopener noreferrer" target="_blank" translate="no">GRIN</a></td>
+                    <td>$110M+ raised, too expensive</td>
+                  </tr>
+                  <tr>
+                    <td><a href="https://www.aspire.io/" rel="noopener noreferrer" target="_blank">Aspire</a></td>
+                    <td>$100M+ raised, not travel-specific</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- M&A Deals -->
+        <div class="card">
+          <div class="card-header"><h3>Recent M&amp;A Deals</h3></div>
+          <div class="card-body">
+            <ul class="ma-list" aria-label="Mergers and acquisitions">
+              <li class="ma-item">
+                <span class="ma-deal">Publicis &rarr; Influential (2024)</span>
+                <span class="ma-value">$500M</span>
+                <span class="ma-source"><a href="https://wearerockwater.com/publicis-buys-influential/" rel="noopener noreferrer" target="_blank">Source</a></span>
+              </li>
+              <li class="ma-item">
+                <span class="ma-deal">Later &rarr; Mavely (2025)</span>
+                <span class="ma-value">$250M</span>
+                <span class="ma-source"><a href="https://www.adweek.com/commerce/later-acquires-influencer-marketing-firm-mavely-for-250-million/" rel="noopener noreferrer" target="_blank">Source</a></span>
+              </li>
+              <li class="ma-item">
+                <span class="ma-deal">Sprout &rarr; Tagger (2023)</span>
+                <span class="ma-value">$140M</span>
+                <span class="ma-source"><a href="https://investors.sproutsocial.com/news/news-details/2023/Sprout-Social-Acquires-Tagger-Media/default.aspx" rel="noopener noreferrer" target="_blank">Source</a></span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel: Economics -->
+      <section class="tab-panel" role="tabpanel" id="panel-economics" aria-labelledby="tab-economics" hidden>
+        <h2 class="sr-only">Economics</h2>
+
+        <!-- Unit Economics -->
+        <div class="card">
+          <div class="card-header"><h3>Unit Economics</h3></div>
+          <div class="card-body">
+            <div class="econ-grid">
+              <div>
+                <div class="econ-item">
+                  <span class="econ-label">Hotel CAC</span>
+                  <span class="econ-value">$700&ndash;$1,000</span>
+                </div>
+                <div class="econ-item">
+                  <span class="econ-label">Monthly ARPU</span>
+                  <span class="econ-value">$1,000&ndash;$2,000</span>
+                </div>
+                <div class="econ-item">
+                  <span class="econ-label">Annual Contract</span>
+                  <span class="econ-value">$12,000&ndash;$24,000</span>
+                </div>
+              </div>
+              <div>
+                <div class="econ-item">
+                  <span class="econ-label">Hotel Lifespan</span>
+                  <span class="econ-value">3&ndash;4 years</span>
+                </div>
+                <div class="econ-item">
+                  <span class="econ-label">LTV</span>
+                  <span class="econ-value">$36,000&ndash;$72,000</span>
+                </div>
+                <div class="econ-item">
+                  <span class="econ-label">LTV:CAC</span>
+                  <span class="econ-value">36:1 to 72:1</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Exit Path -->
+        <div class="card">
+          <div class="card-header"><h3>Exit Path</h3></div>
+          <div class="card-body">
+            <div class="table-wrap">
+              <table class="exit-table" aria-label="Exit scenarios">
+                <thead>
+                  <tr>
+                    <th scope="col">Exit Value</th>
+                    <th scope="col">ARR Required</th>
+                    <th scope="col">Hotels</th>
+                    <th scope="col">% of TAM</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>$10M</td>
+                    <td>$2.5M</td>
+                    <td>~160</td>
+                    <td>1%</td>
+                  </tr>
+                  <tr>
+                    <td>$25M</td>
+                    <td>$5M</td>
+                    <td>~320</td>
+                    <td>2%</td>
+                  </tr>
+                  <tr>
+                    <td>$50M</td>
+                    <td>$10M</td>
+                    <td>~640</td>
+                    <td>4%</td>
+                  </tr>
+                  <tr>
+                    <td>$99M</td>
+                    <td>$15&ndash;25M</td>
+                    <td>~1,600</td>
+                    <td>10%</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Panel: Risks & Upside -->
+      <section class="tab-panel" role="tabpanel" id="panel-risks" aria-labelledby="tab-risks" hidden>
+        <h2 class="sr-only">Risks &amp; Upside</h2>
+        <div class="card">
+          <div class="card-body">
+            <div class="reasons-columns">
+              <div class="reasons-col fail">
+                <h3>Top 5 Fail Reasons</h3>
+                <ol>
+                  <li>Manual process &ldquo;good enough&rdquo;</li>
+                  <li>Attribution unsolvable</li>
+                  <li>Marketplace leakage</li>
+                  <li>Sojern enters</li>
+                  <li>Curation breaks at scale</li>
+                </ol>
+              </div>
+              <div class="reasons-col success">
+                <h3>Top 5 Success Reasons</h3>
+                <ol>
+                  <li>Perfect timing (25&ndash;40% growth)</li>
+                  <li>Empty mid-market</li>
+                  <li>Curation compounds</li>
+                  <li>Attribution = moat</li>
+                  <li>Red-hot M&amp;A</li>
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div><!-- /tabs -->
+
+    <!-- Sources -->
+    <section class="sources-section" aria-label="Sources">
+      <h2>Sources</h2>
+
+      <details>
+        <summary>Market Research</summary>
+        <div class="sources-body">
+          <ul>
+            <li><a href="https://www.statista.com/statistics/1092819/global-influencer-market-size/" rel="noopener noreferrer" target="_blank">Statista &mdash; Global Influencer Market Size</a></li>
+            <li><a href="https://influencermarketinghub.com/influencer-marketing-benchmark-report/" rel="noopener noreferrer" target="_blank">Influencer Marketing Hub &mdash; Benchmark Report</a></li>
+            <li><a href="https://www.futuremarketinsights.com/reports/boutique-hotel-sector-outlook" rel="noopener noreferrer" target="_blank">Future Market Insights &mdash; Boutique Hotel Sector Outlook</a></li>
+            <li><a href="https://www.grandviewresearch.com/industry-analysis/luxury-hotels-market" rel="noopener noreferrer" target="_blank">Grand View Research &mdash; Luxury Hotels Market</a></li>
+            <li><a href="https://skift.com/2025/03/01/17-travel-tech-acquisitions-so-far-this-year-see-the-list/" rel="noopener noreferrer" target="_blank">Skift &mdash; 17 Travel Tech Acquisitions</a></li>
+            <li><a href="https://kpmg.com/us/en/articles/mergers-acquisitions-trends-travel-leisure-hospitality.html" rel="noopener noreferrer" target="_blank">KPMG &mdash; M&amp;A Trends in Travel &amp; Hospitality</a></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>Problem Research</summary>
+        <div class="sources-body">
+          <ul>
+            <li><a href="https://onemileatatime.com/hotel-influencer-controversy/" rel="noopener noreferrer" target="_blank">One Mile at a Time &mdash; Hotel Influencer Controversy</a></li>
+            <li><a href="https://curacity.com/blog/its-time-for-hotels-to-move-on-from-influencer-marketing" rel="noopener noreferrer" target="_blank">Curacity Blog &mdash; Time to Move on From Influencer Marketing</a></li>
+            <li><a href="https://fredericgonzalo.com/en/hey-influencers-want-a-free-hotel-night/" rel="noopener noreferrer" target="_blank">Frederic Gonzalo &mdash; Hey Influencers, Want a Free Hotel Night?</a></li>
+            <li><a href="https://www.hotel-online.com/news/why-most-influencer-deals-fail-and-what-smart-hotels-do-differently" rel="noopener noreferrer" target="_blank">Hotel Online &mdash; Why Most Influencer Deals Fail</a></li>
+            <li><a href="https://www.hospitalitynet.org/opinion/4127474.html" rel="noopener noreferrer" target="_blank">HospitalityNet &mdash; Opinion</a></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>Competitors</summary>
+        <div class="sources-body">
+          <ul>
+            <li><a href="https://www.evolusen.com/" rel="noopener noreferrer" target="_blank">Evolusen</a></li>
+            <li><a href="https://curacity.com/" rel="noopener noreferrer" target="_blank">Curacity</a></li>
+            <li><a href="https://partnrup.ai/" rel="noopener noreferrer" target="_blank" translate="no">partnrUP</a></li>
+            <li><a href="https://stayamo.com/" rel="noopener noreferrer" target="_blank">Stayamo</a></li>
+            <li><a href="https://grin.co/" rel="noopener noreferrer" target="_blank" translate="no">GRIN</a></li>
+            <li><a href="https://www.aspire.io/" rel="noopener noreferrer" target="_blank">Aspire</a></li>
+            <li><a href="https://creatoriq.com/" rel="noopener noreferrer" target="_blank" translate="no">CreatorIQ</a></li>
+            <li><a href="https://www.sojern.com/" rel="noopener noreferrer" target="_blank">Sojern</a></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>Exits &amp; Economics</summary>
+        <div class="sources-body">
+          <ul>
+            <li><a href="https://wearerockwater.com/publicis-buys-influential/" rel="noopener noreferrer" target="_blank">RockWater &mdash; Publicis Buys Influential</a></li>
+            <li><a href="https://wearerockwater.com/later-buys-mavely-valuation-and-deal-roi-analysis/" rel="noopener noreferrer" target="_blank">RockWater &mdash; Later Buys Mavely</a></li>
+            <li><a href="https://investors.sproutsocial.com/news/news-details/2023/Sprout-Social-Acquires-Tagger-Media/default.aspx" rel="noopener noreferrer" target="_blank">Sprout Social &mdash; Acquires Tagger Media</a></li>
+            <li><a href="https://www.lightercapital.com/blog/2025-b2b-saas-startup-benchmarks" rel="noopener noreferrer" target="_blank">Lighter Capital &mdash; 2025 B2B SaaS Benchmarks</a></li>
+            <li><a href="https://firstpagesage.com/reports/average-customer-acquisition-cost-cac-by-industry-b2b-edition-fc/" rel="noopener noreferrer" target="_blank">First Page Sage &mdash; Average CAC by Industry</a></li>
+            <li><a href="https://hoteltechreport.com/marketing/influencercontent-marketing" rel="noopener noreferrer" target="_blank">Hotel Tech Report &mdash; Influencer/Content Marketing</a></li>
+          </ul>
+        </div>
+      </details>
+
+      <details>
+        <summary>GTM</summary>
+        <div class="sources-body">
+          <ul>
+            <li><a href="https://a16z.com/marketplaces-in-the-age-of-ai-take-two-graveyard-to-greenfield/" rel="noopener noreferrer" target="_blank">a16z &mdash; Marketplaces in the Age of AI</a></li>
+            <li><a href="https://www.nfx.com/post/19-marketplace-tactics-for-overcoming-the-chicken-or-egg-problem" rel="noopener noreferrer" target="_blank">NFX &mdash; 19 Marketplace Tactics</a></li>
+            <li><a href="https://blla.org/" rel="noopener noreferrer" target="_blank">BLLA</a></li>
+            <li><a href="https://tbexcon.com" rel="noopener noreferrer" target="_blank">TBEX</a></li>
+            <li><a href="https://www.travelmassive.com/pages/top-travel-influencers-database" rel="noopener noreferrer" target="_blank">Travel Massive &mdash; Top Travel Influencers Database</a></li>
+            <li><a href="https://www.travelboommarketing.com/research/influencer-travel-study-2025-hotel-marketing" rel="noopener noreferrer" target="_blank">TravelBoom &mdash; Influencer Travel Study 2025</a></li>
+          </ul>
+        </div>
+      </details>
+    </section>
+
+    <!-- Footer -->
+    <footer class="report-footer">
+      <p>Generated by <span translate="no">Idea Vetter</span> &mdash; <time datetime="2026-04-06">April&nbsp;6,&nbsp;2026</time></p>
+    </footer>
+  </main>
+
+  <script>
+    /* ── Tab Management ─────────────────────────────────
+       Follows WAI-ARIA Tabs pattern:
+       - Arrow keys move between tabs
+       - Home/End jump to first/last tab
+       - Tab panel focus management
+    */
+    (function () {
+      "use strict";
+
+      var tabList = document.querySelector('[role="tablist"]');
+      if (!tabList) return;
+
+      var tabs = Array.from(tabList.querySelectorAll('[role="tab"]'));
+      var panels = tabs.map(function (tab) {
+        return document.getElementById(tab.getAttribute("aria-controls"));
+      });
+
+      function activateTab(tab, setFocus) {
+        tabs.forEach(function (t, i) {
+          var isSelected = t === tab;
+          t.setAttribute("aria-selected", isSelected ? "true" : "false");
+          t.setAttribute("tabindex", isSelected ? "0" : "-1");
+          if (isSelected) {
+            panels[i].removeAttribute("hidden");
+          } else {
+            panels[i].setAttribute("hidden", "");
+          }
+        });
+        if (setFocus !== false) {
+          tab.focus();
+        }
+      }
+
+      tabList.addEventListener("click", function (e) {
+        var target = e.target.closest('[role="tab"]');
+        if (target) activateTab(target);
+      });
+
+      tabList.addEventListener("keydown", function (e) {
+        var index = tabs.indexOf(e.target);
+        if (index === -1) return;
+
+        var newIndex;
+        switch (e.key) {
+          case "ArrowLeft":
+          case "ArrowUp":
+            newIndex = index === 0 ? tabs.length - 1 : index - 1;
+            break;
+          case "ArrowRight":
+          case "ArrowDown":
+            newIndex = index === tabs.length - 1 ? 0 : index + 1;
+            break;
+          case "Home":
+            newIndex = 0;
+            break;
+          case "End":
+            newIndex = tabs.length - 1;
+            break;
+          default:
+            return;
+        }
+        e.preventDefault();
+        activateTab(tabs[newIndex]);
+      });
+    })();
+  </script>
+</body>
+</html>

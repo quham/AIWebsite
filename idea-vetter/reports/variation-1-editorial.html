@@ -1,0 +1,1103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idea Validation: Curated Influencer-Hotel Network</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Source+Serif+4:ital,wght@0,300;0,400;0,600;1,300;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1a1714;
+    --parchment: #f5f0e8;
+    --cream: #faf7f2;
+    --rust: #c4501a;
+    --gold: #b8963e;
+    --sage: #6b7c5e;
+    --muted: #8a8279;
+    --divider: #d4cdc2;
+    --amber-glow: rgba(196, 80, 26, 0.08);
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Source Serif 4', Georgia, serif;
+    background: var(--cream);
+    color: var(--ink);
+    line-height: 1.7;
+    font-size: 17px;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Newspaper-style masthead */
+  .masthead {
+    text-align: center;
+    padding: 3rem 2rem 2rem;
+    border-bottom: 4px double var(--ink);
+    position: relative;
+  }
+
+  .masthead::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: var(--rust);
+  }
+
+  .masthead-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 0.5rem;
+  }
+
+  .masthead h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 900;
+    line-height: 1.05;
+    max-width: 800px;
+    margin: 0 auto 1rem;
+    letter-spacing: -0.02em;
+  }
+
+  .masthead-meta {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    flex-wrap: wrap;
+  }
+
+  /* Verdict banner */
+  .verdict-banner {
+    background: var(--ink);
+    color: var(--parchment);
+    text-align: center;
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .verdict-banner::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(
+      90deg,
+      transparent,
+      transparent 2px,
+      rgba(255,255,255,0.02) 2px,
+      rgba(255,255,255,0.02) 4px
+    );
+  }
+
+  .verdict-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.4em;
+    text-transform: uppercase;
+    color: var(--gold);
+    margin-bottom: 0.75rem;
+  }
+
+  .verdict-text {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.8rem, 4vw, 3rem);
+    font-weight: 700;
+  }
+
+  .verdict-text .caution { color: var(--gold); }
+  .verdict-text .go { color: var(--sage); }
+
+  .verdict-score {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-top: 0.75rem;
+    letter-spacing: 0.05em;
+  }
+
+  .verdict-score span {
+    color: var(--gold);
+    font-size: 1.4rem;
+    font-weight: 500;
+  }
+
+  /* Layout */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  /* Two-column editorial layout */
+  .editorial-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0;
+    border-left: 1px solid var(--divider);
+    border-right: 1px solid var(--divider);
+    margin: 0 auto;
+    max-width: 1100px;
+  }
+
+  .editorial-grid > .col {
+    padding: 2.5rem;
+    border-right: 1px solid var(--divider);
+  }
+
+  .editorial-grid > .col:last-child { border-right: none; }
+  .editorial-grid > .col-full {
+    grid-column: 1 / -1;
+    padding: 2.5rem;
+    border-top: 1px solid var(--divider);
+  }
+
+  /* Section styling */
+  .section-num {
+    font-family: 'Playfair Display', serif;
+    font-size: 3.5rem;
+    font-weight: 900;
+    color: var(--divider);
+    line-height: 1;
+    margin-bottom: 0.25rem;
+  }
+
+  .section-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem;
+    font-weight: 700;
+    margin-bottom: 1.25rem;
+    line-height: 1.2;
+  }
+
+  .section-subtitle {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--rust);
+    margin-bottom: 0.5rem;
+    margin-top: 1.5rem;
+  }
+
+  p { margin-bottom: 1rem; }
+
+  .lead-paragraph {
+    font-size: 1.15rem;
+    font-weight: 300;
+    line-height: 1.8;
+    font-style: italic;
+    color: var(--muted);
+    margin-bottom: 1.5rem;
+  }
+
+  /* Scorecard */
+  .scorecard {
+    background: var(--parchment);
+    padding: 2rem;
+    margin: 1.5rem 0;
+  }
+
+  .score-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.6rem 0;
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .score-row:last-child { border-bottom: none; }
+
+  .score-label {
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+
+  .score-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+  }
+
+  .score-bar {
+    width: 120px;
+    height: 6px;
+    background: var(--divider);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+
+  .score-bar-fill {
+    height: 100%;
+    border-radius: 3px;
+    transition: width 1.5s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  }
+
+  .score-value {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.8rem;
+    font-weight: 500;
+    min-width: 2rem;
+    text-align: right;
+  }
+
+  /* Tables */
+  .editorial-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 0.85rem;
+    margin: 1rem 0;
+  }
+
+  .editorial-table thead th {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-align: left;
+    padding: 0.5rem 0.75rem;
+    border-bottom: 2px solid var(--ink);
+    font-weight: 500;
+  }
+
+  .editorial-table tbody td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--divider);
+    vertical-align: top;
+    line-height: 1.4;
+  }
+
+  .editorial-table tbody tr:hover { background: var(--amber-glow); }
+
+  /* Blockquotes */
+  blockquote {
+    border-left: 3px solid var(--rust);
+    padding: 0.75rem 1.25rem;
+    margin: 1rem 0;
+    font-style: italic;
+    font-size: 0.95rem;
+    color: #4a4540;
+  }
+
+  blockquote cite {
+    display: block;
+    font-style: normal;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    margin-top: 0.5rem;
+    letter-spacing: 0.05em;
+  }
+
+  /* Tags / Pills */
+  .verdict-pill {
+    display: inline-block;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.25rem 0.75rem;
+    border-radius: 2px;
+    font-weight: 500;
+  }
+
+  .pill-pass { background: #e8f0e2; color: var(--sage); }
+  .pill-caution { background: #f5ecd8; color: var(--gold); }
+  .pill-fail { background: #f5ddd3; color: var(--rust); }
+
+  /* Stat callouts */
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .stat-card {
+    text-align: center;
+    padding: 1.5rem 1rem;
+    background: var(--parchment);
+    position: relative;
+  }
+
+  .stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30px;
+    height: 2px;
+    background: var(--rust);
+  }
+
+  .stat-number {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--ink);
+    line-height: 1.1;
+  }
+
+  .stat-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-top: 0.5rem;
+  }
+
+  /* Moat meter */
+  .moat-item {
+    display: grid;
+    grid-template-columns: 140px 1fr auto;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: 1px solid var(--divider);
+  }
+
+  .moat-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+  }
+
+  .moat-dots {
+    display: flex;
+    gap: 4px;
+  }
+
+  .moat-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--divider);
+    transition: background 0.5s ease;
+  }
+
+  .moat-dot.filled { background: var(--gold); }
+  .moat-score {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+
+  /* Risk list */
+  .risk-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid var(--divider);
+    counter-increment: risk-counter;
+    position: relative;
+    padding-left: 2.5rem;
+  }
+
+  .risk-item::before {
+    content: counter(risk-counter);
+    position: absolute;
+    left: 0;
+    top: 1rem;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--divider);
+  }
+
+  .risk-list { counter-reset: risk-counter; list-style: none; }
+
+  .risk-title {
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 0.25rem;
+  }
+
+  .risk-detail {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* Competitor cards */
+  .comp-card {
+    background: var(--parchment);
+    padding: 1.25rem;
+    margin-bottom: 1rem;
+    border-left: 3px solid var(--divider);
+    transition: border-color 0.3s;
+  }
+
+  .comp-card:hover { border-left-color: var(--rust); }
+
+  .comp-name {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.1rem;
+    font-weight: 700;
+    margin-bottom: 0.25rem;
+  }
+
+  .comp-pricing {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--sage);
+    margin-bottom: 0.5rem;
+  }
+
+  .comp-detail {
+    font-size: 0.8rem;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  /* Dividers */
+  .ornament {
+    text-align: center;
+    padding: 2rem 0;
+    color: var(--divider);
+    font-size: 1.5rem;
+    letter-spacing: 1rem;
+  }
+
+  .section-divider {
+    border: none;
+    border-top: 1px solid var(--divider);
+    margin: 2rem 0;
+  }
+
+  /* Footer */
+  .report-footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    border-top: 4px double var(--ink);
+    margin-top: 3rem;
+  }
+
+  .report-footer p {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--muted);
+    letter-spacing: 0.15em;
+  }
+
+  /* Source links */
+  a { color: var(--rust); text-decoration: none; border-bottom: 1px solid transparent; transition: border-color 0.2s; }
+  a:hover { border-bottom-color: var(--rust); }
+
+  details {
+    margin-top: 1.5rem;
+    border-top: 1px solid var(--divider);
+    padding-top: 0.75rem;
+  }
+
+  summary {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    padding: 0.3rem 0;
+    user-select: none;
+  }
+
+  summary:hover { color: var(--rust); }
+
+  details[open] summary { margin-bottom: 0.5rem; }
+
+  .sources-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .sources-list li {
+    font-size: 0.8rem;
+    padding: 0.25rem 0;
+    color: var(--muted);
+    line-height: 1.4;
+  }
+
+  .sources-list li a { font-size: 0.8rem; }
+
+  /* Animations */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.8s ease, transform 0.8s ease;
+  }
+
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .editorial-grid {
+      grid-template-columns: 1fr;
+    }
+    .editorial-grid > .col { border-right: none; border-bottom: 1px solid var(--divider); }
+    .stat-grid { grid-template-columns: 1fr; }
+    .moat-item { grid-template-columns: 100px 1fr auto; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Masthead -->
+<header class="masthead">
+  <div class="masthead-label">Idea Validation Report</div>
+  <h1>Curated Influencer-Hotel Matching Network</h1>
+  <div class="masthead-meta">
+    <span>April 6, 2026</span>
+    <span>14 Sections</span>
+    <span>5 Research Agents</span>
+    <span>40+ Sources</span>
+  </div>
+</header>
+
+<!-- Verdict Banner -->
+<div class="verdict-banner">
+  <div class="verdict-label">Final Verdict</div>
+  <div class="verdict-text">
+    <span class="caution">Caution</span> &mdash; Leaning <span class="go">GO</span>
+  </div>
+  <div class="verdict-score">Overall Score: <span>7.1</span> / 10</div>
+</div>
+
+<!-- Key Stats -->
+<div class="container">
+  <div class="stat-grid fade-in">
+    <div class="stat-card">
+      <div class="stat-number">$1.5B</div>
+      <div class="stat-label">Total Addressable Market</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">36:1</div>
+      <div class="stat-label">LTV : CAC Ratio</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number">25-40%</div>
+      <div class="stat-label">Annual Market Growth</div>
+    </div>
+  </div>
+</div>
+
+<!-- Idea Distillation -->
+<div class="editorial-grid">
+  <div class="col fade-in">
+    <div class="section-num">00</div>
+    <div class="section-title">The Problem</div>
+    <p class="lead-paragraph">Hotels waste thousands on influencer partnerships that don't convert. Influencers waste time cold-pitching with a 1-2% success rate.</p>
+    <p>Both sides lack a reliable matching mechanism. Hotels receive 10-20 influencer pitches per day at desirable properties, with only ~10% worth considering. Marketing directors manually review Instagram profiles, check engagement rates, and negotiate over long email chains.</p>
+
+    <div class="section-subtitle">The Solution</div>
+    <p>A curated, exclusive two-sided marketplace that carefully matches vetted travel influencers with boutique/luxury hotels based on audience-property fit. Performance-based compensation: free stays + commission on bookings generated.</p>
+  </div>
+
+  <div class="col fade-in">
+    <div class="section-num">00</div>
+    <div class="section-title">Business Snapshot</div>
+
+    <div class="section-subtitle">Target Customer</div>
+    <p>Boutique hotel marketing directors (5-200 room independent properties, $1M-$20M revenue) and mid-to-high-tier travel influencers (10K-500K engaged followers).</p>
+
+    <div class="section-subtitle">Revenue Model</div>
+    <p>Hybrid SaaS subscription from hotels ($500-$2,000/mo) + commission on attributable bookings (10-15%). Influencers join free.</p>
+
+    <div class="section-subtitle">Key Hypothesis</div>
+    <p>Careful audience-property fit matching will produce meaningfully higher booking conversion than generic platforms, justifying exclusivity and premium pricing.</p>
+
+    <div class="section-subtitle">Exit Target</div>
+    <p style="font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: 700;">$10M &mdash; $99M</p>
+  </div>
+</div>
+
+<!-- Market Analysis -->
+<div class="editorial-grid">
+  <div class="col-full fade-in">
+    <div class="section-num">01</div>
+    <div class="section-title">Market Analysis <span class="verdict-pill pill-pass">Pass</span></div>
+    <p class="lead-paragraph">Market is large enough ($750M+ TAM), growing 25-40% annually, with red-hot M&A activity and multiple acquirer categories paying premium multiples.</p>
+  </div>
+
+  <div class="col fade-in">
+    <div class="section-subtitle">TAM / SAM / SOM</div>
+    <table class="editorial-table">
+      <thead>
+        <tr><th>Metric</th><th>Estimate</th><th>Method</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>TAM</strong></td><td>$750M - $1.5B/yr</td><td>50K hotels x $15-30K avg spend</td></tr>
+        <tr><td><strong>SAM</strong></td><td>$225M - $450M</td><td>30% platform-addressable</td></tr>
+        <tr><td><strong>SOM</strong></td><td>$2.25M - $13.5M</td><td>1-3% of SAM in years 1-5</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-subtitle">Market Growth Signals</div>
+    <p>Influencer marketing: <strong>30-33% CAGR</strong> (2025-2030). Boutique hotel market: <strong>6.9% CAGR</strong>. 28% of travelers now book based on influencer recommendations. TikTok travel content views up 410% since 2021.</p>
+  </div>
+
+  <div class="col fade-in">
+    <div class="section-subtitle">Acquirer Activity</div>
+    <table class="editorial-table">
+      <thead>
+        <tr><th>Deal</th><th>Price</th><th>Year</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><a href="https://wearerockwater.com/publicis-buys-influential/" target="_blank">Publicis &rarr; Influential</a></td><td>$500M</td><td>2024</td></tr>
+        <tr><td><a href="https://www.adweek.com/commerce/later-acquires-influencer-marketing-firm-mavely-for-250-million/" target="_blank">Later &rarr; Mavely</a></td><td>$250M</td><td>2025</td></tr>
+        <tr><td><a href="https://investors.sproutsocial.com/news/news-details/2023/Sprout-Social-Acquires-Tagger-Media/default.aspx" target="_blank">Sprout &rarr; Tagger</a></td><td>$140M</td><td>2023</td></tr>
+        <tr><td>Blackstone &rarr; Cvent</td><td>$4.6B</td><td>2023</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-subtitle">Likely Acquirers</div>
+    <p>Ad holding companies (Publicis, WPP), hotel tech platforms (Mews, SiteMinder), travel platforms (Expedia, Booking), influencer platforms (Later, CreatorIQ).</p>
+  </div>
+</div>
+
+<!-- Problem Depth -->
+<div class="editorial-grid">
+  <div class="col-full fade-in">
+    <div class="section-num">02</div>
+    <div class="section-title">Problem Depth <span class="verdict-pill pill-pass">Pass</span></div>
+    <p class="lead-paragraph">Real, validated pain with real money at stake. Each bad match costs $2,000-$5,000+. Willingness to spend is already proven.</p>
+  </div>
+
+  <div class="col fade-in">
+    <div class="section-subtitle">What They're Saying</div>
+
+    <blockquote>
+      "It takes a lot of balls to send an email like that... who is going to pay the staff who look after you?"
+      <cite>Paul Stenson, Owner, Charleville Lodge Hotel &mdash; subsequently banned all bloggers</cite>
+    </blockquote>
+
+    <blockquote>
+      "We get so, so, so many emails from journalists, bloggers, influencers... Text cut and pasted is always a dealbreaker."
+      <cite>Juliet Kinsman, Luxury Hotel Journalist</cite>
+    </blockquote>
+
+    <blockquote>
+      "A majority of hotels get little to no measurable ROI from influencer campaigns because they're optimizing for vanity, not value."
+      <cite>Hotel Online</cite>
+    </blockquote>
+  </div>
+
+  <div class="col fade-in">
+    <div class="section-subtitle">The Numbers</div>
+    <table class="editorial-table">
+      <thead><tr><th>Metric</th><th>Data</th></tr></thead>
+      <tbody>
+        <tr><td>Influencer pitch success rate</td><td><strong>1-2%</strong></td></tr>
+        <tr><td>Daily pitches (luxury hotels)</td><td><strong>10-20</strong></td></tr>
+        <tr><td>Worth considering</td><td><strong>~10%</strong></td></tr>
+        <tr><td>Cost per bad partnership</td><td><strong>$2,000-$5,000+</strong></td></tr>
+        <tr><td>Fake follower prevalence</td><td><strong>49%</strong> of Instagram influencers</td></tr>
+        <tr><td>Micro influencer cost</td><td>$200-$1,000/campaign</td></tr>
+        <tr><td>Macro influencer cost</td><td>$500-$5,000+ per post</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-subtitle">Frequency</div>
+    <p><strong>Weekly-to-daily pain on both sides.</strong> Hotels filter inbound constantly. Influencers pitch in batches of 50-100+. This is woven into the daily workflow of both parties.</p>
+  </div>
+</div>
+
+<!-- Competitive Landscape -->
+<div class="editorial-grid">
+  <div class="col-full fade-in">
+    <div class="section-num">03</div>
+    <div class="section-title">Competitive Landscape <span class="verdict-pill pill-caution">Caution &mdash; 4/10</span></div>
+    <p class="lead-paragraph">Not blue ocean, but no one has built the complete solution: AI matching + hospitality-native workflows + booking attribution + mid-market pricing.</p>
+  </div>
+
+  <div class="col fade-in">
+    <div class="section-subtitle">Direct Competitors</div>
+
+    <div class="comp-card">
+      <div class="comp-name"><a href="https://www.evolusen.com/" target="_blank">Evolusen</a></div>
+      <div class="comp-pricing">Pay-as-you-go &bull; Pre-Series A</div>
+      <div class="comp-detail">Only hospitality-focused platform. Vetted creators, 90% time savings. <strong>Weakness:</strong> small team, no booking attribution.</div>
+    </div>
+
+    <div class="comp-card">
+      <div class="comp-name"><a href="https://curacity.com/" target="_blank">Curacity</a></div>
+      <div class="comp-pricing">Performance-based &bull; $14.2M raised</div>
+      <div class="comp-detail">Best attribution tech, 10-20X ROI. <strong>Weakness:</strong> focuses on media brands, not individual creators.</div>
+    </div>
+
+    <div class="comp-card">
+      <div class="comp-name"><a href="https://partnrup.ai/" target="_blank">partnrUP</a></div>
+      <div class="comp-pricing">$0-$299/mo &bull; Unknown funding</div>
+      <div class="comp-detail">AI-native with 4 agents, affordable. <strong>Weakness:</strong> newer entrant, unclear traction.</div>
+    </div>
+
+    <div class="comp-card">
+      <div class="comp-name"><a href="https://grin.co/" target="_blank">GRIN</a></div>
+      <div class="comp-pricing">~$2,350/mo &bull; $110M+ raised</div>
+      <div class="comp-detail">Massive scale, strong integrations. <strong>Weakness:</strong> way too expensive, e-commerce focused, predatory contracts.</div>
+    </div>
+  </div>
+
+  <div class="col fade-in">
+    <div class="section-subtitle">Why Now?</div>
+    <ul style="list-style: none; padding: 0;">
+      <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--divider); font-size: 0.9rem;">28% of travelers book based on influencer recs</li>
+      <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--divider); font-size: 0.9rem;">AI matching tech has matured (LLMs)</li>
+      <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--divider); font-size: 0.9rem;">Hotels shifting from OTAs to direct channels</li>
+      <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--divider); font-size: 0.9rem;">Creator economy: $252B at 22.5% CAGR</li>
+      <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--divider); font-size: 0.9rem;">Hotel influencer ROI: $6.50 per $1 spent</li>
+      <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--divider); font-size: 0.9rem;">Gen Z booking through social platforms</li>
+      <li style="padding: 0.4rem 0; border-bottom: 1px solid var(--divider); font-size: 0.9rem;">Travel startup funding down = fewer competitors</li>
+      <li style="padding: 0.4rem 0; font-size: 0.9rem;">Post-COVID lean hotel teams need self-service</li>
+    </ul>
+
+    <div class="section-subtitle">What Competitors Get Wrong</div>
+    <p style="font-size: 0.9rem;"><strong>1.</strong> Built for e-commerce, not hospitality. <strong>2.</strong> Enterprise prices for fragmented market. <strong>3.</strong> Cannot prove ROI. <strong>4.</strong> Ignore the supply side. <strong>5.</strong> No one owns match quality.</p>
+  </div>
+</div>
+
+<!-- Moat + Unit Economics -->
+<div class="editorial-grid">
+  <div class="col fade-in">
+    <div class="section-num">04</div>
+    <div class="section-title">Moat Assessment <span class="verdict-pill pill-caution">Caution</span></div>
+    <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1.25rem;">Weak at launch, strong trajectory. Booking attribution data is the key moat accelerator.</p>
+
+    <div class="moat-item">
+      <div class="moat-name">Data moat</div>
+      <div class="moat-dots">
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot"></div>
+      </div>
+      <div class="moat-score">4/5</div>
+    </div>
+    <div class="moat-item">
+      <div class="moat-name">Network effects</div>
+      <div class="moat-dots">
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot"></div>
+      </div>
+      <div class="moat-score">4/5</div>
+    </div>
+    <div class="moat-item">
+      <div class="moat-name">Switching costs</div>
+      <div class="moat-dots">
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot"></div>
+        <div class="moat-dot"></div>
+      </div>
+      <div class="moat-score">3/5</div>
+    </div>
+    <div class="moat-item">
+      <div class="moat-name">Brand moat</div>
+      <div class="moat-dots">
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot"></div>
+        <div class="moat-dot"></div>
+      </div>
+      <div class="moat-score">3/5</div>
+    </div>
+    <div class="moat-item">
+      <div class="moat-name">Scale economies</div>
+      <div class="moat-dots">
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot"></div>
+        <div class="moat-dot"></div>
+        <div class="moat-dot"></div>
+      </div>
+      <div class="moat-score">2/5</div>
+    </div>
+    <div class="moat-item">
+      <div class="moat-name">Regulatory</div>
+      <div class="moat-dots">
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot"></div>
+        <div class="moat-dot"></div>
+        <div class="moat-dot"></div>
+        <div class="moat-dot"></div>
+      </div>
+      <div class="moat-score">1/5</div>
+    </div>
+  </div>
+
+  <div class="col fade-in">
+    <div class="section-num">05</div>
+    <div class="section-title">Unit Economics <span class="verdict-pill pill-pass">Pass</span></div>
+    <p style="font-size: 0.9rem; color: var(--muted); margin-bottom: 1.25rem;">Extremely strong. Need only 1-4% of addressable market for $25M-$55M exit.</p>
+
+    <table class="editorial-table">
+      <thead><tr><th>Metric</th><th>Hotel Side</th></tr></thead>
+      <tbody>
+        <tr><td>CAC</td><td>$700-$1,000</td></tr>
+        <tr><td>Monthly ARPU</td><td>$1,000-$2,000</td></tr>
+        <tr><td>Annual contract</td><td>$12,000-$24,000</td></tr>
+        <tr><td>Lifespan</td><td>3-4 years</td></tr>
+        <tr><td>LTV</td><td>$36,000-$72,000</td></tr>
+        <tr><td><strong>LTV:CAC</strong></td><td><strong>36:1 to 72:1</strong></td></tr>
+        <tr><td>CAC payback</td><td>&lt; 1 month</td></tr>
+      </tbody>
+    </table>
+
+    <div class="section-subtitle">Path to Exit</div>
+    <table class="editorial-table">
+      <thead><tr><th>Exit</th><th>ARR Needed</th><th>Hotels</th><th>% TAM</th></tr></thead>
+      <tbody>
+        <tr><td>$10M</td><td>$2.5M</td><td>~160</td><td>1%</td></tr>
+        <tr><td>$25M</td><td>$5M</td><td>~320</td><td>2%</td></tr>
+        <tr><td>$50M</td><td>$10M</td><td>~640</td><td>4%</td></tr>
+        <tr><td>$99M</td><td>$15-25M</td><td>~1,600</td><td>10%</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="ornament">&bull; &bull; &bull;</div>
+
+<!-- Fail / Succeed -->
+<div class="editorial-grid">
+  <div class="col fade-in">
+    <div class="section-num">07</div>
+    <div class="section-title" style="color: var(--rust);">Reasons It Would Fail</div>
+
+    <ol class="risk-list">
+      <li class="risk-item">
+        <div class="risk-title">The "good enough" manual process wins</div>
+        <div class="risk-detail">80% of hotels use spreadsheets & email. Pain is real but tolerable.</div>
+      </li>
+      <li class="risk-item">
+        <div class="risk-title">Booking attribution is technically unsolvable</div>
+        <div class="risk-detail">Multi-device, multi-session journeys make attribution nearly impossible at the individual creator level.</div>
+      </li>
+      <li class="risk-item">
+        <div class="risk-title">Marketplace leakage kills unit economics</div>
+        <div class="risk-detail">Hotels and influencers go direct after the first match. You become a dating app where success means churn.</div>
+      </li>
+      <li class="risk-item">
+        <div class="risk-title">Sojern or a major platform enters</div>
+        <div class="risk-detail">10K+ hotel customers and $120M+ in funding. They win on distribution alone.</div>
+      </li>
+      <li class="risk-item">
+        <div class="risk-title">Curation doesn't scale</div>
+        <div class="risk-detail">Maintaining quality beyond 500-1,000 influencers becomes an operational nightmare.</div>
+      </li>
+    </ol>
+  </div>
+
+  <div class="col fade-in">
+    <div class="section-num">08</div>
+    <div class="section-title" style="color: var(--sage);">Reasons It Would Succeed</div>
+
+    <ol class="risk-list">
+      <li class="risk-item">
+        <div class="risk-title">Perfect market timing</div>
+        <div class="risk-detail">Influencer marketing in hospitality growing 25-40% annually. Multiple compounding tailwinds.</div>
+      </li>
+      <li class="risk-item">
+        <div class="risk-title">No one owns the middle market</div>
+        <div class="risk-detail">Enterprise = $28K-$100K/yr. Low-end = classifieds. Zero quality solutions at $500-$2K/mo.</div>
+      </li>
+      <li class="risk-item">
+        <div class="risk-title">Curation compounds as a differentiator</div>
+        <div class="risk-detail">The Raya/Soho House effect. "I'm on [Platform]" becomes a status signal.</div>
+      </li>
+      <li class="risk-item">
+        <div class="risk-title">Attribution = unassailable moat</div>
+        <div class="risk-detail">If you crack it, no competitor can replicate your historical match-to-booking dataset.</div>
+      </li>
+      <li class="risk-item">
+        <div class="risk-title">M&A market is red-hot</div>
+        <div class="risk-detail">You sit at the intersection of two active acquisition categories. Multiple exit paths.</div>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<!-- Overall Scorecard -->
+<div class="container">
+  <div style="max-width: 700px; margin: 3rem auto;" class="fade-in">
+    <div class="section-num" style="text-align: center;">14</div>
+    <div class="section-title" style="text-align: center; font-size: 2rem;">Final Scorecard</div>
+
+    <div class="scorecard">
+      <div class="score-row">
+        <div class="score-label">Market Size</div>
+        <div class="score-bar-wrap">
+          <div class="score-bar"><div class="score-bar-fill" style="width: 80%; background: var(--sage);"></div></div>
+          <div class="score-value">8</div>
+        </div>
+      </div>
+      <div class="score-row">
+        <div class="score-label">Problem Severity</div>
+        <div class="score-bar-wrap">
+          <div class="score-bar"><div class="score-bar-fill" style="width: 70%; background: var(--sage);"></div></div>
+          <div class="score-value">7</div>
+        </div>
+      </div>
+      <div class="score-row">
+        <div class="score-label">Competitive Gap</div>
+        <div class="score-bar-wrap">
+          <div class="score-bar"><div class="score-bar-fill" style="width: 70%; background: var(--sage);"></div></div>
+          <div class="score-value">7</div>
+        </div>
+      </div>
+      <div class="score-row">
+        <div class="score-label">Defensibility / Moat</div>
+        <div class="score-bar-wrap">
+          <div class="score-bar"><div class="score-bar-fill" style="width: 50%; background: var(--gold);"></div></div>
+          <div class="score-value">5</div>
+        </div>
+      </div>
+      <div class="score-row">
+        <div class="score-label">Unit Economics</div>
+        <div class="score-bar-wrap">
+          <div class="score-bar"><div class="score-bar-fill" style="width: 90%; background: var(--sage);"></div></div>
+          <div class="score-value">9</div>
+        </div>
+      </div>
+      <div class="score-row">
+        <div class="score-label">Ease of First Sale</div>
+        <div class="score-bar-wrap">
+          <div class="score-bar"><div class="score-bar-fill" style="width: 60%; background: var(--gold);"></div></div>
+          <div class="score-value">6</div>
+        </div>
+      </div>
+      <div class="score-row">
+        <div class="score-label">Exit Viability</div>
+        <div class="score-bar-wrap">
+          <div class="score-bar"><div class="score-bar-fill" style="width: 80%; background: var(--sage);"></div></div>
+          <div class="score-value">8</div>
+        </div>
+      </div>
+      <div class="score-row" style="border-top: 2px solid var(--ink); margin-top: 0.5rem; padding-top: 0.75rem;">
+        <div class="score-label" style="font-family: 'Playfair Display', serif; font-size: 1.1rem;">OVERALL</div>
+        <div class="score-bar-wrap">
+          <div class="score-bar" style="width: 160px; height: 8px;"><div class="score-bar-fill" style="width: 71%; background: linear-gradient(90deg, var(--gold), var(--sage));"></div></div>
+          <div class="score-value" style="font-size: 1.2rem; color: var(--ink);">7.1</div>
+        </div>
+      </div>
+    </div>
+
+    <div style="text-align: center; margin-top: 2rem; padding: 1.5rem; background: var(--amber-glow); border-left: 3px solid var(--gold);">
+      <div class="section-subtitle" style="margin-top: 0;">The Single Thing That Would Change This Verdict</div>
+      <p style="font-size: 0.95rem; font-style: italic;">Proof that your matches drive measurable hotel bookings at a higher rate than the hotel's existing partnerships. One case study showing "Hotel X got 15 bookings ($12K revenue) from our match" upgrades this to a hard GO.</p>
+    </div>
+  </div>
+</div>
+
+<!-- Sources -->
+<div class="container" style="max-width: 900px; margin: 3rem auto; padding: 0 2rem;">
+  <div class="section-num" style="text-align: center;">S</div>
+  <div class="section-title" style="text-align: center;">Sources &amp; References</div>
+
+  <details>
+    <summary>Market Research Sources (click to expand)</summary>
+    <ul class="sources-list">
+      <li><a href="https://www.statista.com/statistics/1092819/global-influencer-market-size/" target="_blank">Statista</a> &mdash; Global influencer marketing market size</li>
+      <li><a href="https://influencermarketinghub.com/influencer-marketing-benchmark-report/" target="_blank">Influencer Marketing Hub</a> &mdash; 2026 Benchmark Report</li>
+      <li><a href="https://www.futuremarketinsights.com/reports/boutique-hotel-sector-outlook" target="_blank">Future Market Insights</a> &mdash; Boutique hotel market outlook</li>
+      <li><a href="https://www.grandviewresearch.com/industry-analysis/luxury-hotels-market" target="_blank">Grand View Research</a> &mdash; Luxury hotel market analysis</li>
+      <li><a href="https://www.verifiedmarketresearch.com/product/influencer-market/" target="_blank">Verified Market Research</a> &mdash; Influencer market size</li>
+      <li><a href="https://www.influencer.com/knowledge-hub/the-state-of-influencer-marketing-in-travel" target="_blank">Influencer.com</a> &mdash; State of influencer marketing in travel</li>
+      <li><a href="https://skift.com/2025/03/01/17-travel-tech-acquisitions-so-far-this-year-see-the-list/" target="_blank">Skift</a> &mdash; 17 travel tech acquisitions in 2025</li>
+      <li><a href="https://kpmg.com/us/en/articles/mergers-acquisitions-trends-travel-leisure-hospitality.html" target="_blank">KPMG</a> &mdash; M&amp;A trends in travel &amp; hospitality</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>Problem Depth &amp; Customer Research Sources</summary>
+    <ul class="sources-list">
+      <li><a href="https://onemileatatime.com/hotel-influencer-controversy/" target="_blank">One Mile at a Time</a> &mdash; Hotel influencer controversy (Paul Stenson)</li>
+      <li><a href="https://www.linkedin.com/pulse/letter-you-want-send-those-influencers-asking-stay-your-kinsman" target="_blank">LinkedIn / Juliet Kinsman</a> &mdash; Influencer hotel pitch complaints</li>
+      <li><a href="https://curacity.com/blog/its-time-for-hotels-to-move-on-from-influencer-marketing" target="_blank">Curacity Blog</a> &mdash; Hotels moving on from influencer marketing</li>
+      <li><a href="https://fredericgonzalo.com/en/hey-influencers-want-a-free-hotel-night/" target="_blank">Frederic Gonzalo</a> &mdash; Influencer retaliatory reviews</li>
+      <li><a href="https://www.hotel-online.com/news/why-most-influencer-deals-fail-and-what-smart-hotels-do-differently" target="_blank">Hotel Online</a> &mdash; Why most influencer deals fail</li>
+      <li><a href="https://www.hospitalitynet.org/opinion/4127474.html" target="_blank">HospitalityNet</a> &mdash; Booking.com ghosted influencers</li>
+      <li><a href="https://writingcomeseasier.com/how-to-reach-hotels-out-for-a-collaboration/" target="_blank">Writing Comes Easier</a> &mdash; Hotel collaboration pitch rates</li>
+      <li><a href="https://www.hospitalitynet.org/viewpoint/125000254.html" target="_blank">Hospitality Net</a> &mdash; Hotel marketing budgets 2025</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>Competitor Websites</summary>
+    <ul class="sources-list">
+      <li><a href="https://www.evolusen.com/" target="_blank">Evolusen</a> &mdash; Hospitality-specific influencer platform</li>
+      <li><a href="https://curacity.com/" target="_blank">Curacity</a> &mdash; Performance-based hotel marketing</li>
+      <li><a href="https://partnrup.ai/" target="_blank">partnrUP</a> &mdash; AI-powered influencer marketing for travel</li>
+      <li><a href="https://stayamo.com/" target="_blank">Stayamo</a> &mdash; Creator-hotel marketplace</li>
+      <li><a href="https://grin.co/" target="_blank">GRIN</a> &mdash; Creator management platform</li>
+      <li><a href="https://www.aspire.io/" target="_blank">Aspire</a> &mdash; Influencer marketing platform</li>
+      <li><a href="https://creatoriq.com/" target="_blank">CreatorIQ</a> &mdash; Enterprise creator marketing</li>
+      <li><a href="https://www.sojern.com/" target="_blank">Sojern</a> &mdash; Hotel digital marketing (indirect competitor)</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>Unit Economics &amp; Exit Sources</summary>
+    <ul class="sources-list">
+      <li><a href="https://wearerockwater.com/publicis-buys-influential/" target="_blank">RockWater</a> &mdash; Publicis/Influential deal analysis</li>
+      <li><a href="https://wearerockwater.com/later-buys-mavely-valuation-and-deal-roi-analysis/" target="_blank">RockWater</a> &mdash; Later/Mavely valuation analysis</li>
+      <li><a href="https://investors.sproutsocial.com/news/news-details/2023/Sprout-Social-Acquires-Tagger-Media/default.aspx" target="_blank">Sprout Social IR</a> &mdash; Tagger Media acquisition</li>
+      <li><a href="https://www.lightercapital.com/blog/2025-b2b-saas-startup-benchmarks" target="_blank">Lighter Capital</a> &mdash; 2025 B2B SaaS benchmarks</li>
+      <li><a href="https://firstpagesage.com/reports/average-customer-acquisition-cost-cac-by-industry-b2b-edition-fc/" target="_blank">First Page Sage</a> &mdash; CAC by industry</li>
+      <li><a href="https://vistapointadvisors.com/news/9-metrics-for-running-selling-a-travel-hospitality-tech-business" target="_blank">Vista Point Advisors</a> &mdash; Travel tech metrics</li>
+      <li><a href="https://www.grandviewresearch.com/industry-analysis/boutique-hotel-market-report" target="_blank">Grand View Research</a> &mdash; Boutique hotel market</li>
+      <li><a href="https://hoteltechreport.com/marketing/influencercontent-marketing" target="_blank">Hotel Tech Report</a> &mdash; Influencer marketing platforms</li>
+    </ul>
+  </details>
+
+  <details>
+    <summary>GTM &amp; Industry Resources</summary>
+    <ul class="sources-list">
+      <li><a href="https://a16z.com/marketplaces-in-the-age-of-ai-take-two-graveyard-to-greenfield/" target="_blank">a16z</a> &mdash; Marketplaces in the age of AI</li>
+      <li><a href="https://www.nfx.com/post/19-marketplace-tactics-for-overcoming-the-chicken-or-egg-problem" target="_blank">NFX</a> &mdash; 19 tactics for marketplace cold-start</li>
+      <li><a href="https://blla.org/" target="_blank">BLLA</a> &mdash; Boutique &amp; Lifestyle Lodging Association</li>
+      <li><a href="https://independenthotelshow.us/" target="_blank">Independent Hotel Show</a> &mdash; Miami 2026</li>
+      <li><a href="https://tbexcon.com" target="_blank">TBEX</a> &mdash; Travel Blog Exchange conferences</li>
+      <li><a href="https://www.travelmassive.com/pages/top-travel-influencers-database" target="_blank">Travel Massive</a> &mdash; 15,000+ travel creators database</li>
+      <li><a href="https://www.travelboommarketing.com/research/influencer-travel-study-2025-hotel-marketing" target="_blank">TravelBoom</a> &mdash; 2025 influencer travel study</li>
+      <li><a href="https://www.evolusen.com/blogs/hotel-influencer-marketing-roi-myth" target="_blank">Evolusen Blog</a> &mdash; Hotel influencer marketing ROI</li>
+    </ul>
+  </details>
+</div>
+
+<footer class="report-footer">
+  <p>Generated by Idea Vetter &bull; 5 AI Research Agents &bull; 40+ Sources &bull; April 2026</p>
+</footer>
+
+<script>
+  // Scroll-triggered fade-in
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1, rootMargin: '0px 0px -50px 0px' });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>

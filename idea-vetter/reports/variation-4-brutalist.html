@@ -1,0 +1,869 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VALIDATION // Influencer-Hotel Network</title>
+<link href="https://fonts.googleapis.com/css2?family=Anybody:wght@400;700;900&family=Azeret+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --black: #000000;
+    --white: #ffffff;
+    --yellow: #EBFF00;
+    --red: #FF3B30;
+    --green: #30D158;
+    --gray: #888888;
+    --dark-gray: #1a1a1a;
+    --mid-gray: #333333;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Azeret Mono', monospace;
+    background: var(--black);
+    color: var(--white);
+    font-size: 13px;
+    line-height: 1.5;
+    cursor: crosshair;
+    overflow-x: hidden;
+  }
+
+  /* Noise overlay */
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* Header strip */
+  .header-strip {
+    display: flex;
+    border-bottom: 2px solid var(--white);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--black);
+  }
+
+  .header-cell {
+    padding: 0.75rem 1rem;
+    border-right: 2px solid var(--white);
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    white-space: nowrap;
+  }
+
+  .header-cell:last-child { border-right: none; flex: 1; text-align: right; }
+  .header-cell.accent { background: var(--yellow); color: var(--black); font-weight: 700; }
+
+  /* Giant verdict */
+  .verdict-block {
+    border-bottom: 2px solid var(--white);
+    padding: 3rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .verdict-block::before {
+    content: 'CAUTION';
+    position: absolute;
+    right: -20px;
+    top: -30px;
+    font-family: 'Anybody', sans-serif;
+    font-size: 15rem;
+    font-weight: 900;
+    color: var(--dark-gray);
+    line-height: 1;
+    letter-spacing: -0.05em;
+    pointer-events: none;
+  }
+
+  .verdict-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 0.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  .verdict-main {
+    font-family: 'Anybody', sans-serif;
+    font-size: clamp(3rem, 10vw, 7rem);
+    font-weight: 900;
+    line-height: 0.95;
+    letter-spacing: -0.04em;
+    position: relative;
+    z-index: 1;
+  }
+
+  .verdict-main .y { color: var(--yellow); }
+
+  .verdict-score-big {
+    font-family: 'Anybody', sans-serif;
+    font-size: clamp(4rem, 12vw, 9rem);
+    font-weight: 900;
+    color: var(--yellow);
+    line-height: 1;
+    position: relative;
+    z-index: 1;
+    margin-top: 0.5rem;
+  }
+
+  .verdict-sub {
+    font-size: 0.7rem;
+    color: var(--gray);
+    letter-spacing: 0.1em;
+    margin-top: 0.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* Grid system */
+  .grid-2 {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .grid-3 {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+
+  .grid-4 {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .cell {
+    border-right: 2px solid var(--white);
+    border-bottom: 2px solid var(--white);
+    padding: 1.5rem;
+    position: relative;
+    transition: background 0.2s;
+  }
+
+  .cell:hover { background: var(--dark-gray); }
+  .cell:last-child { border-right: none; }
+
+  .cell-label {
+    font-size: 0.55rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--gray);
+    margin-bottom: 0.5rem;
+  }
+
+  .cell-value {
+    font-family: 'Anybody', sans-serif;
+    font-size: 2.2rem;
+    font-weight: 900;
+    line-height: 1.1;
+  }
+
+  .cell-sub {
+    font-size: 0.7rem;
+    color: var(--gray);
+    margin-top: 0.25rem;
+  }
+
+  /* Section headers */
+  .section-header {
+    background: var(--white);
+    color: var(--black);
+    padding: 0.6rem 1.5rem;
+    font-size: 0.65rem;
+    font-weight: 700;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 2px solid var(--white);
+  }
+
+  .section-header .tag {
+    font-weight: 400;
+    font-size: 0.6rem;
+    padding: 0.15rem 0.5rem;
+    background: var(--black);
+    color: var(--white);
+  }
+
+  .tag-pass { background: var(--green) !important; color: var(--black) !important; }
+  .tag-caution { background: var(--yellow) !important; color: var(--black) !important; }
+  .tag-fail { background: var(--red) !important; color: var(--white) !important; }
+
+  /* Data table */
+  .brutal-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .brutal-table th {
+    font-size: 0.55rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray);
+    text-align: left;
+    padding: 0.75rem 1rem;
+    border-bottom: 1px solid var(--mid-gray);
+    font-weight: 400;
+  }
+
+  .brutal-table td {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid var(--mid-gray);
+    font-size: 0.8rem;
+    vertical-align: top;
+  }
+
+  .brutal-table tr:hover td { background: var(--dark-gray); }
+  .brutal-table .hl { color: var(--yellow); font-weight: 700; }
+
+  /* Quote blocks */
+  .quote-strip {
+    border-bottom: 2px solid var(--white);
+    padding: 2rem 1.5rem;
+    position: relative;
+  }
+
+  .quote-strip::before {
+    content: '"';
+    font-family: 'Anybody', sans-serif;
+    font-size: 6rem;
+    font-weight: 900;
+    color: var(--mid-gray);
+    position: absolute;
+    top: -0.5rem;
+    left: 1rem;
+    line-height: 1;
+  }
+
+  .quote-strip p {
+    font-size: 1rem;
+    font-style: normal;
+    line-height: 1.6;
+    padding-left: 3rem;
+    max-width: 700px;
+  }
+
+  .quote-strip cite {
+    display: block;
+    font-style: normal;
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--gray);
+    padding-left: 3rem;
+    margin-top: 0.5rem;
+  }
+
+  /* Bar chart horizontal */
+  .bar-row {
+    display: grid;
+    grid-template-columns: 160px 1fr 40px;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid var(--mid-gray);
+  }
+
+  .bar-label { font-size: 0.8rem; }
+
+  .bar-track {
+    height: 20px;
+    background: var(--dark-gray);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .bar-fill {
+    height: 100%;
+    background: var(--yellow);
+    transition: width 1s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+  }
+
+  .bar-fill.mid { background: var(--gray); }
+
+  .bar-num {
+    text-align: right;
+    font-weight: 700;
+    font-size: 0.9rem;
+  }
+
+  /* Risk blocks */
+  .risk-block {
+    border-bottom: 1px solid var(--mid-gray);
+    padding: 1rem 1.5rem;
+    display: grid;
+    grid-template-columns: 40px 1fr;
+    gap: 1rem;
+    transition: background 0.2s;
+  }
+
+  .risk-block:hover { background: var(--dark-gray); }
+
+  .risk-num {
+    font-family: 'Anybody', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    color: var(--mid-gray);
+  }
+
+  .risk-title { font-weight: 700; font-size: 0.85rem; margin-bottom: 0.15rem; }
+  .risk-desc { font-size: 0.75rem; color: var(--gray); line-height: 1.5; }
+
+  /* Competitor blocks */
+  .comp-block {
+    border-bottom: 1px solid var(--mid-gray);
+    padding: 1rem 1.5rem;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 1rem;
+    align-items: center;
+    transition: background 0.2s;
+  }
+
+  .comp-block:hover { background: var(--dark-gray); }
+
+  .comp-name-big {
+    font-family: 'Anybody', sans-serif;
+    font-size: 1.3rem;
+    font-weight: 700;
+  }
+
+  .comp-meta { font-size: 0.7rem; color: var(--gray); margin-top: 0.15rem; }
+  .comp-price { font-weight: 700; font-size: 0.8rem; color: var(--yellow); text-align: right; }
+
+  /* Moat blocks */
+  .moat-row {
+    display: grid;
+    grid-template-columns: 140px 1fr 40px;
+    align-items: center;
+    padding: 0.75rem 1.5rem;
+    border-bottom: 1px solid var(--mid-gray);
+  }
+
+  .moat-dots {
+    display: flex;
+    gap: 4px;
+  }
+
+  .moat-dot {
+    width: 16px;
+    height: 16px;
+    background: var(--mid-gray);
+  }
+
+  .moat-dot.on { background: var(--yellow); }
+
+  /* Scrolling marquee */
+  .marquee {
+    overflow: hidden;
+    border-bottom: 2px solid var(--white);
+    padding: 0.5rem 0;
+    white-space: nowrap;
+  }
+
+  .marquee-inner {
+    display: inline-block;
+    animation: marquee 30s linear infinite;
+    font-family: 'Anybody', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--gray);
+  }
+
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* Footer */
+  .brutal-footer {
+    padding: 2rem 1.5rem;
+    text-align: center;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    color: var(--gray);
+  }
+
+  /* CTA block */
+  .cta-block {
+    background: var(--yellow);
+    color: var(--black);
+    padding: 3rem 2rem;
+    text-align: center;
+    border-bottom: 2px solid var(--white);
+  }
+
+  .cta-block h3 {
+    font-family: 'Anybody', sans-serif;
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 1rem;
+  }
+
+  .cta-block p {
+    max-width: 600px;
+    margin: 0 auto;
+    font-size: 0.85rem;
+    line-height: 1.7;
+  }
+
+  a { color: var(--yellow); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  .comp-name-big a { color: var(--white); }
+  .comp-name-big a:hover { color: var(--yellow); }
+
+  details { margin-top: 0.5rem; border-top: 1px solid var(--mid-gray); padding-top: 0.5rem; }
+  summary {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--gray);
+    cursor: pointer;
+    padding: 0.4rem 0;
+    user-select: none;
+    transition: color 0.2s;
+  }
+  summary:hover { color: var(--yellow); }
+  details[open] summary { color: var(--yellow); margin-bottom: 0.4rem; }
+  .sources-list { list-style: none; padding: 0; }
+  .sources-list li { font-size: 0.75rem; padding: 0.2rem 0; color: var(--gray); }
+
+  @media (max-width: 768px) {
+    .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
+    .cell { border-right: none; }
+    .bar-row { grid-template-columns: 100px 1fr 35px; }
+    .moat-row { grid-template-columns: 100px 1fr 35px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Header -->
+<div class="header-strip">
+  <div class="header-cell">Idea Vetter</div>
+  <div class="header-cell">Report #042026</div>
+  <div class="header-cell accent">Caution &mdash; GO</div>
+  <div class="header-cell">Score: 7.1/10</div>
+  <div class="header-cell">April 6, 2026</div>
+</div>
+
+<!-- Verdict -->
+<div class="verdict-block">
+  <div class="verdict-label">Final Verdict</div>
+  <div class="verdict-main">CAUTION<br><span class="y">LEANING GO</span></div>
+  <div class="verdict-score-big">7.1</div>
+  <div class="verdict-sub">5 research agents // 40+ sources // 14 sections analyzed</div>
+</div>
+
+<!-- Key Metrics -->
+<div class="grid-4">
+  <div class="cell">
+    <div class="cell-label">TAM</div>
+    <div class="cell-value" style="color: var(--yellow);">$1.5B</div>
+    <div class="cell-sub">50K hotels x $30K avg</div>
+  </div>
+  <div class="cell">
+    <div class="cell-label">LTV:CAC</div>
+    <div class="cell-value">36:1</div>
+    <div class="cell-sub">&lt; 1 month payback</div>
+  </div>
+  <div class="cell">
+    <div class="cell-label">Growth</div>
+    <div class="cell-value" style="color: var(--green);">40%</div>
+    <div class="cell-sub">Annual market CAGR</div>
+  </div>
+  <div class="cell" style="border-right: none;">
+    <div class="cell-label">Hotels for $50M</div>
+    <div class="cell-value">640</div>
+    <div class="cell-sub">4% of addressable</div>
+  </div>
+</div>
+
+<!-- Marquee -->
+<div class="marquee">
+  <div class="marquee-inner">
+    CURATED INFLUENCER-HOTEL MATCHING NETWORK &bull; BOUTIQUE & LUXURY PROPERTIES &bull; PERFORMANCE-BASED PRICING &bull; AI-POWERED MATCHING &bull; FREE STAYS + COMMISSION &bull; $500-$2K/MO SAAS &bull; 10-15% BOOKING COMMISSION &bull;&nbsp;
+    CURATED INFLUENCER-HOTEL MATCHING NETWORK &bull; BOUTIQUE & LUXURY PROPERTIES &bull; PERFORMANCE-BASED PRICING &bull; AI-POWERED MATCHING &bull; FREE STAYS + COMMISSION &bull; $500-$2K/MO SAAS &bull; 10-15% BOOKING COMMISSION &bull;&nbsp;
+  </div>
+</div>
+
+<!-- Market -->
+<div class="section-header">
+  01 // Market Analysis
+  <span class="tag tag-pass">PASS</span>
+</div>
+
+<div style="padding: 1.5rem; border-bottom: 2px solid var(--white);">
+  <table class="brutal-table">
+    <thead>
+      <tr><th>Metric</th><th>Estimate</th><th>Method</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>TAM</td><td class="hl">$750M - $1.5B/yr</td><td>50K hotels x $15-30K avg spend</td></tr>
+      <tr><td>SAM</td><td>$225M - $450M</td><td>30% platform-addressable</td></tr>
+      <tr><td>SOM (Yr 1-5)</td><td>$2.25M - $13.5M</td><td>1-3% of SAM</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Acquisitions -->
+<div class="section-header">
+  M&A Activity
+  <span class="tag">RED HOT</span>
+</div>
+
+<div style="border-bottom: 2px solid var(--white);">
+  <table class="brutal-table">
+    <thead>
+      <tr><th>Deal</th><th>Price</th><th>Year</th><th>Multiple</th></tr>
+    </thead>
+    <tbody>
+      <tr><td><a href="https://wearerockwater.com/publicis-buys-influential/" target="_blank">Publicis &rarr; Influential</a></td><td class="hl">$500M</td><td>2024</td><td>3.3x revenue</td></tr>
+      <tr><td><a href="https://www.adweek.com/commerce/later-acquires-influencer-marketing-firm-mavely-for-250-million/" target="_blank">Later &rarr; Mavely</a></td><td class="hl">$250M</td><td>2025</td><td>42x EBITDA</td></tr>
+      <tr><td><a href="https://investors.sproutsocial.com/news/news-details/2023/Sprout-Social-Acquires-Tagger-Media/default.aspx" target="_blank">Sprout &rarr; Tagger</a></td><td class="hl">$140M</td><td>2023</td><td>7-9x revenue</td></tr>
+      <tr><td>Blackstone &rarr; Cvent</td><td class="hl">$4.6B</td><td>2023</td><td>7.5x revenue</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Problem -->
+<div class="section-header">
+  02 // Problem Depth
+  <span class="tag tag-pass">PASS</span>
+</div>
+
+<div class="grid-3">
+  <div class="cell">
+    <div class="cell-label">Pitch Success Rate</div>
+    <div class="cell-value" style="color: var(--red);">1-2%</div>
+    <div class="cell-sub">100 emails = 1-2 collabs</div>
+  </div>
+  <div class="cell">
+    <div class="cell-label">Daily Pitches</div>
+    <div class="cell-value">10-20</div>
+    <div class="cell-sub">Per luxury hotel</div>
+  </div>
+  <div class="cell" style="border-right: none;">
+    <div class="cell-label">Bad Match Cost</div>
+    <div class="cell-value" style="color: var(--red);">$5K+</div>
+    <div class="cell-sub">Zero return guaranteed</div>
+  </div>
+</div>
+
+<!-- Quotes -->
+<div class="quote-strip">
+  <p>"It takes a lot of balls to send an email like that... who is going to pay the staff who look after you?"</p>
+  <cite>Paul Stenson, Hotel Owner &mdash; Banned all bloggers</cite>
+</div>
+
+<div class="quote-strip">
+  <p>"A majority of hotels get little to no measurable ROI from influencer campaigns because they're optimizing for vanity, not value."</p>
+  <cite>Hotel Online</cite>
+</div>
+
+<!-- Competition -->
+<div class="section-header">
+  03 // Competitive Landscape
+  <span class="tag tag-caution">4/10</span>
+</div>
+
+<div style="border-bottom: 2px solid var(--white);">
+  <div class="comp-block">
+    <div>
+      <div class="comp-name-big"><a href="https://www.evolusen.com/" target="_blank">Evolusen</a></div>
+      <div class="comp-meta">Only hospitality-focused. No attribution. Small team.</div>
+    </div>
+    <div class="comp-price">Pre-Seed</div>
+  </div>
+  <div class="comp-block">
+    <div>
+      <div class="comp-name-big"><a href="https://curacity.com/" target="_blank">Curacity</a></div>
+      <div class="comp-meta">Best attribution. Media brands only, not creators.</div>
+    </div>
+    <div class="comp-price">$14.2M</div>
+  </div>
+  <div class="comp-block">
+    <div>
+      <div class="comp-name-big"><a href="https://grin.co/" target="_blank">GRIN</a></div>
+      <div class="comp-meta">Massive scale. Too expensive ($28K+/yr). E-commerce focused.</div>
+    </div>
+    <div class="comp-price">$110M+</div>
+  </div>
+  <div class="comp-block">
+    <div>
+      <div class="comp-name-big"><a href="https://www.aspire.io/" target="_blank">Aspire</a></div>
+      <div class="comp-meta">Largest marketplace. Not travel-specific. Locked contracts.</div>
+    </div>
+    <div class="comp-price">$100M+</div>
+  </div>
+  <div class="comp-block">
+    <div>
+      <div class="comp-name-big"><a href="https://partnrup.ai/" target="_blank">partnrUP</a></div>
+      <div class="comp-meta">AI-native, 4 agents, affordable. Unclear traction.</div>
+    </div>
+    <div class="comp-price">Unknown</div>
+  </div>
+</div>
+
+<!-- Moat -->
+<div class="section-header">
+  04 // Moat Assessment
+  <span class="tag tag-caution">CAUTION</span>
+</div>
+
+<div style="border-bottom: 2px solid var(--white);">
+  <div class="moat-row">
+    <div class="bar-label">Data moat</div>
+    <div class="moat-dots">
+      <div class="moat-dot on"></div><div class="moat-dot on"></div><div class="moat-dot on"></div><div class="moat-dot on"></div><div class="moat-dot"></div>
+    </div>
+    <div class="bar-num">4</div>
+  </div>
+  <div class="moat-row">
+    <div class="bar-label">Network FX</div>
+    <div class="moat-dots">
+      <div class="moat-dot on"></div><div class="moat-dot on"></div><div class="moat-dot on"></div><div class="moat-dot on"></div><div class="moat-dot"></div>
+    </div>
+    <div class="bar-num">4</div>
+  </div>
+  <div class="moat-row">
+    <div class="bar-label">Switching</div>
+    <div class="moat-dots">
+      <div class="moat-dot on"></div><div class="moat-dot on"></div><div class="moat-dot on"></div><div class="moat-dot"></div><div class="moat-dot"></div>
+    </div>
+    <div class="bar-num">3</div>
+  </div>
+  <div class="moat-row">
+    <div class="bar-label">Brand</div>
+    <div class="moat-dots">
+      <div class="moat-dot on"></div><div class="moat-dot on"></div><div class="moat-dot on"></div><div class="moat-dot"></div><div class="moat-dot"></div>
+    </div>
+    <div class="bar-num">3</div>
+  </div>
+  <div class="moat-row">
+    <div class="bar-label">Scale</div>
+    <div class="moat-dots">
+      <div class="moat-dot on"></div><div class="moat-dot on"></div><div class="moat-dot"></div><div class="moat-dot"></div><div class="moat-dot"></div>
+    </div>
+    <div class="bar-num">2</div>
+  </div>
+</div>
+
+<!-- Unit Economics -->
+<div class="section-header">
+  05 // Unit Economics
+  <span class="tag tag-pass">PASS</span>
+</div>
+
+<div style="border-bottom: 2px solid var(--white);">
+  <table class="brutal-table">
+    <thead><tr><th>Metric</th><th>Hotel Side</th><th>Influencer Side</th></tr></thead>
+    <tbody>
+      <tr><td>CAC</td><td>$700-$1,000</td><td>$30-$100</td></tr>
+      <tr><td>Monthly ARPU</td><td>$1,000-$2,000</td><td>$0 (free)</td></tr>
+      <tr><td>Annual Contract</td><td>$12,000-$24,000</td><td>&mdash;</td></tr>
+      <tr><td>Lifespan</td><td>3-4 years</td><td>1-2 years</td></tr>
+      <tr><td>LTV</td><td>$36,000-$72,000</td><td>&mdash;</td></tr>
+      <tr><td class="hl">LTV:CAC</td><td class="hl">36:1 to 72:1</td><td>&mdash;</td></tr>
+      <tr><td>Payback</td><td>&lt; 1 month</td><td>&mdash;</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Exit Path -->
+<div class="section-header">Exit Path</div>
+<div style="border-bottom: 2px solid var(--white);">
+  <table class="brutal-table">
+    <thead><tr><th>Exit</th><th>ARR</th><th>Hotels</th><th>% TAM</th></tr></thead>
+    <tbody>
+      <tr><td>$10M</td><td>$2.5M</td><td>~160</td><td>1%</td></tr>
+      <tr><td>$25M</td><td>$5M</td><td>~320</td><td>2%</td></tr>
+      <tr><td class="hl">$50M</td><td class="hl">$10M</td><td class="hl">~640</td><td class="hl">4%</td></tr>
+      <tr><td>$99M</td><td>$15-25M</td><td>~1,600</td><td>10%</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Fail / Win -->
+<div class="grid-2">
+  <div style="border-right: 2px solid var(--white); border-bottom: 2px solid var(--white);">
+    <div class="section-header" style="background: var(--red); color: var(--white); border: none;">
+      07 // Why It Fails
+    </div>
+    <div class="risk-block">
+      <div class="risk-num">01</div>
+      <div><div class="risk-title">"Good enough" wins</div><div class="risk-desc">80% use spreadsheets. Pain is tolerable.</div></div>
+    </div>
+    <div class="risk-block">
+      <div class="risk-num">02</div>
+      <div><div class="risk-title">Attribution unsolvable</div><div class="risk-desc">Multi-device journeys break tracking.</div></div>
+    </div>
+    <div class="risk-block">
+      <div class="risk-num">03</div>
+      <div><div class="risk-title">Marketplace leakage</div><div class="risk-desc">Go direct after first match.</div></div>
+    </div>
+    <div class="risk-block">
+      <div class="risk-num">04</div>
+      <div><div class="risk-title">Sojern enters</div><div class="risk-desc">10K+ hotels, $120M+ in funding.</div></div>
+    </div>
+    <div class="risk-block">
+      <div class="risk-num">05</div>
+      <div><div class="risk-title">Curation breaks</div><div class="risk-desc">Quality fails past 1,000 influencers.</div></div>
+    </div>
+  </div>
+
+  <div style="border-bottom: 2px solid var(--white);">
+    <div class="section-header" style="background: var(--green); color: var(--black); border: none;">
+      08 // Why It Wins
+    </div>
+    <div class="risk-block">
+      <div class="risk-num" style="color: var(--green);">01</div>
+      <div><div class="risk-title">Perfect timing</div><div class="risk-desc">25-40% growth. Compounding tailwinds.</div></div>
+    </div>
+    <div class="risk-block">
+      <div class="risk-num" style="color: var(--green);">02</div>
+      <div><div class="risk-title">Empty mid-market</div><div class="risk-desc">Zero solutions at $500-$2K/mo.</div></div>
+    </div>
+    <div class="risk-block">
+      <div class="risk-num" style="color: var(--green);">03</div>
+      <div><div class="risk-title">Curation compounds</div><div class="risk-desc">Raya/Soho House for B2B.</div></div>
+    </div>
+    <div class="risk-block">
+      <div class="risk-num" style="color: var(--green);">04</div>
+      <div><div class="risk-title">Attribution = moat</div><div class="risk-desc">Unreplicable booking data.</div></div>
+    </div>
+    <div class="risk-block">
+      <div class="risk-num" style="color: var(--green);">05</div>
+      <div><div class="risk-title">M&A is red-hot</div><div class="risk-desc">Two active acquisition categories.</div></div>
+    </div>
+  </div>
+</div>
+
+<!-- Scorecard -->
+<div class="section-header">14 // Final Scorecard</div>
+<div style="border-bottom: 2px solid var(--white);">
+  <div class="bar-row">
+    <div class="bar-label">Market Size</div>
+    <div class="bar-track"><div class="bar-fill" style="width: 80%;"></div></div>
+    <div class="bar-num">8</div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">Problem</div>
+    <div class="bar-track"><div class="bar-fill" style="width: 70%;"></div></div>
+    <div class="bar-num">7</div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">Competition</div>
+    <div class="bar-track"><div class="bar-fill" style="width: 70%;"></div></div>
+    <div class="bar-num">7</div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">Moat</div>
+    <div class="bar-track"><div class="bar-fill mid" style="width: 50%;"></div></div>
+    <div class="bar-num">5</div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">Economics</div>
+    <div class="bar-track"><div class="bar-fill" style="width: 90%;"></div></div>
+    <div class="bar-num">9</div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">First Sale</div>
+    <div class="bar-track"><div class="bar-fill mid" style="width: 60%;"></div></div>
+    <div class="bar-num">6</div>
+  </div>
+  <div class="bar-row">
+    <div class="bar-label">Exit</div>
+    <div class="bar-track"><div class="bar-fill" style="width: 80%;"></div></div>
+    <div class="bar-num">8</div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-block">
+  <h3>What would upgrade to GO</h3>
+  <p>Proof that your matches drive measurable hotel bookings at a higher rate than existing partnerships. One case study showing "Hotel X got 15 bookings ($12K revenue) from our match" upgrades this to a hard GO.</p>
+</div>
+
+<div class="section-header">SOURCES // 40+ REFERENCES</div>
+<div style="padding: 1.5rem; border-bottom: 2px solid var(--white);">
+  <details>
+    <summary>Market Research</summary>
+    <ul class="sources-list">
+      <li><a href="https://www.statista.com/statistics/1092819/global-influencer-market-size/" target="_blank">Statista</a> — Influencer market size</li>
+      <li><a href="https://influencermarketinghub.com/influencer-marketing-benchmark-report/" target="_blank">Influencer Marketing Hub</a> — 2026 Benchmark</li>
+      <li><a href="https://www.futuremarketinsights.com/reports/boutique-hotel-sector-outlook" target="_blank">Future Market Insights</a> — Boutique hotels</li>
+      <li><a href="https://www.grandviewresearch.com/industry-analysis/luxury-hotels-market" target="_blank">Grand View Research</a> — Luxury hotels</li>
+      <li><a href="https://skift.com/2025/03/01/17-travel-tech-acquisitions-so-far-this-year-see-the-list/" target="_blank">Skift</a> — Travel tech acquisitions</li>
+      <li><a href="https://kpmg.com/us/en/articles/mergers-acquisitions-trends-travel-leisure-hospitality.html" target="_blank">KPMG</a> — Travel M&amp;A trends</li>
+    </ul>
+  </details>
+  <details>
+    <summary>Problem Research</summary>
+    <ul class="sources-list">
+      <li><a href="https://onemileatatime.com/hotel-influencer-controversy/" target="_blank">One Mile at a Time</a> — Influencer controversy</li>
+      <li><a href="https://curacity.com/blog/its-time-for-hotels-to-move-on-from-influencer-marketing" target="_blank">Curacity</a> — Hotels moving on</li>
+      <li><a href="https://fredericgonzalo.com/en/hey-influencers-want-a-free-hotel-night/" target="_blank">Frederic Gonzalo</a> — Retaliatory reviews</li>
+      <li><a href="https://www.hotel-online.com/news/why-most-influencer-deals-fail-and-what-smart-hotels-do-differently" target="_blank">Hotel Online</a> — Why deals fail</li>
+      <li><a href="https://www.hospitalitynet.org/opinion/4127474.html" target="_blank">HospitalityNet</a> — Booking.com ghosted influencers</li>
+      <li><a href="https://writingcomeseasier.com/how-to-reach-hotels-out-for-a-collaboration/" target="_blank">Writing Comes Easier</a> — Pitch rates</li>
+    </ul>
+  </details>
+  <details>
+    <summary>Competitors</summary>
+    <ul class="sources-list">
+      <li><a href="https://www.evolusen.com/" target="_blank">Evolusen</a> — Hospitality influencer platform</li>
+      <li><a href="https://curacity.com/" target="_blank">Curacity</a> — Performance hotel marketing</li>
+      <li><a href="https://partnrup.ai/" target="_blank">partnrUP</a> — AI influencer marketing</li>
+      <li><a href="https://stayamo.com/" target="_blank">Stayamo</a> — Creator-hotel marketplace</li>
+      <li><a href="https://grin.co/" target="_blank">GRIN</a> — Creator management</li>
+      <li><a href="https://www.aspire.io/" target="_blank">Aspire</a> — Influencer platform</li>
+      <li><a href="https://creatoriq.com/" target="_blank">CreatorIQ</a> — Enterprise creator marketing</li>
+      <li><a href="https://www.sojern.com/" target="_blank">Sojern</a> — Hotel digital marketing</li>
+    </ul>
+  </details>
+  <details>
+    <summary>Exits &amp; Economics</summary>
+    <ul class="sources-list">
+      <li><a href="https://wearerockwater.com/publicis-buys-influential/" target="_blank">RockWater</a> — Influential deal</li>
+      <li><a href="https://wearerockwater.com/later-buys-mavely-valuation-and-deal-roi-analysis/" target="_blank">RockWater</a> — Mavely deal</li>
+      <li><a href="https://investors.sproutsocial.com/news/news-details/2023/Sprout-Social-Acquires-Tagger-Media/default.aspx" target="_blank">Sprout Social</a> — Tagger acquisition</li>
+      <li><a href="https://www.lightercapital.com/blog/2025-b2b-saas-startup-benchmarks" target="_blank">Lighter Capital</a> — SaaS benchmarks</li>
+      <li><a href="https://firstpagesage.com/reports/average-customer-acquisition-cost-cac-by-industry-b2b-edition-fc/" target="_blank">First Page Sage</a> — CAC data</li>
+      <li><a href="https://hoteltechreport.com/marketing/influencercontent-marketing" target="_blank">Hotel Tech Report</a> — Platform rankings</li>
+    </ul>
+  </details>
+  <details>
+    <summary>GTM Resources</summary>
+    <ul class="sources-list">
+      <li><a href="https://a16z.com/marketplaces-in-the-age-of-ai-take-two-graveyard-to-greenfield/" target="_blank">a16z</a> — Marketplaces + AI</li>
+      <li><a href="https://www.nfx.com/post/19-marketplace-tactics-for-overcoming-the-chicken-or-egg-problem" target="_blank">NFX</a> — Cold-start tactics</li>
+      <li><a href="https://blla.org/" target="_blank">BLLA</a> — Boutique Lodging Assoc</li>
+      <li><a href="https://tbexcon.com" target="_blank">TBEX</a> — Travel Blog Exchange</li>
+      <li><a href="https://www.travelmassive.com/pages/top-travel-influencers-database" target="_blank">Travel Massive</a> — Creator DB</li>
+      <li><a href="https://www.travelboommarketing.com/research/influencer-travel-study-2025-hotel-marketing" target="_blank">TravelBoom</a> — Influencer study</li>
+    </ul>
+  </details>
+</div>
+
+<div class="brutal-footer">
+  IDEA VETTER // 5 AI RESEARCH AGENTS // 40+ SOURCES // APRIL 2026
+</div>
+
+</body>
+</html>

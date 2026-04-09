@@ -1,0 +1,1736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Idea Validation — Curated Influencer-Hotel Network</title>
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif&family=Instrument+Sans:wght@400;500;600;700&family=Work+Sans:wght@300;400;500;600;700&family=IBM+Plex+Mono:wght@300;400;500;600&family=Young+Serif&family=Gloock&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #FAF7F2;
+    --ink: #1A1A1A;
+    --caution: #E8A838;
+    --caution-deep: #C47F17;
+    --go: #2D8B4E;
+    --go-light: #D4EDDA;
+    --kill: #C0392B;
+    --kill-light: #F8D7DA;
+    --blue: #2C5F8A;
+    --blue-light: #D6E8F5;
+    --blue-deep: #1B3A5C;
+    --warm: #E8DDD0;
+    --warm-deep: #C4B5A2;
+    --charcoal: #2D2D2D;
+    --slate: #6B7280;
+    --light-gray: #F0EDE8;
+    --accent-coral: #E07A5F;
+    --accent-teal: #3D8B7A;
+    --accent-plum: #6B4C6E;
+    --block-amber: #F2C94C;
+    --block-rose: #E88D97;
+    --block-sky: #87CEEB;
+    --block-sage: #A8C5A0;
+    --block-lavender: #B8A9D4;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Instrument Sans', 'Work Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    font-size: 15px;
+    line-height: 1.6;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ==================== UTILITY ==================== */
+  .serif { font-family: 'Instrument Serif', serif; }
+  .young-serif { font-family: 'Young Serif', serif; }
+  .gloock { font-family: 'Gloock', serif; }
+  .mono { font-family: 'IBM Plex Mono', monospace; }
+  .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); }
+
+  /* ==================== LANDING PAGE ==================== */
+  .landing {
+    position: fixed;
+    inset: 0;
+    z-index: 9999;
+    background: var(--ink);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    transition: opacity 0.8s cubic-bezier(0.22, 1, 0.36, 1), transform 0.8s cubic-bezier(0.22, 1, 0.36, 1);
+    overflow: hidden;
+  }
+
+  .landing.exit {
+    opacity: 0;
+    transform: scale(1.05);
+    pointer-events: none;
+  }
+
+  .landing.hidden {
+    display: none;
+  }
+
+  /* Ambient background shapes */
+  .landing-bg-shape {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+    opacity: 0.15;
+    pointer-events: none;
+    animation: float 20s ease-in-out infinite;
+  }
+
+  .landing-bg-shape:nth-child(1) {
+    width: 600px;
+    height: 600px;
+    background: var(--caution);
+    top: -15%;
+    left: -10%;
+  }
+
+  .landing-bg-shape:nth-child(2) {
+    width: 500px;
+    height: 500px;
+    background: var(--accent-coral);
+    bottom: -20%;
+    right: -10%;
+    animation-delay: -7s;
+  }
+
+  .landing-bg-shape:nth-child(3) {
+    width: 350px;
+    height: 350px;
+    background: var(--accent-teal);
+    top: 40%;
+    right: 20%;
+    animation-delay: -14s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(30px, -20px) scale(1.05); }
+    66% { transform: translate(-20px, 15px) scale(0.95); }
+  }
+
+  .landing-content {
+    position: relative;
+    z-index: 2;
+    text-align: center;
+    max-width: 720px;
+    padding: 2rem;
+    width: 100%;
+  }
+
+  .landing-logo {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.2rem;
+    color: var(--caution);
+    letter-spacing: 0.05em;
+    margin-bottom: 3rem;
+    opacity: 0;
+    animation: landingFade 0.8s 0.2s ease forwards;
+  }
+
+  .landing-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2.8rem, 6vw, 5rem);
+    color: var(--cream);
+    line-height: 1.05;
+    margin-bottom: 1rem;
+    letter-spacing: -0.02em;
+    opacity: 0;
+    animation: landingFade 0.8s 0.4s ease forwards;
+  }
+
+  .landing-title em {
+    font-style: italic;
+    color: var(--caution);
+  }
+
+  .landing-subtitle {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 1.05rem;
+    color: var(--slate);
+    margin-bottom: 3rem;
+    font-weight: 300;
+    line-height: 1.6;
+    opacity: 0;
+    animation: landingFade 0.8s 0.6s ease forwards;
+  }
+
+  .landing-input-wrap {
+    position: relative;
+    max-width: 580px;
+    margin: 0 auto;
+    opacity: 0;
+    animation: landingSlideUp 0.8s 0.8s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  .landing-input {
+    width: 100%;
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 1.05rem;
+    padding: 1.2rem 5rem 1.2rem 1.5rem;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.06);
+    color: var(--cream);
+    outline: none;
+    transition: border-color 0.3s, background 0.3s, box-shadow 0.3s;
+    backdrop-filter: blur(10px);
+  }
+
+  .landing-input::placeholder {
+    color: rgba(255, 255, 255, 0.3);
+    font-style: italic;
+  }
+
+  .landing-input:focus {
+    border-color: var(--caution);
+    background: rgba(255, 255, 255, 0.08);
+    box-shadow: 0 0 0 3px rgba(232, 168, 56, 0.15);
+  }
+
+  .landing-submit {
+    position: absolute;
+    right: 6px;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--caution);
+    color: var(--ink);
+    border: none;
+    border-radius: 8px;
+    padding: 0.7rem 1.25rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.15s;
+  }
+
+  .landing-submit:hover {
+    background: var(--caution-deep);
+    transform: translateY(-50%) scale(1.03);
+  }
+
+  .landing-submit:active {
+    transform: translateY(-50%) scale(0.97);
+  }
+
+  /* Loading state */
+  .landing-loading {
+    display: none;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+    opacity: 0;
+    transition: opacity 0.5s ease;
+  }
+
+  .landing-loading.active {
+    display: flex;
+    opacity: 1;
+  }
+
+  .loading-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .loading-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--caution);
+    animation: loadPulse 1.2s ease-in-out infinite;
+  }
+
+  .loading-dot:nth-child(2) { animation-delay: 0.15s; }
+  .loading-dot:nth-child(3) { animation-delay: 0.3s; }
+  .loading-dot:nth-child(4) { animation-delay: 0.45s; }
+  .loading-dot:nth-child(5) { animation-delay: 0.6s; }
+
+  @keyframes loadPulse {
+    0%, 100% { opacity: 0.2; transform: scale(0.8); }
+    50% { opacity: 1; transform: scale(1.2); }
+  }
+
+  .loading-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+
+  .loading-steps {
+    list-style: none;
+    padding: 0;
+    text-align: left;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--slate);
+    line-height: 2;
+    letter-spacing: 0.05em;
+  }
+
+  .loading-steps li {
+    opacity: 0;
+    transform: translateX(-10px);
+    transition: opacity 0.4s ease, transform 0.4s ease;
+  }
+
+  .loading-steps li.show {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  .loading-steps li .check {
+    color: var(--caution);
+    margin-right: 0.5rem;
+  }
+
+  .landing-hint {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: rgba(255, 255, 255, 0.2);
+    margin-top: 1.5rem;
+    letter-spacing: 0.1em;
+    opacity: 0;
+    animation: landingFade 0.8s 1.2s ease forwards;
+  }
+
+  @keyframes landingFade {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes landingSlideUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @media (max-width: 768px) {
+    .landing-title { font-size: clamp(2rem, 8vw, 3.5rem); }
+    .landing-input { font-size: 0.95rem; padding: 1rem 4.5rem 1rem 1.25rem; }
+    .landing-submit { padding: 0.6rem 1rem; font-size: 0.65rem; }
+  }
+
+  /* ==================== SCROLL ANIMATIONS ==================== */
+  .reveal {
+    opacity: 0;
+    transform: translateY(40px);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  .reveal-left {
+    opacity: 0;
+    transform: translateX(-60px);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal-left.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .reveal-right {
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal-right.visible {
+    opacity: 1;
+    transform: translateX(0);
+  }
+  .reveal-scale {
+    opacity: 0;
+    transform: scale(0.85);
+    transition: opacity 0.9s cubic-bezier(0.22, 1, 0.36, 1), transform 0.9s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+  .reveal-scale.visible {
+    opacity: 1;
+    transform: scale(1);
+  }
+
+  /* Staggered children */
+  .stagger > * { transition-delay: calc(var(--i, 0) * 0.1s); }
+
+  /* ==================== HERO / VERDICT ==================== */
+  .hero {
+    min-height: 100vh;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    position: relative;
+  }
+
+  .hero-left {
+    background: var(--caution);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 3rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero-left::before {
+    content: '7.1';
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(20rem, 30vw, 40rem);
+    line-height: 0.8;
+    position: absolute;
+    top: -5%;
+    left: -5%;
+    color: rgba(0,0,0,0.06);
+    pointer-events: none;
+  }
+
+  .hero-verdict-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.5);
+    margin-bottom: 0.5rem;
+  }
+
+  .hero-verdict {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(4rem, 8vw, 9rem);
+    line-height: 0.9;
+    color: var(--ink);
+    margin-bottom: 1.5rem;
+  }
+
+  .hero-subtitle {
+    font-family: 'Young Serif', serif;
+    font-size: clamp(1.2rem, 2vw, 1.8rem);
+    color: rgba(0,0,0,0.7);
+    max-width: 400px;
+  }
+
+  .hero-right {
+    background: var(--ink);
+    color: var(--cream);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 3rem;
+    position: relative;
+  }
+
+  .hero-score-container {
+    text-align: center;
+    margin-bottom: 3rem;
+  }
+
+  .hero-score-number {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(8rem, 16vw, 14rem);
+    line-height: 0.85;
+    color: var(--caution);
+    display: block;
+  }
+
+  .hero-score-of {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-top: 0.5rem;
+  }
+
+  .hero-idea-title {
+    font-family: 'Young Serif', serif;
+    font-size: clamp(1rem, 1.5vw, 1.3rem);
+    color: var(--warm-deep);
+    text-align: center;
+    max-width: 320px;
+    margin: 0 auto;
+    line-height: 1.5;
+  }
+
+  .hero-date {
+    position: absolute;
+    bottom: 2rem;
+    right: 3rem;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    color: var(--slate);
+  }
+
+  /* ==================== SECTION DIVIDER ==================== */
+  .section-divider {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    align-items: center;
+    gap: 1.5rem;
+    padding: 2rem 3rem;
+    border-top: 1px solid rgba(0,0,0,0.08);
+  }
+
+  .section-number {
+    font-family: 'Instrument Serif', serif;
+    font-size: 3rem;
+    color: var(--warm-deep);
+    line-height: 1;
+  }
+
+  .section-title {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+
+  /* ==================== MARKET SIZE BLOCKS ==================== */
+  .market-section {
+    padding: 0 3rem 4rem;
+  }
+
+  .market-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--ink);
+    border: 2px solid var(--ink);
+  }
+
+  .market-block {
+    padding: 2.5rem 2rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .market-block.tam { background: var(--blue); color: white; }
+  .market-block.sam { background: var(--blue-light); color: var(--ink); }
+  .market-block.som { background: var(--light-gray); color: var(--ink); }
+
+  .market-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.3em;
+    text-transform: uppercase;
+    opacity: 0.6;
+    margin-bottom: 0.75rem;
+  }
+
+  .market-value {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2.5rem, 5vw, 4.5rem);
+    line-height: 0.9;
+    margin-bottom: 0.25rem;
+  }
+
+  .market-range {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.75rem;
+    opacity: 0.5;
+  }
+
+  /* Sub-stats row */
+  .stats-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 2px;
+    background: var(--ink);
+    border: 2px solid var(--ink);
+    border-top: 0;
+  }
+
+  .stat-cell {
+    background: var(--cream);
+    padding: 2rem 1.5rem;
+    text-align: center;
+  }
+
+  .stat-value {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(1.8rem, 3vw, 2.8rem);
+    line-height: 1;
+    color: var(--ink);
+    margin-bottom: 0.4rem;
+  }
+
+  .stat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+
+  /* ==================== SCORECARD — COLOR FIELD ==================== */
+  .scorecard-section {
+    padding: 0 3rem 4rem;
+  }
+
+  .scorecard-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 2px;
+    background: var(--ink);
+    border: 2px solid var(--ink);
+  }
+
+  .score-column {
+    display: flex;
+    flex-direction: column;
+    background: var(--cream);
+  }
+
+  .score-bar-container {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 300px;
+    position: relative;
+    background: var(--light-gray);
+  }
+
+  .score-bar {
+    width: 100%;
+    transition: height 1.2s cubic-bezier(0.22, 1, 0.36, 1);
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    padding-top: 1rem;
+  }
+
+  .score-bar[data-score="9"] { height: 90%; }
+  .score-bar[data-score="8"] { height: 80%; }
+  .score-bar[data-score="7"] { height: 70%; }
+  .score-bar[data-score="6"] { height: 60%; }
+  .score-bar[data-score="5"] { height: 50%; }
+
+  .score-bar-number {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2rem, 4vw, 3.5rem);
+    color: rgba(255,255,255,0.9);
+    line-height: 1;
+  }
+
+  .score-label-box {
+    padding: 0.8rem 0.5rem;
+    text-align: center;
+    background: var(--cream);
+    border-top: 2px solid var(--ink);
+  }
+
+  .score-label-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--slate);
+    line-height: 1.4;
+  }
+
+  /* Color-code each bar */
+  .score-col-0 .score-bar { background: var(--blue); }
+  .score-col-1 .score-bar { background: var(--accent-teal); }
+  .score-col-2 .score-bar { background: var(--accent-teal); }
+  .score-col-3 .score-bar { background: var(--caution-deep); }
+  .score-col-4 .score-bar { background: var(--go); }
+  .score-col-5 .score-bar { background: var(--accent-coral); }
+  .score-col-6 .score-bar { background: var(--blue); }
+
+  /* ==================== MOAT VISUALIZATION ==================== */
+  .moat-section {
+    padding: 0 3rem 4rem;
+  }
+
+  .moat-grid {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 2px;
+    background: var(--ink);
+    border: 2px solid var(--ink);
+  }
+
+  .moat-cell {
+    background: var(--cream);
+    padding: 1.5rem 1rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .moat-circles {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    margin-bottom: 0.75rem;
+  }
+
+  .moat-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid var(--ink);
+    background: transparent;
+    transition: background 0.4s ease;
+  }
+
+  .moat-dot.filled { background: var(--ink); }
+
+  .moat-score-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 2rem;
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .moat-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.55rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--slate);
+  }
+
+  /* ==================== QUOTES — MASSIVE COLOR BLOCKS ==================== */
+  .quotes-section {
+    padding: 0;
+  }
+
+  .quote-block {
+    padding: 4rem 3rem;
+    position: relative;
+    border-top: 2px solid var(--ink);
+  }
+
+  .quote-block:nth-child(1) { background: var(--block-amber); }
+  .quote-block:nth-child(2) { background: var(--block-rose); }
+  .quote-block:nth-child(3) { background: var(--block-sky); }
+
+  .quote-mark {
+    font-family: 'Instrument Serif', serif;
+    font-size: 8rem;
+    line-height: 0.5;
+    color: rgba(0,0,0,0.08);
+    position: absolute;
+    top: 2rem;
+    left: 2rem;
+  }
+
+  .quote-text {
+    font-family: 'Young Serif', serif;
+    font-size: clamp(1.4rem, 3vw, 2.2rem);
+    line-height: 1.35;
+    max-width: 750px;
+    color: var(--ink);
+    position: relative;
+    z-index: 1;
+  }
+
+  .quote-author {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.5);
+    margin-top: 1.5rem;
+    position: relative;
+    z-index: 1;
+  }
+
+  /* ==================== COMPETITORS ==================== */
+  .competitors-section {
+    padding: 0 3rem 4rem;
+  }
+
+  .competitor-grid {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 2px;
+    background: var(--ink);
+    border: 2px solid var(--ink);
+  }
+
+  .competitor-card {
+    background: var(--cream);
+    padding: 2rem 1.25rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    position: relative;
+    transition: background 0.3s ease;
+  }
+
+  .competitor-card:hover { background: var(--light-gray); }
+
+  .competitor-initial {
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.5rem;
+    color: white;
+    margin-bottom: 1rem;
+    flex-shrink: 0;
+  }
+
+  .competitor-card:nth-child(1) .competitor-initial { background: var(--accent-teal); }
+  .competitor-card:nth-child(2) .competitor-initial { background: var(--blue); }
+  .competitor-card:nth-child(3) .competitor-initial { background: var(--accent-plum); }
+  .competitor-card:nth-child(4) .competitor-initial { background: var(--accent-coral); }
+  .competitor-card:nth-child(5) .competitor-initial { background: var(--charcoal); }
+
+  .competitor-name {
+    font-family: 'Young Serif', serif;
+    font-size: 1.1rem;
+    margin-bottom: 0.4rem;
+  }
+
+  .competitor-name a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s;
+  }
+  .competitor-name a:hover { border-color: var(--ink); }
+
+  .competitor-detail {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    color: var(--slate);
+    letter-spacing: 0.1em;
+    line-height: 1.5;
+  }
+
+  /* ==================== FAIL / SUCCESS — DUAL BLOCKS ==================== */
+  .dual-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    border-top: 2px solid var(--ink);
+  }
+
+  .dual-block {
+    padding: 3rem;
+    position: relative;
+  }
+
+  .dual-block.fail { background: var(--kill-light); border-right: 2px solid var(--ink); }
+  .dual-block.success { background: var(--go-light); }
+
+  .dual-heading {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2.5rem, 5vw, 4rem);
+    line-height: 0.9;
+    margin-bottom: 2rem;
+  }
+
+  .dual-block.fail .dual-heading { color: var(--kill); }
+  .dual-block.success .dual-heading { color: var(--go); }
+
+  .dual-list {
+    list-style: none;
+  }
+
+  .dual-list li {
+    display: grid;
+    grid-template-columns: 2.5rem 1fr;
+    align-items: start;
+    margin-bottom: 1.25rem;
+  }
+
+  .dual-list-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.8rem;
+    line-height: 1;
+    color: rgba(0,0,0,0.15);
+  }
+
+  .dual-list-text {
+    font-family: 'Instrument Sans', sans-serif;
+    font-size: 0.9rem;
+    color: var(--ink);
+    line-height: 1.4;
+    padding-top: 0.3rem;
+  }
+
+  /* ==================== M&A — EXIT BLOCKS ==================== */
+  .ma-section {
+    padding: 0 3rem 4rem;
+  }
+
+  .ma-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2px;
+    background: var(--ink);
+    border: 2px solid var(--ink);
+  }
+
+  .ma-card {
+    padding: 2.5rem 2rem;
+    text-align: center;
+    position: relative;
+  }
+
+  .ma-card:nth-child(1) { background: var(--block-sage); }
+  .ma-card:nth-child(2) { background: var(--block-lavender); }
+  .ma-card:nth-child(3) { background: var(--block-sky); }
+
+  .ma-amount {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(3rem, 5vw, 5rem);
+    line-height: 0.9;
+    color: var(--ink);
+    margin-bottom: 0.5rem;
+  }
+
+  .ma-deal {
+    font-family: 'Young Serif', serif;
+    font-size: 1rem;
+    color: var(--ink);
+    margin-bottom: 0.3rem;
+  }
+
+  .ma-deal a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid rgba(0,0,0,0.3);
+    transition: border-color 0.2s;
+  }
+  .ma-deal a:hover { border-color: var(--ink); }
+
+  .ma-year {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(0,0,0,0.5);
+    margin-top: 0.3rem;
+  }
+
+  /* ==================== EXIT MATH ==================== */
+  .exit-math {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 2rem;
+    padding: 3rem;
+    border-top: 2px solid var(--ink);
+    background: var(--warm);
+  }
+
+  .exit-math-block { text-align: center; }
+
+  .exit-math-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(3rem, 6vw, 5rem);
+    line-height: 0.9;
+    color: var(--ink);
+  }
+
+  .exit-math-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-top: 0.5rem;
+  }
+
+  .exit-math-equals {
+    font-family: 'Instrument Serif', serif;
+    font-size: 3rem;
+    color: var(--warm-deep);
+  }
+
+  /* ==================== SOURCES ==================== */
+  .sources-section {
+    padding: 3rem;
+    border-top: 2px solid var(--ink);
+    background: var(--light-gray);
+  }
+
+  .sources-heading {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.65rem;
+    letter-spacing: 0.35em;
+    text-transform: uppercase;
+    color: var(--slate);
+    margin-bottom: 2rem;
+  }
+
+  .sources-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1rem;
+    align-items: start;
+  }
+
+  details {
+    background: var(--cream);
+    border: 1px solid rgba(0,0,0,0.08);
+    padding: 0;
+    transition: border-color 0.3s ease;
+  }
+
+  details[open] {
+    border-color: rgba(0,0,0,0.15);
+  }
+
+  summary {
+    font-family: 'Young Serif', serif;
+    font-size: 0.95rem;
+    padding: 1rem 1.25rem;
+    cursor: pointer;
+    user-select: none;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  summary::-webkit-details-marker { display: none; }
+
+  summary::after {
+    content: '+';
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1rem;
+    color: var(--slate);
+    transition: transform 0.3s ease;
+  }
+
+  details[open] summary::after {
+    transform: rotate(45deg);
+  }
+
+  .source-list {
+    list-style: none;
+    padding: 0 1.25rem 1rem;
+  }
+
+  .source-list li {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.7rem;
+    color: var(--slate);
+    padding: 0.3rem 0;
+    border-top: 1px solid rgba(0,0,0,0.04);
+  }
+
+  /* ==================== FOOTER ==================== */
+  .footer {
+    text-align: center;
+    padding: 2rem 3rem;
+    border-top: 1px solid rgba(0,0,0,0.08);
+    background: var(--cream);
+  }
+
+  .footer-text {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--warm-deep);
+  }
+
+  /* ==================== RESPONSIVE ==================== */
+  @media (max-width: 1024px) {
+    .hero { grid-template-columns: 1fr; min-height: auto; }
+    .hero-left { min-height: 50vh; }
+    .hero-right { min-height: 50vh; }
+    .scorecard-grid { grid-template-columns: repeat(4, 1fr); }
+    .competitor-grid { grid-template-columns: repeat(3, 1fr); }
+    .moat-grid { grid-template-columns: repeat(3, 1fr); }
+  }
+
+  @media (max-width: 768px) {
+    .market-grid { grid-template-columns: 1fr; }
+    .stats-row { grid-template-columns: repeat(2, 1fr); }
+    .scorecard-grid { grid-template-columns: repeat(2, 1fr); }
+    .competitor-grid { grid-template-columns: 1fr 1fr; }
+    .dual-section { grid-template-columns: 1fr; }
+    .dual-block.fail { border-right: none; border-bottom: 2px solid var(--ink); }
+    .ma-grid { grid-template-columns: 1fr; }
+    .moat-grid { grid-template-columns: repeat(2, 1fr); }
+    .exit-math { grid-template-columns: 1fr; gap: 1rem; }
+    .exit-math-equals { transform: rotate(90deg); }
+    .hero-left::before { font-size: 12rem; }
+  }
+
+  @media (max-width: 480px) {
+    .scorecard-grid { grid-template-columns: 1fr 1fr; }
+    .competitor-grid { grid-template-columns: 1fr; }
+    .moat-grid { grid-template-columns: 1fr 1fr; }
+    .hero-left, .hero-right { padding: 2rem; }
+    .market-section, .scorecard-section, .moat-section, .competitors-section, .ma-section { padding: 0 1.5rem 3rem; }
+    .section-divider { padding: 1.5rem; }
+    .dual-block { padding: 2rem; }
+    .sources-section { padding: 2rem 1.5rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============================================================ -->
+<!-- LANDING PAGE                                                   -->
+<!-- ============================================================ -->
+<div class="landing" id="landing">
+  <div class="landing-bg-shape"></div>
+  <div class="landing-bg-shape"></div>
+  <div class="landing-bg-shape"></div>
+
+  <div class="landing-content">
+    <div class="landing-logo">Idea Vetter</div>
+    <h1 class="landing-title">Kill your bad ideas.<br><em>Before they kill your runway.</em></h1>
+    <p class="landing-subtitle">Drop your rough startup idea below. Our 5 AI research agents will tear it apart with real market data, competitor intel, and a brutally honest verdict.</p>
+
+    <div class="landing-input-wrap" id="inputWrap">
+      <input
+        type="text"
+        class="landing-input"
+        id="ideaInput"
+        placeholder="Describe your startup idea..."
+        autocomplete="off"
+        autofocus
+      >
+      <button class="landing-submit" id="submitBtn">Validate</button>
+    </div>
+
+    <p class="landing-hint">Press Enter or click Validate &mdash; any idea works for this demo</p>
+
+    <div class="landing-loading" id="loadingState">
+      <div class="loading-dots">
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+        <div class="loading-dot"></div>
+      </div>
+      <div class="loading-text">Analyzing your idea...</div>
+      <ul class="loading-steps" id="loadingSteps">
+        <li><span class="check">&check;</span> Distilling core hypothesis</li>
+        <li><span class="check">&check;</span> Launching 5 research agents</li>
+        <li><span class="check">&check;</span> Scanning market data &amp; TAM</li>
+        <li><span class="check">&check;</span> Mapping competitive landscape</li>
+        <li><span class="check">&check;</span> Modeling unit economics</li>
+        <li><span class="check">&check;</span> Stress-testing assumptions</li>
+        <li><span class="check">&check;</span> Compiling final verdict</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- HERO — VERDICT                                                -->
+<!-- ============================================================ -->
+<section class="hero">
+  <div class="hero-left">
+    <div class="hero-verdict-label">Validation Verdict</div>
+    <div class="hero-verdict">Caution</div>
+    <div class="hero-subtitle">Leaning GO</div>
+  </div>
+  <div class="hero-right">
+    <div class="hero-score-container">
+      <span class="hero-score-number" id="heroScore">0</span>
+      <div class="hero-score-of">out of 10</div>
+    </div>
+    <div class="hero-idea-title">Curated Influencer-Hotel Collaboration Network</div>
+    <div class="hero-date">2026-04-06</div>
+  </div>
+</section>
+
+<!-- ============================================================ -->
+<!-- SECTION 01 — MARKET SIZE                                      -->
+<!-- ============================================================ -->
+<div class="section-divider reveal">
+  <div class="section-number">01</div>
+  <div class="section-title">Market Size</div>
+</div>
+
+<div class="market-section reveal">
+  <div class="market-grid">
+    <div class="market-block tam">
+      <div class="market-label">Total Addressable Market</div>
+      <div class="market-value">$1.5B</div>
+      <div class="market-range">$750M - $1.5B</div>
+    </div>
+    <div class="market-block sam">
+      <div class="market-label">Serviceable Addressable Market</div>
+      <div class="market-value">$450M</div>
+      <div class="market-range">$225M - $450M</div>
+    </div>
+    <div class="market-block som">
+      <div class="market-label">Serviceable Obtainable Market</div>
+      <div class="market-value">$13.5M</div>
+      <div class="market-range">$2.25M - $13.5M ARR</div>
+    </div>
+  </div>
+
+  <div class="stats-row reveal" style="transition-delay: 0.15s;">
+    <div class="stat-cell">
+      <div class="stat-value">36:1</div>
+      <div class="stat-label">LTV:CAC Low</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-value">72:1</div>
+      <div class="stat-label">LTV:CAC High</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-value">&lt;1mo</div>
+      <div class="stat-label">CAC Payback</div>
+    </div>
+    <div class="stat-cell">
+      <div class="stat-value">25-40%</div>
+      <div class="stat-label">Annual Growth</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 02 — SCORECARD                                        -->
+<!-- ============================================================ -->
+<div class="section-divider reveal">
+  <div class="section-number">02</div>
+  <div class="section-title">Scorecard</div>
+</div>
+
+<div class="scorecard-section reveal-scale">
+  <div class="scorecard-grid">
+    <div class="score-column score-col-0">
+      <div class="score-bar-container">
+        <div class="score-bar" data-score="8" style="height: 0%;">
+          <span class="score-bar-number">8</span>
+        </div>
+      </div>
+      <div class="score-label-box">
+        <div class="score-label-text">Market Size</div>
+      </div>
+    </div>
+    <div class="score-column score-col-1">
+      <div class="score-bar-container">
+        <div class="score-bar" data-score="7" style="height: 0%;">
+          <span class="score-bar-number">7</span>
+        </div>
+      </div>
+      <div class="score-label-box">
+        <div class="score-label-text">Problem Severity</div>
+      </div>
+    </div>
+    <div class="score-column score-col-2">
+      <div class="score-bar-container">
+        <div class="score-bar" data-score="7" style="height: 0%;">
+          <span class="score-bar-number">7</span>
+        </div>
+      </div>
+      <div class="score-label-box">
+        <div class="score-label-text">Competitive Gap</div>
+      </div>
+    </div>
+    <div class="score-column score-col-3">
+      <div class="score-bar-container">
+        <div class="score-bar" data-score="5" style="height: 0%;">
+          <span class="score-bar-number">5</span>
+        </div>
+      </div>
+      <div class="score-label-box">
+        <div class="score-label-text">Defensibility / Moat</div>
+      </div>
+    </div>
+    <div class="score-column score-col-4">
+      <div class="score-bar-container">
+        <div class="score-bar" data-score="9" style="height: 0%;">
+          <span class="score-bar-number">9</span>
+        </div>
+      </div>
+      <div class="score-label-box">
+        <div class="score-label-text">Unit Economics</div>
+      </div>
+    </div>
+    <div class="score-column score-col-5">
+      <div class="score-bar-container">
+        <div class="score-bar" data-score="6" style="height: 0%;">
+          <span class="score-bar-number">6</span>
+        </div>
+      </div>
+      <div class="score-label-box">
+        <div class="score-label-text">Ease of First Sale</div>
+      </div>
+    </div>
+    <div class="score-column score-col-6">
+      <div class="score-bar-container">
+        <div class="score-bar" data-score="8" style="height: 0%;">
+          <span class="score-bar-number">8</span>
+        </div>
+      </div>
+      <div class="score-label-box">
+        <div class="score-label-text">Exit Viability</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 03 — MOAT ASSESSMENT                                  -->
+<!-- ============================================================ -->
+<div class="section-divider reveal">
+  <div class="section-number">03</div>
+  <div class="section-title">Moat Assessment</div>
+</div>
+
+<div class="moat-section reveal">
+  <div class="moat-grid">
+    <div class="moat-cell">
+      <div class="moat-circles">
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot"></div>
+      </div>
+      <div class="moat-score-num serif">4</div>
+      <div class="moat-label">Data</div>
+    </div>
+    <div class="moat-cell">
+      <div class="moat-circles">
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot"></div>
+      </div>
+      <div class="moat-score-num serif">4</div>
+      <div class="moat-label">Network</div>
+    </div>
+    <div class="moat-cell">
+      <div class="moat-circles">
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot"></div>
+        <div class="moat-dot"></div>
+      </div>
+      <div class="moat-score-num serif">3</div>
+      <div class="moat-label">Switching</div>
+    </div>
+    <div class="moat-cell">
+      <div class="moat-circles">
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot"></div>
+        <div class="moat-dot"></div>
+      </div>
+      <div class="moat-score-num serif">3</div>
+      <div class="moat-label">Brand</div>
+    </div>
+    <div class="moat-cell">
+      <div class="moat-circles">
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot"></div>
+        <div class="moat-dot"></div>
+        <div class="moat-dot"></div>
+      </div>
+      <div class="moat-score-num serif">2</div>
+      <div class="moat-label">Scale</div>
+    </div>
+    <div class="moat-cell">
+      <div class="moat-circles">
+        <div class="moat-dot filled"></div>
+        <div class="moat-dot"></div>
+        <div class="moat-dot"></div>
+        <div class="moat-dot"></div>
+        <div class="moat-dot"></div>
+      </div>
+      <div class="moat-score-num serif">1</div>
+      <div class="moat-label">Regulatory</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 04 — VOICES FROM THE FIELD                            -->
+<!-- ============================================================ -->
+<div class="section-divider reveal">
+  <div class="section-number">04</div>
+  <div class="section-title">Voices from the Field</div>
+</div>
+
+<div class="quotes-section">
+  <div class="quote-block reveal-left">
+    <div class="quote-mark">&ldquo;</div>
+    <div class="quote-text">It takes a lot of balls to send an email like that... who is going to pay the staff?</div>
+    <div class="quote-author">Paul Stenson, Hotel Owner</div>
+  </div>
+  <div class="quote-block reveal-right">
+    <div class="quote-mark">&ldquo;</div>
+    <div class="quote-text">A majority of hotels get little to no measurable ROI from influencer campaigns</div>
+    <div class="quote-author">Hotel Online</div>
+  </div>
+  <div class="quote-block reveal-left">
+    <div class="quote-mark">&ldquo;</div>
+    <div class="quote-text">If you send 100 emails, 40 will see it, 15 answer, 1-2 collaborate</div>
+    <div class="quote-author">Travel Blogger</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 05 — COMPETITIVE LANDSCAPE                            -->
+<!-- ============================================================ -->
+<div class="section-divider reveal">
+  <div class="section-number">05</div>
+  <div class="section-title">Competitive Landscape</div>
+</div>
+
+<div class="competitors-section reveal">
+  <div class="competitor-grid">
+    <div class="competitor-card">
+      <div class="competitor-initial">E</div>
+      <div class="competitor-name"><a href="https://www.evolusen.com/" target="_blank" rel="noopener">Evolusen</a></div>
+      <div class="competitor-detail">Only hospitality-focused<br>Pre-Series A</div>
+    </div>
+    <div class="competitor-card">
+      <div class="competitor-initial">C</div>
+      <div class="competitor-name"><a href="https://curacity.com/" target="_blank" rel="noopener">Curacity</a></div>
+      <div class="competitor-detail">Best attribution<br>$14.2M raised</div>
+    </div>
+    <div class="competitor-card">
+      <div class="competitor-initial">p</div>
+      <div class="competitor-name"><a href="https://partnrup.ai/" target="_blank" rel="noopener">partnrUP</a></div>
+      <div class="competitor-detail">AI-native<br>$0 - $299/mo</div>
+    </div>
+    <div class="competitor-card">
+      <div class="competitor-initial">G</div>
+      <div class="competitor-name"><a href="https://grin.co/" target="_blank" rel="noopener">GRIN</a></div>
+      <div class="competitor-detail">$110M+ raised<br>Too expensive</div>
+    </div>
+    <div class="competitor-card">
+      <div class="competitor-initial">A</div>
+      <div class="competitor-name"><a href="https://www.aspire.io/" target="_blank" rel="noopener">Aspire</a></div>
+      <div class="competitor-detail">$100M+ raised<br>Not travel-specific</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 06 — RISK / OPPORTUNITY                               -->
+<!-- ============================================================ -->
+<div class="section-divider reveal">
+  <div class="section-number">06</div>
+  <div class="section-title">Risk / Opportunity</div>
+</div>
+
+<div class="dual-section">
+  <div class="dual-block fail reveal-left">
+    <div class="dual-heading">Fail</div>
+    <ul class="dual-list">
+      <li>
+        <span class="dual-list-num serif">1</span>
+        <span class="dual-list-text">Manual process "good enough"</span>
+      </li>
+      <li>
+        <span class="dual-list-num serif">2</span>
+        <span class="dual-list-text">Attribution unsolvable</span>
+      </li>
+      <li>
+        <span class="dual-list-num serif">3</span>
+        <span class="dual-list-text">Marketplace leakage</span>
+      </li>
+      <li>
+        <span class="dual-list-num serif">4</span>
+        <span class="dual-list-text">Sojern enters</span>
+      </li>
+      <li>
+        <span class="dual-list-num serif">5</span>
+        <span class="dual-list-text">Curation breaks at scale</span>
+      </li>
+    </ul>
+  </div>
+  <div class="dual-block success reveal-right">
+    <div class="dual-heading">Win</div>
+    <ul class="dual-list">
+      <li>
+        <span class="dual-list-num serif">1</span>
+        <span class="dual-list-text">Perfect timing (25-40% growth)</span>
+      </li>
+      <li>
+        <span class="dual-list-num serif">2</span>
+        <span class="dual-list-text">Empty mid-market</span>
+      </li>
+      <li>
+        <span class="dual-list-num serif">3</span>
+        <span class="dual-list-text">Curation compounds</span>
+      </li>
+      <li>
+        <span class="dual-list-num serif">4</span>
+        <span class="dual-list-text">Attribution = moat</span>
+      </li>
+      <li>
+        <span class="dual-list-num serif">5</span>
+        <span class="dual-list-text">Red-hot M&amp;A</span>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SECTION 07 — M&A COMPS                                        -->
+<!-- ============================================================ -->
+<div class="section-divider reveal">
+  <div class="section-number">07</div>
+  <div class="section-title">M&amp;A Comparables</div>
+</div>
+
+<div class="ma-section reveal-scale">
+  <div class="ma-grid">
+    <div class="ma-card">
+      <div class="ma-amount">$500M</div>
+      <div class="ma-deal"><a href="https://wearerockwater.com/publicis-buys-influential/" target="_blank" rel="noopener">Publicis &rarr; Influential</a></div>
+      <div class="ma-year">2024</div>
+    </div>
+    <div class="ma-card">
+      <div class="ma-amount">$250M</div>
+      <div class="ma-deal"><a href="https://www.adweek.com/commerce/later-acquires-influencer-marketing-firm-mavely-for-250-million/" target="_blank" rel="noopener">Later &rarr; Mavely</a></div>
+      <div class="ma-year">2025</div>
+    </div>
+    <div class="ma-card">
+      <div class="ma-amount">$140M</div>
+      <div class="ma-deal"><a href="https://investors.sproutsocial.com/news/news-details/2023/Sprout-Social-Acquires-Tagger-Media/default.aspx" target="_blank" rel="noopener">Sprout &rarr; Tagger</a></div>
+      <div class="ma-year">2023</div>
+    </div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- EXIT MATH                                                     -->
+<!-- ============================================================ -->
+<div class="exit-math reveal">
+  <div class="exit-math-block">
+    <div class="exit-math-num">~640</div>
+    <div class="exit-math-label">Hotels Needed</div>
+  </div>
+  <div class="exit-math-equals">=</div>
+  <div class="exit-math-block">
+    <div class="exit-math-num">$50M</div>
+    <div class="exit-math-label">Exit Target (4% of TAM)</div>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- SOURCES                                                       -->
+<!-- ============================================================ -->
+<div class="sources-section reveal">
+  <div class="sources-heading">Sources &amp; References</div>
+  <div class="sources-grid">
+    <details>
+      <summary>Market Research</summary>
+      <ul class="source-list">
+        <li><a href="https://www.statista.com/statistics/1092819/global-influencer-market-size/" target="_blank" rel="noopener">Statista</a> &mdash; Global influencer market size</li>
+        <li><a href="https://influencermarketinghub.com/influencer-marketing-benchmark-report/" target="_blank" rel="noopener">Influencer Marketing Hub</a> &mdash; 2026 Benchmark Report</li>
+        <li><a href="https://www.futuremarketinsights.com/reports/boutique-hotel-sector-outlook" target="_blank" rel="noopener">Future Market Insights</a> &mdash; Boutique hotel market outlook</li>
+        <li><a href="https://www.grandviewresearch.com/industry-analysis/luxury-hotels-market" target="_blank" rel="noopener">Grand View Research</a> &mdash; Luxury hotel market</li>
+        <li><a href="https://skift.com/2025/03/01/17-travel-tech-acquisitions-so-far-this-year-see-the-list/" target="_blank" rel="noopener">Skift</a> &mdash; 17 travel tech acquisitions</li>
+        <li><a href="https://kpmg.com/us/en/articles/mergers-acquisitions-trends-travel-leisure-hospitality.html" target="_blank" rel="noopener">KPMG</a> &mdash; M&amp;A trends in travel &amp; hospitality</li>
+      </ul>
+    </details>
+    <details>
+      <summary>Problem Research</summary>
+      <ul class="source-list">
+        <li><a href="https://onemileatatime.com/hotel-influencer-controversy/" target="_blank" rel="noopener">One Mile at a Time</a> &mdash; Hotel influencer controversy</li>
+        <li><a href="https://curacity.com/blog/its-time-for-hotels-to-move-on-from-influencer-marketing" target="_blank" rel="noopener">Curacity Blog</a> &mdash; Hotels moving on from influencer marketing</li>
+        <li><a href="https://fredericgonzalo.com/en/hey-influencers-want-a-free-hotel-night/" target="_blank" rel="noopener">Frederic Gonzalo</a> &mdash; Retaliatory reviews from rejected influencers</li>
+        <li><a href="https://www.hotel-online.com/news/why-most-influencer-deals-fail-and-what-smart-hotels-do-differently" target="_blank" rel="noopener">Hotel Online</a> &mdash; Why most influencer deals fail</li>
+        <li><a href="https://www.hospitalitynet.org/opinion/4127474.html" target="_blank" rel="noopener">HospitalityNet</a> &mdash; Booking.com ghosted influencers</li>
+      </ul>
+    </details>
+    <details>
+      <summary>Competitors</summary>
+      <ul class="source-list">
+        <li><a href="https://www.evolusen.com/" target="_blank" rel="noopener">Evolusen</a> &mdash; Hospitality-specific influencer platform</li>
+        <li><a href="https://curacity.com/" target="_blank" rel="noopener">Curacity</a> &mdash; Performance-based hotel marketing</li>
+        <li><a href="https://partnrup.ai/" target="_blank" rel="noopener">partnrUP</a> &mdash; AI-powered influencer marketing</li>
+        <li><a href="https://stayamo.com/" target="_blank" rel="noopener">Stayamo</a> &mdash; Creator-hotel marketplace</li>
+        <li><a href="https://grin.co/" target="_blank" rel="noopener">GRIN</a> &mdash; Creator management platform</li>
+        <li><a href="https://www.aspire.io/" target="_blank" rel="noopener">Aspire</a> &mdash; Influencer marketing platform</li>
+        <li><a href="https://creatoriq.com/" target="_blank" rel="noopener">CreatorIQ</a> &mdash; Enterprise creator marketing</li>
+        <li><a href="https://www.sojern.com/" target="_blank" rel="noopener">Sojern</a> &mdash; Hotel digital marketing</li>
+      </ul>
+    </details>
+    <details>
+      <summary>Exits</summary>
+      <ul class="source-list">
+        <li><a href="https://wearerockwater.com/publicis-buys-influential/" target="_blank" rel="noopener">RockWater</a> &mdash; Publicis/Influential deal analysis</li>
+        <li><a href="https://wearerockwater.com/later-buys-mavely-valuation-and-deal-roi-analysis/" target="_blank" rel="noopener">RockWater</a> &mdash; Later/Mavely valuation analysis</li>
+        <li><a href="https://investors.sproutsocial.com/news/news-details/2023/Sprout-Social-Acquires-Tagger-Media/default.aspx" target="_blank" rel="noopener">Sprout Social IR</a> &mdash; Tagger Media acquisition</li>
+        <li><a href="https://www.lightercapital.com/blog/2025-b2b-saas-startup-benchmarks" target="_blank" rel="noopener">Lighter Capital</a> &mdash; 2025 B2B SaaS benchmarks</li>
+        <li><a href="https://firstpagesage.com/reports/average-customer-acquisition-cost-cac-by-industry-b2b-edition-fc/" target="_blank" rel="noopener">First Page Sage</a> &mdash; CAC by industry</li>
+        <li><a href="https://hoteltechreport.com/marketing/influencercontent-marketing" target="_blank" rel="noopener">Hotel Tech Report</a> &mdash; Influencer marketing platforms</li>
+      </ul>
+    </details>
+    <details>
+      <summary>GTM</summary>
+      <ul class="source-list">
+        <li><a href="https://a16z.com/marketplaces-in-the-age-of-ai-take-two-graveyard-to-greenfield/" target="_blank" rel="noopener">a16z</a> &mdash; Marketplaces in the age of AI</li>
+        <li><a href="https://www.nfx.com/post/19-marketplace-tactics-for-overcoming-the-chicken-or-egg-problem" target="_blank" rel="noopener">NFX</a> &mdash; 19 marketplace cold-start tactics</li>
+        <li><a href="https://blla.org/" target="_blank" rel="noopener">BLLA</a> &mdash; Boutique &amp; Lifestyle Lodging Association</li>
+        <li><a href="https://tbexcon.com" target="_blank" rel="noopener">TBEX</a> &mdash; Travel Blog Exchange</li>
+        <li><a href="https://www.travelmassive.com/pages/top-travel-influencers-database" target="_blank" rel="noopener">Travel Massive</a> &mdash; 15K+ travel creator database</li>
+        <li><a href="https://www.travelboommarketing.com/research/influencer-travel-study-2025-hotel-marketing" target="_blank" rel="noopener">TravelBoom</a> &mdash; 2025 influencer travel study</li>
+      </ul>
+    </details>
+  </div>
+</div>
+
+<!-- ============================================================ -->
+<!-- FOOTER                                                        -->
+<!-- ============================================================ -->
+<footer class="footer">
+  <div class="footer-text">Validation Report &middot; April 2026 &middot; Canvas Design System</div>
+</footer>
+
+<script>
+/* ============================================================ */
+/* LANDING PAGE INTERACTION                                      */
+/* ============================================================ */
+(function () {
+  const landing = document.getElementById('landing');
+  const ideaInput = document.getElementById('ideaInput');
+  const submitBtn = document.getElementById('submitBtn');
+  const inputWrap = document.getElementById('inputWrap');
+  const loadingState = document.getElementById('loadingState');
+  const loadingSteps = document.getElementById('loadingSteps').children;
+
+  function startValidation() {
+    // Accept any input (even empty — it's a demo)
+    // Hide input, show loading
+    inputWrap.style.opacity = '0';
+    inputWrap.style.transform = 'translateY(-10px)';
+    inputWrap.style.transition = 'opacity 0.4s ease, transform 0.4s ease';
+    document.querySelector('.landing-hint').style.display = 'none';
+
+    setTimeout(() => {
+      inputWrap.style.display = 'none';
+      loadingState.classList.add('active');
+
+      // Stagger the loading steps
+      let stepIndex = 0;
+      const stepInterval = setInterval(() => {
+        if (stepIndex < loadingSteps.length) {
+          loadingSteps[stepIndex].classList.add('show');
+          stepIndex++;
+        } else {
+          clearInterval(stepInterval);
+          // All steps shown — transition to report
+          setTimeout(() => {
+            landing.classList.add('exit');
+            // After exit animation, remove landing
+            setTimeout(() => {
+              landing.classList.add('hidden');
+              document.body.style.overflow = '';
+            }, 800);
+          }, 600);
+        }
+      }, 450);
+    }, 400);
+  }
+
+  submitBtn.addEventListener('click', startValidation);
+  ideaInput.addEventListener('keydown', (e) => {
+    if (e.key === 'Enter') startValidation();
+  });
+})();
+
+/* ============================================================ */
+/* SCROLL-TRIGGERED ANIMATIONS                                   */
+/* ============================================================ */
+(function () {
+  const observer = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          // Animate score bars when scorecard comes into view
+          if (entry.target.closest('.scorecard-section') || entry.target.classList.contains('scorecard-section')) {
+            animateScoreBars();
+          }
+        }
+      });
+    },
+    { threshold: 0.15, rootMargin: '0px 0px -50px 0px' }
+  );
+
+  document.querySelectorAll('.reveal, .reveal-left, .reveal-right, .reveal-scale').forEach((el) => {
+    observer.observe(el);
+  });
+
+  /* ============================================================ */
+  /* HERO SCORE COUNTER                                            */
+  /* ============================================================ */
+  const heroScore = document.getElementById('heroScore');
+  let scored = false;
+
+  function animateScore() {
+    if (scored) return;
+    scored = true;
+    const target = 7.1;
+    const duration = 1800;
+    const start = performance.now();
+
+    function tick(now) {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      const eased = 1 - Math.pow(1 - progress, 3);
+      const current = (eased * target).toFixed(1);
+      heroScore.textContent = current;
+      if (progress < 1) requestAnimationFrame(tick);
+    }
+
+    requestAnimationFrame(tick);
+  }
+
+  // Start score animation when hero is visible (immediately or on scroll)
+  const heroObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) animateScore();
+      });
+    },
+    { threshold: 0.3 }
+  );
+  heroObserver.observe(document.querySelector('.hero-right'));
+
+  /* ============================================================ */
+  /* SCORECARD BAR ANIMATION                                       */
+  /* ============================================================ */
+  let barsAnimated = false;
+
+  function animateScoreBars() {
+    if (barsAnimated) return;
+    barsAnimated = true;
+    document.querySelectorAll('.score-bar').forEach((bar, i) => {
+      const score = parseInt(bar.getAttribute('data-score'), 10);
+      setTimeout(() => {
+        bar.style.height = (score * 10) + '%';
+      }, i * 120);
+    });
+  }
+})();
+</script>
+</body>
+</html>

@@ -3,7 +3,8 @@
     "allow": [
       "WebFetch(domain:github.com)",
       "WebFetch(domain:raw.githubusercontent.com)",
-      "Bash(wc -l /c/Users/Quham.Adefila/AIWebsite/landing-pages/*.html)"
+      "Bash(wc -l /c/Users/Quham.Adefila/AIWebsite/landing-pages/*.html)",
+      "Bash(git submodule:*)"
     ]
   }
 }
